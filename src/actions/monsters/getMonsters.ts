@@ -1,6 +1,5 @@
 import { dndFetch } from "@/api/DndApi";
 import { DNDMonstersListResponse } from "@/interface/monsters/MonstersList";
-import { DNDSpellsListResp } from "@/interface/spells/SpellsList";
 
 interface Options {
   challenge_rating?: string[];

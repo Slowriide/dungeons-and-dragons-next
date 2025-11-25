@@ -40,8 +40,6 @@ export const useMonstersDetails = ({ monstersIndexes, take = 12 }: Props) => {
   const start = (page - 1) * take;
   const paginatedResults = filteredMonsters.slice(start, start + take);
 
-  console.log(filteredMonsters);
-
   return {
     ...results,
     monsters: paginatedResults,

@@ -1,7 +1,6 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getSpells } from "@/actions/spells/getSpells";
 import { useSearchParams } from "next/navigation";
 import { getMonsters } from "@/actions/monsters/getMonsters";
 

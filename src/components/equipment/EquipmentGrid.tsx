@@ -1,33 +1,19 @@
 "use client";
-import { Spell, spells } from "@/mocks/data/spells";
 
 import { useState } from "react";
 import { EquipmentCard } from "./EquipmentCard";
-import { Equipment, equipment } from "@/mocks/data/equipment";
 import { SelectedEquipmentCard } from "./SelectedEquipmentCard";
-import { useEquipmentList } from "@/hooks/equipment/useEquipmentList";
-import { useEquipmentDetails } from "@/hooks/equipment/useEquipmentDetails";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
+import { Pagination } from "../Pagination";
+import { useFilteredEquipment } from "@/hooks/equipment/useFilteredEquipment";
 
 export const EquipmentGrid = () => {
   const [selectedEquipment, setSelectedEquipment] =
     useState<DNDEquipment | null>(null);
 
-  const { paginatedResults, totalPages } = useEquipmentList({ take: 12 });
+  const { isLoading, paginated, totalPages } = useFilteredEquipment();
 
-  const indexes = paginatedResults?.map((eq) => eq.index) || [];
-
-  const { data, isLoading, isError } = useEquipmentDetails(indexes);
-
-  console.log(paginatedResults);
-
-  if (isLoading || !data) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error...</p>;
-  }
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
@@ -37,14 +23,16 @@ export const EquipmentGrid = () => {
           setSelectedEquipment={setSelectedEquipment}
         />
       ) : (
-        data.equipment.map((equipment) => (
+        paginated.map((equipment) => (
           <EquipmentCard
-            key={equipment.name}
+            key={equipment.index}
             equipment={equipment}
             setSelectedEquipment={setSelectedEquipment}
           />
         ))
       )}
+
+      <Pagination totalPages={totalPages} />
     </main>
   );
 };

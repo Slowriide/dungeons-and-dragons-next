@@ -12,11 +12,35 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useState } from "react";
+import { DropdownMenuCheckboxItem } from "@radix-ui/react-dropdown-menu";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ResetFiltersButton } from "../ResetFiltersButton";
 
 const types = ["sword", "axe", "arrow"];
 
 export const SideEquipmentFilters = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [selectedTypes, setSelectedTypes] = useState<string | null>(null);
+  const [minCost, setMinCost] = useState(searchParams.get("minCost") ?? "");
+  const [maxCost, setMaxCost] = useState(searchParams.get("maxCost") ?? "");
+
+  const [minWeight, setMinWeight] = useState(
+    searchParams.get("minWeight") ?? ""
+  );
+  const [maxWeight, setMaxWeight] = useState(
+    searchParams.get("maxWeight") ?? ""
+  );
+
+  const handleParamChange = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value) params.set(key, value);
+    else params.delete(key);
+
+    router.replace(`?${params.toString()}`);
+  };
 
   return (
     <div className=" col-span-1 space-y-4">
@@ -49,9 +73,12 @@ export const SideEquipmentFilters = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {types.map((cr) => (
-                <DropdownMenuItem key={cr} onClick={() => setSelectedTypes(cr)}>
+                <DropdownMenuCheckboxItem
+                  key={cr}
+                  onClick={() => setSelectedTypes(cr)}
+                >
                   {cr}
-                </DropdownMenuItem>
+                </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -66,9 +93,31 @@ export const SideEquipmentFilters = () => {
           Price
         </span>
         <div className=" flex flex-row gap-2 items-center ">
-          <Input placeholder="1 GP" className="placeholder:text-gray-400" />
+          <Input
+            id="minPrice"
+            type="text"
+            placeholder="1 GP"
+            className="placeholder:text-gray-400"
+            value={minCost}
+            min={0}
+            onChange={(e) => setMinCost(e.target.value)}
+            onKeyDown={(e) =>
+              e.key === "Enter" && handleParamChange("minCost", minCost)
+            }
+          />
           <p>-</p>
-          <Input placeholder="10 GP" className="placeholder:text-gray-400" />
+          <Input
+            id="maxPrice"
+            type="text"
+            placeholder="10 GP"
+            className="placeholder:text-gray-400"
+            value={maxCost}
+            min={0}
+            onChange={(e) => setMaxCost(e.target.value)}
+            onKeyDown={(e) =>
+              e.key === "Enter" && handleParamChange("maxCost", maxCost)
+            }
+          />
         </div>
       </Card>
 
@@ -80,11 +129,33 @@ export const SideEquipmentFilters = () => {
           Weight
         </span>
         <div className=" flex flex-row gap-2 items-center ">
-          <Input placeholder="1 lb" className="placeholder:text-gray-400" />
+          <Input
+            id="minWeight"
+            type="text"
+            placeholder="1 lb"
+            className="placeholder:text-gray-400"
+            value={minWeight}
+            onChange={(e) => setMinWeight(e.target.value)}
+            onKeyDown={(e) =>
+              e.key === "Enter" && handleParamChange("minWeight", minWeight)
+            }
+          />
           <p>-</p>
-          <Input placeholder="100 lb" className="placeholder:text-gray-400" />
+          <Input
+            id="maxWeight"
+            placeholder="100 lb"
+            className="placeholder:text-gray-400"
+            value={maxWeight}
+            onChange={(e) => setMaxWeight(e.target.value)}
+            onKeyDown={(e) =>
+              e.key === "Enter" && handleParamChange("maxWeight", maxWeight)
+            }
+          />
         </div>
       </Card>
+      <ResetFiltersButton
+        keys={["minCost", "maxCost", "minWeight", "maxWeight"]}
+      />
     </div>
   );
 };

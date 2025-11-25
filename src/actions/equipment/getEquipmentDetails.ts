@@ -11,10 +11,11 @@ export const getEquipmentDetails = async ({
   const equipmentPromise = equipmentIndexes.map((eq) =>
     dndFetch.get<DNDEquipment>(`/equipment/${eq}`)
   );
+  if (equipmentIndexes.length === 0) {
+    return { equipment: [] };
+  }
 
   const equipment = await Promise.all(equipmentPromise);
-
-  console.log(equipment);
 
   return { equipment };
 };

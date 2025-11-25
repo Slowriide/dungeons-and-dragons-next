@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "./scripts-dist",
+    "module": "CommonJS",
+    "target": "ES2020",
+    "esModuleInterop": true,
+    "strict": false
+  },
+  "include": ["scripts/**/*.ts"]
+}
