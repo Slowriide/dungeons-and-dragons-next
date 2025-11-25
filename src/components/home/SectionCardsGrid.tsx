@@ -1,11 +1,32 @@
-import { ScrollIcon, ShieldIcon, SwordsIcon, Users2 } from "lucide-react";
+import {
+  BicepsFlexed,
+  BicepsFlexedIcon,
+  BowArrowIcon,
+  NotebookIcon,
+  NotebookTextIcon,
+  ScrollIcon,
+  ShieldIcon,
+  SwordsIcon,
+  Users2,
+  Wand2Icon,
+} from "lucide-react";
 import { SectionCard } from "./SectionCard";
 
 export interface sectionsCardProps {
   title: string;
   icon: React.ReactElement;
   description: string;
-  color: "pink" | "purple" | "yellow" | "red" | null | undefined;
+  color:
+    | "pink"
+    | "purple"
+    | "yellow"
+    | "red"
+    | "gray"
+    | "green"
+    | "fuchsia"
+    | "emerald"
+    | null
+    | undefined;
   to: string;
 }
 
@@ -37,6 +58,34 @@ const cardList: sectionsCardProps[] = [
     title: "Races",
     color: "red",
     to: "/races",
+  },
+  {
+    description: "Learn about playeable races and traits",
+    icon: <BowArrowIcon className="text-gray-500 size-8" />,
+    title: "Classes",
+    color: "gray",
+    to: "/classes",
+  },
+  // {
+  //   description: "Learn about playeable races and traits",
+  //   icon: <BicepsFlexedIcon className="text-green-800 size-8" />,
+  //   title: "Feats",
+  //   color: "green",
+  //   to: "/feats",
+  // },
+  {
+    description: "Learn about playeable races and traits",
+    icon: <Wand2Icon className="text-fuchsia-600 size-8" />,
+    title: "Magic items",
+    color: "fuchsia",
+    to: "/magic-items",
+  },
+  {
+    description: "Learn about playeable races and traits",
+    icon: <NotebookTextIcon className="text-emerald-500 size-8" />,
+    title: "Rules",
+    color: "emerald",
+    to: "/rules",
   },
 ];
 

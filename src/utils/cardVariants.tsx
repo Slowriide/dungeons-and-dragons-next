@@ -9,6 +9,10 @@ export const cardVariants = cva(
         purple: "hover:border-purple-800",
         yellow: "hover:border-yellow-500 ",
         red: "hover:border-red-500",
+        gray: "hover:border-gray-500",
+        green: "hover:border-green-800",
+        fuchsia: "hover:border-fuchsia-600",
+        emerald: "hover:border-emerald-500",
       },
     },
     defaultVariants: {

@@ -4,11 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { getMonsters } from "@/actions/monsters/getMonsters";
 
-interface Options {
-  take?: number;
-}
-
-export const useMonstersList = ({ take = 12 }: Options) => {
+export const useMonstersList = () => {
   const search = useSearchParams();
 
   const page = Number(search.get("page") || 1);

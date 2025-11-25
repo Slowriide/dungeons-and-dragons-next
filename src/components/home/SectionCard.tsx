@@ -1,7 +1,5 @@
-import { ScrollIcon } from "lucide-react";
 import { Card } from "../ui/card";
 import { sectionsCardProps } from "./SectionCardsGrid";
-import clsx from "clsx";
 import { cardVariants } from "@/utils/cardVariants";
 import Link from "next/link";
 

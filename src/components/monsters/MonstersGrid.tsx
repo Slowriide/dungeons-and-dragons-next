@@ -9,9 +9,7 @@ import { DNDMonster } from "@/interface/monsters/DnDMonster";
 import { Pagination } from "../Pagination";
 
 export const MonstersGrid = () => {
-  const { data: monstersList, isLoading: loadingList } = useMonstersList({
-    take: 12,
-  });
+  const { data: monstersList, isLoading: loadingList } = useMonstersList();
 
   const monstersIndexes =
     monstersList?.results?.map((monster) => monster.index) || [];
