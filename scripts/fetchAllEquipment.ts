@@ -1,3 +1,4 @@
+import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 import fs from "fs/promises";
 
 const BASE = "https://www.dnd5eapi.co/api/2014";
@@ -28,7 +29,7 @@ async function main() {
 
   const indexes = list.results.map((x: EquipmentListItem) => x.index);
 
-  const results: any[] = [];
+  const results: DNDEquipment[] = [];
 
   console.log("Fetching equipment details...");
 
@@ -36,7 +37,9 @@ async function main() {
     const chunk = indexes.slice(i, i + 5);
 
     const data = await Promise.all(
-      chunk.map((idx: string) => safeFetch(`${BASE}/equipment/${idx}`))
+      chunk.map((idx: string) =>
+        safeFetch<DNDEquipment>(`${BASE}/equipment/${idx}`)
+      )
     );
 
     results.push(...data);

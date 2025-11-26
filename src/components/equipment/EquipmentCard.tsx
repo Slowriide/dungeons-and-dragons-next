@@ -1,8 +1,6 @@
 import { geisCinzel } from "@/config/fonts";
 import { Card } from "../ui/card";
-import { Spell } from "@/mocks/data/spells";
 import { Badge } from "../ui/badge";
-import { equipment, Equipment } from "@/mocks/data/equipment";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 
 interface Props {
