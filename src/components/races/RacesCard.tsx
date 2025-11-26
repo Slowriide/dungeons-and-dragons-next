@@ -6,7 +6,7 @@ import { DNDMonster } from "@/interface/monsters/DnDMonster";
 import { getDnDImages } from "@/utils/getDnDImages";
 import Link from "next/link";
 import { DNDRace } from "@/interface/races/DNDRace";
-import { getRaceImages } from "@/utils/getRaceImages";
+import { getRaceImages } from "@/utils/race/getRaceImages";
 
 interface Props {
   race: DNDRace;
