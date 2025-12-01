@@ -1,12 +1,15 @@
 "use client";
 
 import { geisCinzel } from "@/config/fonts";
-import { SearchBar } from "../SearchBar";
 import { Card } from "../ui/card";
 import { spells } from "@/mocks/data/spells";
 import { Button } from "../ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ResetFiltersButton } from "../ResetFiltersButton";
+import { SearchCard } from "../SearchCard";
+import { SpellsSchools } from "@/interface/spells/SpellsScholls";
+import { SpellsLevels } from "@/interface/spells/SpellsLevels";
+import { useEquipmentCategories } from "@/hooks/equipment/useEquipmentCategories";
 
 export const SideSpellsFilters = () => {
   const router = useRouter();
@@ -15,10 +18,8 @@ export const SideSpellsFilters = () => {
   const activeLevels = searchParams.getAll("level");
   const activeSchools = searchParams.getAll("school");
 
-  const schools = Array.from(new Set(spells.map((s) => s.school)));
-  const levels = Array.from(new Set(spells.map((s) => s.level))).sort(
-    (a, b) => a - b
-  );
+  const schools = SpellsSchools;
+  const levels = SpellsLevels;
 
   const toggleFliters = (key: string, value: string | undefined) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -57,14 +58,8 @@ export const SideSpellsFilters = () => {
   return (
     <div className=" col-span-1 space-y-4">
       {/* Search */}
-      <Card className="p-4 items-start gap-y-2">
-        <span
-          className={`${geisCinzel.className} antialiased font-semibold text-lg`}
-        >
-          Search
-        </span>
-        <SearchBar placeholder="Search spells..." />
-      </Card>
+
+      <SearchCard placeholder={"Search spells..."} />
 
       {/* Level filter */}
       <Card className="p-4 glass-card gap-y-2">
@@ -89,7 +84,7 @@ export const SideSpellsFilters = () => {
                 activeLevels.includes(level.toString()) ? "default" : "outline"
               }
             >
-              {level === 0 ? "cantrip" : level}
+              {level === "0" ? "cantrip" : level}
             </Button>
           ))}
         </div>
@@ -124,7 +119,7 @@ export const SideSpellsFilters = () => {
         </div>
       </Card>
 
-      <ResetFiltersButton keys={["level", "school"]} />
+      <ResetFiltersButton keys={["level", "school", "query"]} />
     </div>
   );
 };

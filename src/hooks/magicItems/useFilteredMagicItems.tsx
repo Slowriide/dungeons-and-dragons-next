@@ -12,14 +12,15 @@ export const useFilteredMagicItems = (take: number = 12) => {
 
   const page = Number(search.get("page") || 1);
 
-  const searchText = search.get("search")?.toLowerCase() || "";
-  const type = search.get("type") || null;
-  const rarity = search.get("rarity") || null;
+  const searchText = search.get("query")?.toLowerCase() || "";
+  const category =
+    search.getAll("category").map((a) => a.toLowerCase()) || null;
+  const rarity = search.getAll("rarity").map((a) => a.toLowerCase()) || null;
+
+  console.log(rarity);
 
   // --- valores por defecto si data no cargó ---
   const allMagicItems: DNDMagicItem[] = data?.magicItemspr ?? [];
-
-  console.log(data);
 
   // --- FILTROS ---
   const filtered = useMemo(() => {
@@ -28,15 +29,19 @@ export const useFilteredMagicItems = (take: number = 12) => {
         item.name.toLowerCase().includes(searchText) ||
         item.index.toLowerCase().includes(searchText);
 
-      const matchesType = type ? item.equipment_category.index === type : true;
+      const matchesType =
+        category.length > 0
+          ? category.includes(item.equipment_category.index)
+          : true;
 
-      const matchesRarity = rarity
-        ? item.rarity.name.toLowerCase() === rarity
-        : true;
+      const matchesRarity =
+        rarity.length > 0
+          ? rarity.includes(item.rarity.name.toLowerCase().replace(/\s+/g, "-"))
+          : true;
 
       return matchesSearch && matchesType && matchesRarity;
     });
-  }, [allMagicItems, searchText, type, rarity]);
+  }, [allMagicItems, searchText, category, rarity]);
 
   // --- PAGINACIÓN ---
   const totalPages = Math.max(1, Math.ceil(filtered.length / take));
@@ -56,6 +61,18 @@ export const useFilteredMagicItems = (take: number = 12) => {
 
   const paginated = filtered.slice(start, end);
 
+  const categories = useMemo(() => {
+    if (!allMagicItems.length) return [];
+
+    const map = new Map<string, string>();
+
+    allMagicItems.forEach((item) => {
+      map.set(item.equipment_category.index, item.equipment_category.name);
+    });
+
+    return Array.from(map).map(([index, name]) => ({ index, name }));
+  }, [allMagicItems]);
+
   return {
     filtered,
     paginated,
@@ -63,5 +80,6 @@ export const useFilteredMagicItems = (take: number = 12) => {
     page,
     isLoading,
     isError,
+    categories,
   };
 };

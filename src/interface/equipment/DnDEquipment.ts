@@ -12,7 +12,7 @@ export interface DNDEquipment {
   url: string;
   updated_at: Date;
   contents: any[];
-  properties: any[];
+  properties: Properties[];
 }
 
 export interface Cost {
@@ -21,6 +21,11 @@ export interface Cost {
 }
 
 export interface Category {
+  index: string;
+  name: string;
+  url: string;
+}
+export interface Properties {
   index: string;
   name: string;
   url: string;

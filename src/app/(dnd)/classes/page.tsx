@@ -1,6 +1,5 @@
 import { ClassesGrid } from "@/components/classes/ClassesGrid";
-import { RacesGrid } from "@/components/races/RacesGrid";
-import { SideRacesFilters } from "@/components/races/SideRacesFilters";
+import { SideClassesFilters } from "@/components/classes/SideClassesFilters";
 import { geisCinzel } from "@/config/fonts";
 import { BowArrowIcon } from "lucide-react";
 
@@ -18,7 +17,7 @@ export default function ClassesPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <SideRacesFilters />
+          <SideClassesFilters />
           <ClassesGrid />
         </div>
       </div>

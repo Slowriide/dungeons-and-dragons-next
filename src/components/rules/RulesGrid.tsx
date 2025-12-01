@@ -17,7 +17,9 @@ export const RulesGrid = () => {
 
   const rulesIndexes = rulesList?.results.map((rule) => rule.index) || [];
 
-  const { isLoading, data, isError } = useRulesDetails({ rulesIndexes });
+  const { isLoading, data, isError, filteredRules } = useRulesDetails({
+    rulesIndexes,
+  });
 
   if (isLoading || !data) return <p>Loading...</p>;
 
@@ -25,26 +27,15 @@ export const RulesGrid = () => {
     return <p>error...</p>;
   }
 
-  console.log(data);
-
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
-      {
-        /* {selectedMagicItem ? (
-        <SelectedMagicItemCard
-          magicItem={selectedMagicItem}
+      {filteredRules.map((rule) => (
+        <RulesCard
+          key={rule.index}
+          rule={rule}
           setSelectedMagicItem={setSelectedMagicItem}
         />
-      ) : ( */
-        data.rules.map((rule) => (
-          <RulesCard
-            key={rule.index}
-            rule={rule}
-            setSelectedMagicItem={setSelectedMagicItem}
-          />
-        ))
-      }
-      {/* )} */}
+      ))}
     </main>
   );
 };

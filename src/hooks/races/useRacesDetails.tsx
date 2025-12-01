@@ -18,7 +18,18 @@ export const useRacesDetails = ({ racesIndexes }: Props) => {
     staleTime: Infinity,
   });
 
+  const search = useSearchParams();
+
+  const query = search.get("query") ?? "";
+
+  const races = results.data?.race ?? [];
+
+  const filteredResults = races.filter(
+    (race) => race.index.includes(query) || race.name.includes(query)
+  );
+
   return {
     ...results,
+    filteredResults,
   };
 };

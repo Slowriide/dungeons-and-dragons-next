@@ -1,3 +1,5 @@
+import { EquipmentCategory } from "../equipment/EquipmentCategory";
+
 export interface DNDMagicItem {
   index: string;
   name: string;
@@ -9,12 +11,6 @@ export interface DNDMagicItem {
   image: string;
   url: string;
   updated_at: Date;
-}
-
-export interface EquipmentCategory {
-  index: string;
-  name: string;
-  url: string;
 }
 
 export interface Rarity {

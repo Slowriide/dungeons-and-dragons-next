@@ -8,7 +8,5 @@ export const useRulesList = () => {
     staleTime: Infinity,
   });
 
-  console.log({ result });
-
   return { ...result };
 };

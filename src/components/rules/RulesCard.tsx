@@ -31,7 +31,7 @@ export const RulesCard = ({ rule, setSelectedMagicItem }: Props) => {
       )}
       <div className="">
         {rule.subsections.map((sub) => (
-          <div className=" flex flex-row">
+          <div key={sub.index} className=" flex flex-row">
             <p>-</p>
             <ul
               key={sub.index}

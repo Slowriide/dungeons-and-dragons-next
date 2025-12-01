@@ -14,6 +14,7 @@ export const useSpellsList = ({ take = 12 }: Options) => {
   const page = Number(search.get("page") || 1);
   const levels = search.getAll("level");
   const schools = search.getAll("school");
+  const query = search.get("query")?.toLowerCase() || "";
 
   const result = useQuery({
     queryKey: ["spells", { levels, schools }],
@@ -23,14 +24,26 @@ export const useSpellsList = ({ take = 12 }: Options) => {
 
   const results = { ...result };
 
-  const count = result.data?.count || 0;
+  // --- Query filter ---
+
+  const queryFiltered = results.data?.results.filter((result) => {
+    const match =
+      result.index.toLowerCase().includes(query) ||
+      result.name.toLowerCase().includes(query);
+
+    return match;
+  });
+
+  const count = queryFiltered?.length || 0;
 
   const totalPages = take ? Math.ceil(count / take) : null;
 
   const start = (page - 1) * take;
   const end = page * take;
 
-  const paginatedResults = results.data?.results.slice(start, end);
+  const paginatedResults = queryFiltered
+    ? queryFiltered.slice(start, end)
+    : result.data?.results.slice(start, end);
 
   return { ...result, totalPages, paginatedResults };
 };

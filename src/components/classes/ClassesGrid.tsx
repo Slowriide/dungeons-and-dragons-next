@@ -10,13 +10,11 @@ export const ClassesGrid = () => {
   const classIndexes =
     classesList?.results?.map((dndClass) => dndClass.index) || [];
 
-  const { data, isLoading, isError } = useClassesDetails({
+  const { data, isLoading, isError, filteredClasses } = useClassesDetails({
     classIndexes,
   });
 
-  console.log(data);
-
-  if (isLoading || !data) {
+  if (isLoading || !filteredClasses) {
     return <p>Loading...</p>;
   }
 
@@ -27,7 +25,7 @@ export const ClassesGrid = () => {
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
       <div className="grid grid-cols-3 gap-2">
-        {data.dndClass.map((dndClass) => (
+        {filteredClasses.map((dndClass) => (
           <ClassesCard key={dndClass.name} dndClass={dndClass} />
         ))}
       </div>

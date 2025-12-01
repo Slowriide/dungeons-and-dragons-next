@@ -12,8 +12,9 @@ export const useFilteredEquipment = (take: number = 12) => {
 
   const page = Number(search.get("page") || 1);
 
-  const searchText = search.get("search")?.toLowerCase() || "";
-  const type = search.get("type") || null;
+  const searchText = search.get("query")?.toLowerCase() || "";
+  const category =
+    search.getAll("category").map((cat) => cat.toLowerCase()) || null;
 
   const minCost = Number(search.get("minCost") || "0");
   const maxCost = Number(search.get("maxCost") || "999999");
@@ -34,7 +35,10 @@ export const useFilteredEquipment = (take: number = 12) => {
         item.name.toLowerCase().includes(searchText) ||
         item.index.toLowerCase().includes(searchText);
 
-      const matchesType = type ? item.equipment_category.index === type : true;
+      const matchesType =
+        category.length !== 0
+          ? category.includes(item.equipment_category?.index)
+          : true;
 
       return (
         matchesSearch &&
@@ -45,7 +49,15 @@ export const useFilteredEquipment = (take: number = 12) => {
         weight <= maxWeight
       );
     });
-  }, [allEquipment, searchText, type, minCost, maxCost, minWeight, maxWeight]);
+  }, [
+    allEquipment,
+    searchText,
+    category,
+    minCost,
+    maxCost,
+    minWeight,
+    maxWeight,
+  ]);
 
   // --- PAGINACIÓN ---
   const totalPages = Math.max(1, Math.ceil(filtered.length / take));

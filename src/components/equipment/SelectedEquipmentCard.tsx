@@ -1,10 +1,8 @@
-import { Spell } from "@/mocks/data/spells";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft } from "lucide-react";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";
-import { Equipment } from "@/mocks/data/equipment";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 import { getEquipmentBadgeColor } from "@/utils/getEquipmentBadgeColor";
 
@@ -88,9 +86,9 @@ export const SelectedEquipmentCard = ({
 
           <p className="text-muted-foreground leading-relaxed">
             {equipment.properties?.map((prop) => (
-              <Badge key={prop} variant={"outline"}>
+              <Badge key={`${prop.index}`} variant={"outline"}>
                 {" "}
-                {prop}
+                {prop.name}
               </Badge>
             ))}
           </p>

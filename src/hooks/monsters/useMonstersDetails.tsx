@@ -14,6 +14,7 @@ export const useMonstersDetails = ({ monstersIndexes, take = 12 }: Props) => {
   const search = useSearchParams();
 
   const page = Number(search.get("page") || 1);
+  const query = search.get("query")?.toLowerCase() || "";
 
   const alignments = search.getAll("alignment").map((a) => a.toLowerCase());
 
@@ -25,9 +26,20 @@ export const useMonstersDetails = ({ monstersIndexes, take = 12 }: Props) => {
   });
 
   const monsters = results.data?.monsters ?? [];
+
+  // -------------- FILTRO por SEARCH (manual) ------------------
+
+  const filteredMonstersByQuery = monsters.filter((monster) => {
+    const filtered =
+      monster.name.toLowerCase().includes(query) ||
+      monster.index.toLowerCase().includes(query);
+
+    return filtered;
+  });
+
   // -------------- FILTRO por ALIGNMENT (manual) ------------------
 
-  const filteredMonsters = monsters?.filter((mon) => {
+  const filteredMonsters = filteredMonstersByQuery?.filter((mon) => {
     if (alignments.length === 0) return true;
     return alignments.includes(mon.alignment.toLowerCase());
   });

@@ -13,8 +13,6 @@ export const MagicItemsGrid = () => {
 
   const { isLoading, paginated, totalPages } = useFilteredMagicItems();
 
-  console.log(paginated);
-
   if (isLoading) return <p>Loading...</p>;
 
   return (

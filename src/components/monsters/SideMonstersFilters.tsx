@@ -10,73 +10,30 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ResetFiltersButton } from "../ResetFiltersButton";
+import { SearchCard } from "../SearchCard";
+import { useToggleFilters } from "@/hooks/useToggleFilters";
+import { CR_LIST, parseCR } from "@/interface/monsters/ChallengeRating";
 
 export const SideMonstersFilters = () => {
-  const [selectedCr, setSelectedCr] = useState<string | null>(null);
-  const [selectedAlignment, setSelectedAlignment] = useState<string | null>(
-    null
-  );
-  const [selectedHabitat, setSelectedHabitat] = useState<string | null>(null);
+  const { toggleFilters } = useToggleFilters();
 
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const activeCR = searchParams.getAll("challenge_rating") ?? [];
   const activeAlignment = searchParams.getAll("alignment") ?? [];
 
-  const toggleFilters = (key: string, value: string | undefined) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    const current = params.getAll(key);
-
-    let newParams: string[];
-    if (value === undefined) {
-      params.delete(key);
-      params.set("page", "1");
-
-      router.push(`?${params.toString()}`, { scroll: false });
-      return;
-    }
-
-    if (current.includes(value)) {
-      newParams = current.filter((params) => params != value);
-    } else {
-      newParams = [...current, value];
-    }
-
-    params.delete(key);
-
-    newParams.forEach((value) => {
-      params.append(key, value);
-    });
-
-    if (key !== "page") {
-      params.set("page", "1");
-    }
-
-    router.push(`?${params.toString()}`, { scroll: false });
-  };
-
-  const cr = Array.from(new Set(monsters.map((s) => s.cr)));
+  const cr = CR_LIST;
   const alignment = Array.from(new Set(monsters.map((s) => s.alignment)));
 
   //TODO add type filter
   return (
     <div className=" col-span-1 space-y-4">
       {/* Search */}
-      <Card className="p-4 items-start gap-y-2">
-        <span
-          className={`${geisCinzel.className} antialiased font-semibold text-lg`}
-        >
-          Search
-        </span>
-        <SearchBar placeholder="Search monsters..." />
-      </Card>
+      <SearchCard placeholder={"Search monsters..."} />
 
       {/* Challenge rating filter */}
       <Card className="p-4 glass-card gap-y-2">
@@ -96,12 +53,13 @@ export const SideMonstersFilters = () => {
                 All
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="w-full min-w-(--radix-dropdown-menu-trigger-width) text-start">
               {cr.map((cr) => (
                 <DropdownMenuCheckboxItem
                   key={cr}
-                  onClick={() => toggleFilters("challenge_rating", cr)}
-                  checked={activeCR.includes(cr)}
+                  onClick={() => toggleFilters("challenge_rating", parseCR(cr))}
+                  checked={activeCR.includes(parseCR(cr))}
+                  className="pl-8"
                 >
                   {cr}
                 </DropdownMenuCheckboxItem>
@@ -129,12 +87,13 @@ export const SideMonstersFilters = () => {
                 All
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-full">
+            <DropdownMenuContent className="w-full min-w-(--radix-dropdown-menu-trigger-width) text-start">
               {alignment.map((alignment) => (
                 <DropdownMenuCheckboxItem
                   key={alignment}
                   onClick={() => toggleFilters("alignment", alignment)}
                   checked={activeAlignment.includes(alignment)}
+                  className="pl-8"
                 >
                   {alignment}
                 </DropdownMenuCheckboxItem>

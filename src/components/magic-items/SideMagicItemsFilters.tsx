@@ -1,50 +1,41 @@
 "use client";
 
 import { geisCinzel } from "@/config/fonts";
-import { SearchBar } from "../SearchBar";
+
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useState } from "react";
-import { DropdownMenuCheckboxItem } from "@radix-ui/react-dropdown-menu";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ResetFiltersButton } from "../ResetFiltersButton";
-
-const types = ["sword", "axe", "arrow"];
+import { SearchCard } from "../SearchCard";
+import { useEquipmentCategories } from "@/hooks/equipment/useEquipmentCategories";
+import { MagicItemsRarity } from "@/interface/magicItems/MagicItemsRarity";
+import { useToggleFilters } from "@/hooks/useToggleFilters";
+import { useMagicItems } from "@/hooks/magicItems/useMagicItems";
+import { useFilteredMagicItems } from "@/hooks/magicItems/useFilteredMagicItems";
 
 export const SideMagicItemsFilters = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
-  const [selectedTypes, setSelectedTypes] = useState<string | null>(null);
+  const { data } = useEquipmentCategories();
 
-  const handleParamChange = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+  const selectedCategories = searchParams.getAll("category");
+  const selectedRarity = searchParams.getAll("rarity");
 
-    if (value) params.set(key, value);
-    else params.delete(key);
+  const { toggleFilters } = useToggleFilters();
 
-    router.replace(`?${params.toString()}`);
-  };
+  const { categories } = useFilteredMagicItems();
 
   return (
     <div className=" col-span-1 space-y-4">
       {/* Search */}
-      <Card className="p-4 items-start gap-y-2">
-        <span
-          className={`${geisCinzel.className} antialiased font-semibold text-lg`}
-        >
-          Search
-        </span>
-        <SearchBar placeholder="Search spells..." />
-      </Card>
-
+      <SearchCard placeholder={"Search magic items..."} />
       <Card className="p-4 glass-card gap-y-2">
         <span
           className={`${geisCinzel.className} antialiased font-bold text-lg`}
@@ -56,19 +47,21 @@ export const SideMagicItemsFilters = () => {
             <DropdownMenuTrigger asChild>
               <Button
                 variant={"outline"}
-                onClick={() => setSelectedTypes(null)}
+                onClick={() => toggleFilters("category", undefined)}
                 className="w-full"
               >
                 All
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {types.map((cr) => (
+            <DropdownMenuContent className="w-full min-w-(--radix-dropdown-menu-trigger-width)">
+              {categories.map((category) => (
                 <DropdownMenuCheckboxItem
-                  key={cr}
-                  onClick={() => setSelectedTypes(cr)}
+                  key={category.index}
+                  onClick={() => toggleFilters("category", category.index)}
+                  className="p-2 hover:cursor-pointer pl-8"
+                  checked={selectedCategories?.includes(category.index)}
                 >
-                  {cr}
+                  {category.name}
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
@@ -82,24 +75,26 @@ export const SideMagicItemsFilters = () => {
         >
           Rarity
         </span>
-        <div className=" flex flex-wrap gap-2">
+        <div className=" flex gap-2 w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant={"outline"}
-                onClick={() => setSelectedTypes(null)}
+                onClick={() => toggleFilters("rarity", undefined)}
                 className="w-full"
               >
                 All
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {types.map((cr) => (
+            <DropdownMenuContent className="w-full min-w-(--radix-dropdown-menu-trigger-width)">
+              {MagicItemsRarity.map((rarity) => (
                 <DropdownMenuCheckboxItem
-                  key={cr}
-                  onClick={() => setSelectedTypes(cr)}
+                  key={rarity.index}
+                  onClick={() => toggleFilters("rarity", rarity.index)}
+                  className="p-2 hover:cursor-pointer pl-8"
+                  checked={selectedRarity?.includes(rarity.index)}
                 >
-                  {cr}
+                  {rarity.name}
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
@@ -107,9 +102,7 @@ export const SideMagicItemsFilters = () => {
         </div>
       </Card>
 
-      <ResetFiltersButton
-        keys={["minCost", "maxCost", "minWeight", "maxWeight"]}
-      />
+      <ResetFiltersButton keys={["category", "rarity"]} />
     </div>
   );
 };
