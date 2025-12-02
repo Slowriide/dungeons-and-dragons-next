@@ -8,7 +8,5 @@ export const useRacesList = () => {
     staleTime: Infinity,
   });
 
-  console.log({ result });
-
   return { ...result };
 };

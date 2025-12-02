@@ -5,7 +5,10 @@ import { useEffect, useMemo } from "react";
 import { useMagicItems } from "./useMagicItems";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 
-export const useFilteredMagicItems = (take: number = 12) => {
+export const useFilteredMagicItems = (
+  take: number = 12,
+  magicItemIndex?: string
+) => {
   const search = useSearchParams();
   const router = useRouter();
   const { data, isLoading, isError } = useMagicItems();
@@ -17,10 +20,12 @@ export const useFilteredMagicItems = (take: number = 12) => {
     search.getAll("category").map((a) => a.toLowerCase()) || null;
   const rarity = search.getAll("rarity").map((a) => a.toLowerCase()) || null;
 
-  console.log(rarity);
-
   // --- valores por defecto si data no cargó ---
   const allMagicItems: DNDMagicItem[] = data?.magicItemspr ?? [];
+
+  const findedMagicItem = allMagicItems.find(
+    (item) => item.index === magicItemIndex
+  );
 
   // --- FILTROS ---
   const filtered = useMemo(() => {
@@ -81,5 +86,6 @@ export const useFilteredMagicItems = (take: number = 12) => {
     isLoading,
     isError,
     categories,
+    findedMagicItem,
   };
 };

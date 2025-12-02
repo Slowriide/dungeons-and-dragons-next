@@ -6,6 +6,7 @@ import { Badge } from "../ui/badge";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 import { getEquipmentBadgeColor } from "@/utils/getEquipmentBadgeColor";
 import { DNDWeapon } from "@/interface/equipment/DNDWeapon";
+import Link from "next/link";
 
 interface Props {
   equipment: DNDWeapon;
@@ -29,11 +30,13 @@ export const SelectedWeaponCard = ({
 
       {/* Name */}
       <div className="flex flex-row rounded-lg overflow-hidden items-center gap-x-2">
-        <h1
-          className={`${geisCinzel.className} antialiased font-semibold text-2xl hover:underline cursor-pointer`}
-        >
-          {equipment.name}
-        </h1>
+        <Link href={`/equipment/${equipment.index}`}>
+          <h1
+            className={`${geisCinzel.className} antialiased font-semibold text-2xl hover:underline cursor-pointer`}
+          >
+            {equipment.name}
+          </h1>
+        </Link>
       </div>
 
       {/* type*/}

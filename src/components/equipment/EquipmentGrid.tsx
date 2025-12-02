@@ -8,12 +8,16 @@ import { Pagination } from "../Pagination";
 import { useFilteredEquipment } from "@/hooks/equipment/useFilteredEquipment";
 import { DNDWeapon } from "@/interface/equipment/DNDWeapon";
 import { SelectedWeaponCard } from "./SelectedWeaponCard";
-import { isWeapon } from "@/utils/equipment/isWeapon";
+import { isArmor, isWeapon } from "@/utils/equipment/isWeapon";
 import { WeaponCard } from "./WeaponCard";
+import { SelectedArmorCard } from "./SelectedArmorCard";
+import { DNDArmor } from "@/interface/equipment/DNDArmor";
+import { equipment } from "@/mocks/data/equipment";
+import { ArmorCard } from "./ArmorCard";
 
 export const EquipmentGrid = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<
-    DNDEquipment | DNDWeapon | null
+    DNDEquipment | DNDWeapon | DNDArmor | null
   >(null);
 
   const { isLoading, paginated, totalPages } = useFilteredEquipment();
@@ -28,6 +32,11 @@ export const EquipmentGrid = () => {
             equipment={selectedEquipment}
             setSelectedEquipment={setSelectedEquipment}
           />
+        ) : isArmor(selectedEquipment) ? (
+          <SelectedArmorCard
+            equipment={selectedEquipment}
+            setSelectedEquipment={setSelectedEquipment}
+          />
         ) : (
           <SelectedEquipmentCard
             equipment={selectedEquipment}
@@ -38,6 +47,12 @@ export const EquipmentGrid = () => {
         paginated.map((equipment) =>
           isWeapon(equipment) ? (
             <WeaponCard
+              key={equipment.index}
+              equipment={equipment}
+              setSelectedEquipment={setSelectedEquipment}
+            />
+          ) : isArmor(equipment) ? (
+            <ArmorCard
               key={equipment.index}
               equipment={equipment}
               setSelectedEquipment={setSelectedEquipment}

@@ -5,6 +5,7 @@ import { geisCinzel } from "@/config/fonts";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
 import { Badge } from "../ui/badge";
+import Link from "next/link";
 
 interface Props {
   magicItem: DNDMagicItem;
@@ -28,11 +29,13 @@ export const SelectedMagicItemCard = ({
 
       {/* Name */}
       <div className="flex flex-row rounded-lg overflow-hidden items-center gap-x-2 ">
-        <h1
-          className={`${geisCinzel.className} antialiased font-semibold text-2xl hover:underline cursor-pointer`}
-        >
-          {magicItem.name}
-        </h1>
+        <Link href={`magic-items/${magicItem.index}`}>
+          <h1
+            className={`${geisCinzel.className} antialiased font-semibold text-2xl hover:underline cursor-pointer`}
+          >
+            {magicItem.name}
+          </h1>
+        </Link>
       </div>
 
       {/* type*/}

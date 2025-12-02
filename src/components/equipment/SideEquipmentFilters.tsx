@@ -25,8 +25,6 @@ export const SideEquipmentFilters = () => {
 
   const selectedCategories = searchParams.getAll("category") ?? [];
 
-  console.log(selectedCategories);
-
   const [minCost, setMinCost] = useState(searchParams.get("minCost") ?? "");
   const [maxCost, setMaxCost] = useState(searchParams.get("maxCost") ?? "");
 

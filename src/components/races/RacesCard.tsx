@@ -15,8 +15,6 @@ interface Props {
 export const RacesCard = ({ race }: Props) => {
   const img = getRaceImages(race.index);
 
-  console.log(img);
-
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
       <Link href={`/races/${race.index}`}>

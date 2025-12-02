@@ -3,15 +3,14 @@ import { Button } from "../ui/button";
 import { ChevronLeft } from "lucide-react";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";
-import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
-import { getEquipmentBadgeColor } from "@/utils/getEquipmentBadgeColor";
+import { DNDArmor } from "@/interface/equipment/DNDArmor";
 import Link from "next/link";
 
 interface Props {
-  equipment: DNDEquipment;
-  setSelectedEquipment: (equipment: DNDEquipment | null) => void;
+  equipment: DNDArmor;
+  setSelectedEquipment: (equipment: DNDArmor | null) => void;
 }
-export const SelectedEquipmentCard = ({
+export const SelectedArmorCard = ({
   setSelectedEquipment,
   equipment,
 }: Props) => {
@@ -43,29 +42,67 @@ export const SelectedEquipmentCard = ({
         {equipment.equipment_category.name}
       </p>
 
-      {/* Rarity*/}
+      {/* Armor category and Armor class*/}
+      <div className="grid grid-cols-2 mt-2 gap-y-2">
+        {/* Armor category */}
+        <div>
+          <span className="text-muted-foreground">Armor Category:</span>
+          <p className="font-medium">{equipment.armor_category}</p>
+        </div>
 
-      <Badge className={getEquipmentBadgeColor(equipment)}>
-        {equipment.gear_category?.name ??
-          equipment.tool_category ??
-          equipment.vehicle_category ??
-          "Unknown"}
-      </Badge>
+        {/* Armor class*/}
+        <div>
+          <span className="text-muted-foreground">Armor Class:</span>
+          <div className="flex flex-row">
+            <p className="font-medium">{`${equipment.armor_class.base} `}</p>
+            <p className="font-medium px-1">
+              {equipment.armor_class.dex_bonus ? "+ Dex modifier" : ""}
+            </p>
+            <p className="font-medium">
+              {equipment.armor_class.dex_bonus
+                ? `(max ${equipment.armor_class.max_bonus})`
+                : ""}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Strength min and Stealth disadventage*/}
+      <div className="grid grid-cols-2 mt-2 gap-y-2">
+        {/* Strength min*/}
+        <div className="col-span-1">
+          <span className="text-muted-foreground">Strength min:</span>
+          <p className="font-medium">
+            {equipment.str_minimum === 0 ? "No" : equipment.str_minimum}
+          </p>
+        </div>
+
+        {/* Stealth disadventage*/}
+        <div>
+          <span className="text-muted-foreground">Stealth disadventage:</span>
+
+          <p className="font-medium">
+            {equipment.stealth_disadvantage
+              ? equipment.stealth_disadvantage
+              : "No"}
+          </p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 mt-2 gap-y-2">
-        {/* Cast time*/}
+        {/* Cost*/}
         <div className="col-span-1">
           <span className="text-muted-foreground">Cost:</span>
           <p className="font-medium">{equipment.cost.quantity}</p>
         </div>
-        {/* Range */}
+        {/* Weight */}
         <div>
           <span className="text-muted-foreground">Weight:</span>
           <p className="font-medium">{equipment.weight}</p>
         </div>
       </div>
 
-      {/* Description */}
+      {/* Properties */}
       {equipment.desc.length > 0 && (
         <div className="mt-2">
           <h3
@@ -87,7 +124,7 @@ export const SelectedEquipmentCard = ({
             Properties
           </h3>
 
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed space-x-2">
             {equipment.properties?.map((prop) => (
               <Badge key={`${prop.index}`} variant={"outline"}>
                 {" "}
@@ -95,6 +132,19 @@ export const SelectedEquipmentCard = ({
               </Badge>
             ))}
           </p>
+        </div>
+      )}
+
+      {equipment.special.length > 0 && (
+        <div className="mt-2">
+          <h3
+            className={`${geisCinzel.className} antialiased font-bold text-xl`}
+          >
+            Special
+          </h3>
+          <div className="flex flex-wrap gap-2 mt-2">{equipment.special}</div>
+
+          {/* Higher levels */}
         </div>
       )}
     </Card>

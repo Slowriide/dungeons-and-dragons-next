@@ -1,8 +1,5 @@
 import { geisCinzel } from "@/config/fonts";
 import { Card } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
-import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
 import { DNDRule } from "@/interface/rules/DNDRule";
 
 interface Props {

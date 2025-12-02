@@ -1,6 +1,5 @@
 import { geisCinzel } from "@/config/fonts";
 import { Card } from "../ui/card";
-import { Spell } from "@/mocks/data/spells";
 import { Badge } from "../ui/badge";
 import { DNDSpell } from "@/interface/spells/DndSpell";
 
@@ -28,6 +27,7 @@ export const SpellsCard = ({ spell, setSelectedSpell }: Props) => {
           {spell.level === 0 ? "Cantrip" : `Level ${spell.level}`}
         </Badge>
       </div>
+
       <div className="flex flex-wrap gap-2 mb-3">
         <Badge>{spell.school.name}</Badge>
         {spell.concentration && (
@@ -35,6 +35,7 @@ export const SpellsCard = ({ spell, setSelectedSpell }: Props) => {
         )}
         {spell.ritual && <Badge variant="secondary">Ritual</Badge>}
       </div>
+
       <p className="text-sm text-muted-foreground line-clamp-2">{spell.desc}</p>
     </Card>
   );

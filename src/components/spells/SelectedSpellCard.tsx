@@ -5,6 +5,7 @@ import { ChevronLeft } from "lucide-react";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";
 import { DNDSpell } from "@/interface/spells/DndSpell";
+import Link from "next/link";
 
 interface Props {
   spell: DNDSpell;
@@ -32,12 +33,15 @@ export const SelectedSpellCard = ({ setSelectedSpell, spell }: Props) => {
           width={50}
           className="rounded-lg"
         />
-        <h1
-          className={`${geisCinzel.className} antialiased font-semibold text-2xl hover:underline cursor-pointer`}
-        >
-          {spell.name}
-        </h1>
+        <Link href={`/spells/${spell.index}`}>
+          <h1
+            className={`${geisCinzel.className} antialiased font-semibold text-2xl hover:underline cursor-pointer`}
+          >
+            {spell.name}
+          </h1>
+        </Link>
       </div>
+
       {/* Level and School */}
       <div className="flex flex-wrap gap-x-2">
         <Badge variant={"outline"}>
@@ -101,7 +105,7 @@ export const SelectedSpellCard = ({ setSelectedSpell, spell }: Props) => {
 
         {/* Higher levels */}
 
-        {spell.higher_level && (
+        {spell.higher_level.length > 1 && (
           <div className="mt-4">
             <h3
               className={`${geisCinzel.className} antialiased font-bold text-xl`}

@@ -3,14 +3,17 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getSpellsDetails } from "@/actions/spells/getSpellsDetails";
+import { DNDSpell } from "@/interface/spells/DndSpell";
 
-export const useSpellsDetails = (spellIndexes: string[]) => {
+export const useSpellsDetails = (spellIndexes: string | string[]) => {
+  const indexes = Array.isArray(spellIndexes) ? spellIndexes : [spellIndexes];
+
   const results = useQuery({
-    queryKey: ["spells-details", spellIndexes],
-    queryFn: () => getSpellsDetails({ spellIndexes }),
-    enabled: spellIndexes.length > 0,
+    queryKey: ["spells-details", indexes],
+    queryFn: () => getSpellsDetails({ spellIndexes: indexes }),
+    enabled: indexes.length > 0,
     staleTime: Infinity, // Los hechizos D&D no cambian
   });
 
-  return { ...results };
+  return { ...results, spells: (results.data?.spells ?? []) as DNDSpell[] };
 };

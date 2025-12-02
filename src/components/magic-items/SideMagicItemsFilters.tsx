@@ -1,7 +1,6 @@
 "use client";
 
 import { geisCinzel } from "@/config/fonts";
-
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import {
@@ -10,20 +9,15 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ResetFiltersButton } from "../ResetFiltersButton";
 import { SearchCard } from "../SearchCard";
-import { useEquipmentCategories } from "@/hooks/equipment/useEquipmentCategories";
 import { MagicItemsRarity } from "@/interface/magicItems/MagicItemsRarity";
 import { useToggleFilters } from "@/hooks/useToggleFilters";
-import { useMagicItems } from "@/hooks/magicItems/useMagicItems";
 import { useFilteredMagicItems } from "@/hooks/magicItems/useFilteredMagicItems";
 
 export const SideMagicItemsFilters = () => {
   const searchParams = useSearchParams();
-
-  const { data } = useEquipmentCategories();
 
   const selectedCategories = searchParams.getAll("category");
   const selectedRarity = searchParams.getAll("rarity");

@@ -5,7 +5,7 @@ import { useEffect, useMemo } from "react";
 import { useEquipment } from "./useEquipment";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 
-export const useFilteredEquipment = (take: number = 12) => {
+export const useFilteredEquipment = (take: number = 12, index?: string) => {
   const search = useSearchParams();
   const router = useRouter();
   const { data, isLoading, isError } = useEquipment();
@@ -24,6 +24,7 @@ export const useFilteredEquipment = (take: number = 12) => {
 
   // --- valores por defecto si data no cargó ---
   const allEquipment: DNDEquipment[] = data?.equipment ?? [];
+  const findedItem = allEquipment.find((e) => e.index === index);
 
   // --- FILTROS ---
   const filtered = useMemo(() => {
@@ -84,5 +85,6 @@ export const useFilteredEquipment = (take: number = 12) => {
     page,
     isLoading,
     isError,
+    findedItem,
   };
 };
