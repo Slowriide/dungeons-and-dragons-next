@@ -103,7 +103,7 @@ export const SelectedArmorCard = ({
       </div>
 
       {/* Properties */}
-      {equipment.desc.length > 0 && (
+      {equipment.desc && equipment.desc.length > 0 && (
         <div className="mt-2">
           <h3
             className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -116,7 +116,7 @@ export const SelectedArmorCard = ({
         </div>
       )}
 
-      {equipment.properties.length > 0 && (
+      {equipment.properties && equipment.properties.length > 0 && (
         <div className="mt-2">
           <h3
             className={`${geisCinzel.className} antialiased font-bold text-xl mb-2`}
@@ -135,7 +135,7 @@ export const SelectedArmorCard = ({
         </div>
       )}
 
-      {equipment.special.length > 0 && (
+      {equipment.special && equipment.special.length > 0 && (
         <div className="mt-2">
           <h3
             className={`${geisCinzel.className} antialiased font-bold text-xl`}

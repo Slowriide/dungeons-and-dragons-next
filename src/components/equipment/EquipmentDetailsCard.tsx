@@ -57,7 +57,7 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
 
             {/* Description */}
 
-            {equipment.desc.length > 0 && (
+            {equipment.desc && equipment.desc.length > 0 && (
               <div className="col-span-3 mt-2">
                 <h3
                   className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -72,7 +72,7 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
             )}
 
             {/* Properties */}
-            {equipment.properties.length > 0 && (
+            {equipment.properties && equipment.properties.length > 0 && (
               <div className="col-span-4 mt-4">
                 <h3
                   className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -92,7 +92,7 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
             )}
 
             {/* Description */}
-            {equipment.special.length > 1 && (
+            {equipment.special && equipment.special.length > 0 && (
               <div className="mt-4 col-span-3">
                 <h3
                   className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -114,21 +114,6 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
             className="rounded-lg col-span-2 w-full h-auto object-contain"
           />
         </div>
-
-        {/* Higher levels */}
-
-        {/* {spell.higher_level && spell.higher_level.length > 1 && (
-          <div className="mt-4">
-            <h3
-              className={`${geisCinzel.className} antialiased font-bold text-xl`}
-            >
-              At Higher Levels
-            </h3>
-            <p className="text-muted-foreground leading-relaxed">
-              {spell.higher_level}
-            </p>
-          </div>
-        )} */}
       </Card>
     </div>
   );

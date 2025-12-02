@@ -66,7 +66,7 @@ export const SelectedEquipmentCard = ({
       </div>
 
       {/* Description */}
-      {equipment.desc.length > 0 && (
+      {equipment.desc && equipment.desc.length > 0 && (
         <div className="mt-2">
           <h3
             className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -79,7 +79,7 @@ export const SelectedEquipmentCard = ({
         </div>
       )}
 
-      {equipment.properties.length > 0 && (
+      {equipment.properties && equipment.properties.length > 0 && (
         <div className="mt-2">
           <h3
             className={`${geisCinzel.className} antialiased font-bold text-xl mb-2`}

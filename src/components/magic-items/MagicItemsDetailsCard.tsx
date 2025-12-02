@@ -52,7 +52,7 @@ export const MagicItemsDetailsCard = ({ magicItem, categories }: Props) => {
 
               {/* Description */}
 
-              {magicItem.desc.length > 0 && (
+              {magicItem.desc && magicItem.desc.length > 0 && (
                 <div className="col-span-3 mt-2">
                   <h3
                     className={`${geisCinzel.className} antialiased font-bold text-xl`}

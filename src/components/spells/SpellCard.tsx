@@ -117,7 +117,7 @@ export const SpellCard = ({ spellIndex }: Props) => {
         </div>
 
         {/* Mateial */}
-        {spell.material.length > 1 && (
+        {spell.material && spell.material.length > 1 && (
           <div className="mt-4">
             <h3
               className={`${geisCinzel.className} antialiased font-bold text-xl`}

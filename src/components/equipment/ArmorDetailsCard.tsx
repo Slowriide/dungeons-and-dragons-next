@@ -64,7 +64,7 @@ export const ArmorDetailsCard = ({ equipment }: Props) => {
 
             {/* Description */}
 
-            {equipment.desc.length > 0 && (
+            {equipment.desc && equipment.desc.length > 0 && (
               <div className="col-span-3 mt-2">
                 <h3
                   className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -79,7 +79,7 @@ export const ArmorDetailsCard = ({ equipment }: Props) => {
             )}
 
             {/* Properties */}
-            {equipment.properties.length > 0 && (
+            {equipment.properties && equipment.properties.length > 0 && (
               <div className="col-span-4 mt-4 ">
                 <h3
                   className={`${geisCinzel.className} antialiased font-bold text-xl`}
@@ -98,7 +98,7 @@ export const ArmorDetailsCard = ({ equipment }: Props) => {
             )}
 
             {/* Special */}
-            {equipment.special.length > 1 && (
+            {equipment.special && equipment.special.length > 0 && (
               <div className="mt-4 col-span-3">
                 <h3
                   className={`${geisCinzel.className} antialiased font-bold text-xl`}
