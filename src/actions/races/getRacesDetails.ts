@@ -14,7 +14,5 @@ export const getRacesDetails = async ({
 
   const race = await Promise.all(detailPromise);
 
-  console.log(race);
-
   return { race };
 };

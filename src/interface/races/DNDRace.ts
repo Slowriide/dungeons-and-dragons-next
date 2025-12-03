@@ -10,7 +10,7 @@ export interface DNDRace {
   languages: Language[];
   language_desc: string;
   traits: Language[];
-  subraces: any[];
+  subraces: Subrace[];
   url: string;
   updated_at: Date;
 }
@@ -21,6 +21,11 @@ export interface AbilityBonus {
 }
 
 export interface Language {
+  index: string;
+  name: string;
+  url: string;
+}
+export interface Subrace {
   index: string;
   name: string;
   url: string;
