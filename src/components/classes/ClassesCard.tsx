@@ -19,7 +19,7 @@ export const ClassesCard = ({ dndClass }: Props) => {
 
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
-      <Link href={`/races/${dndClass.index}`}>
+      <Link href={`/classes/${dndClass.index}`}>
         {/* Image */}
         <div className="relative w-full aspect-3/3 overflow-hidden ">
           <Image

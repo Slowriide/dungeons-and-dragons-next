@@ -14,7 +14,5 @@ export const getClassesDetails = async ({
 
   const dndClass = await Promise.all(detailPromise);
 
-  console.log(dndClass);
-
   return { dndClass };
 };
