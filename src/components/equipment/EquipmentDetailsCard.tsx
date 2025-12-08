@@ -1,5 +1,3 @@
-"use client";
-
 import { Card } from "../ui/card";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";

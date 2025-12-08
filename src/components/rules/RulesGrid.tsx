@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Pagination } from "../Pagination";
-import { useFilteredMagicItems } from "@/hooks/magicItems/useFilteredMagicItems";
 import { RulesCard } from "./RulesCard";
 import { DNDRule } from "@/interface/rules/DNDRule";
 import { useRulesDetails } from "@/hooks/rules/useRulesDetails";
