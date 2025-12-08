@@ -1,9 +1,6 @@
 import { Card } from "../ui/card";
 import { geisCinzel } from "@/config/fonts";
-import { Badge } from "../ui/badge";
-import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 import { RulesSubSection } from "@/interface/rules/RulesSection";
-import ReactMarkdown from "react-markdown";
 import { MarkdownText } from "../MarkdownText";
 interface Props {
   ruleSubsection: RulesSubSection;

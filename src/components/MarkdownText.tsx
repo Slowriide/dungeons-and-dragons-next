@@ -9,10 +9,19 @@ interface Props {
 
 export const MarkdownText = ({ content }: Props) => {
   return (
-    <div className="prose prose-slate dark:prose-invert max-w-none prose-table:w-full prose-th:px-4 prose-th:py-2 prose-td:px-4 prose-td:py-2">
+    <div
+      className="
+    prose max-w-none 
+    [&_table]:w-full 
+    [&_table]:border-collapse 
+    [&_th]:border [&_th]:p-2 [&_th]:text-left 
+    [&_td]:border [&_td]:p-2
+  "
+    >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
+          h1: () => null,
           h2: () => null,
           h3: ({ node, ...props }) => (
             <h3

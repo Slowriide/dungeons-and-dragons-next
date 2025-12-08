@@ -3,6 +3,7 @@ import { Card } from "../ui/card";
 import { DNDRule } from "@/interface/rules/DNDRule";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { MarkdownText } from "../MarkdownText";
 
 interface Props {
   rule: DNDRule;
@@ -25,7 +26,7 @@ export const RulesCard = ({ rule, setSelectedMagicItem }: Props) => {
 
       {rule.desc.length > 20 && (
         <div className="max-w-none leading-relaxed">
-          <ReactMarkdown>{rule.desc}</ReactMarkdown>
+          <MarkdownText content={rule.desc}></MarkdownText>
         </div>
       )}
       <div className="">
