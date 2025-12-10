@@ -33,7 +33,7 @@ export const TopMenu = () => {
               { name: "Monsters", path: "/monsters" },
               { name: "Spells", path: "/spells" },
               { name: "Equipment", path: "/equipment" },
-              { name: "Clases", path: "/clases" },
+              { name: "Classes", path: "/classes" },
               { name: "Races", path: "/races" },
               { name: "Magic Items", path: "/magic-items" },
             ]}
@@ -41,7 +41,7 @@ export const TopMenu = () => {
           <HoverDropdrownButton
             title="Sources"
             options={[
-              { name: "Manuals", path: "/" },
+              { name: "Rules", path: "/rules" },
               { name: "Stories", path: "/" },
             ]}
           />
@@ -49,7 +49,7 @@ export const TopMenu = () => {
             title="Tools"
             options={[
               { name: "Character builder", path: "/" },
-              { name: "Dices", path: "/" },
+              { name: "Dices", path: "/dice" },
             ]}
           />
 
