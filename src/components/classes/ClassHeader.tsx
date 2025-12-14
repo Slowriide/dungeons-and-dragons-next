@@ -37,27 +37,25 @@ export const ClassHeader = ({ classItem }: Props) => {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <div className="text-sm font-medium text-[#E63946]">Hit Die</div>
-            <div className="mt-1 font-mono text-xl font-semibold">
-              {classItem.hit_die}
-            </div>
+            <div className="mt-1 font-medium text-xl">{classItem.hit_die}</div>
           </div>
           <div>
             <div className="text-sm font-medium text-[#E63946]">
               Primary Ability
             </div>
-            <div className="mt-1 text-xl font-semibold">{primary}</div>
+            <div className="mt-1 text-xl font-medium">{primary}</div>
           </div>
           <div>
             <div className="text-sm font-medium text-[#E63946]">
               Saving Throws
             </div>
-            <div className="mt-1 text-xl font-semibold flex flex-row">
+            <div className="mt-1 text-xl font-medium flex flex-row">
               {classItem.saving_throws.map((st) => st.name).join(", ")}
             </div>
           </div>
           <div>
             <div className="text-sm font-medium text-[#E63946]">Subclasses</div>
-            <div className="mt-1 text-xl font-semibold">
+            <div className="mt-1 text-xl font-medium">
               {classItem.subclasses?.length || 0}
             </div>
           </div>

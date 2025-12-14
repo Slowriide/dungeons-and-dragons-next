@@ -48,7 +48,7 @@ export const TopMenu = () => {
           <HoverDropdrownButton
             title="Tools"
             options={[
-              { name: "Character builder", path: "/" },
+              { name: "My Characters", path: "/characters" },
               { name: "Dices", path: "/dice" },
             ]}
           />
