@@ -1,3 +1,7 @@
+import { PurOption } from "../common/PurOption";
+
+export type PurpleOption = PurOption;
+
 export interface DNDClass {
   index: string;
   name: string;
@@ -40,11 +44,6 @@ export interface ProficiencyChoice {
 export interface ProficiencyChoiceFrom {
   option_set_type: string;
   options: PurpleOption[];
-}
-
-export interface PurpleOption {
-  option_type: string;
-  item: Proficiency;
 }
 
 export interface StartingEquipment {

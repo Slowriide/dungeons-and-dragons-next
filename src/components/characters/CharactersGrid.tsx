@@ -26,6 +26,8 @@ const characters: DNDCharacter[] = [
       items: [],
       gold: 0,
     },
+    class_features: [],
+    class_weapon_proficiencies: [],
   },
   {
     index: "2",
@@ -48,6 +50,8 @@ const characters: DNDCharacter[] = [
       items: [],
       gold: 0,
     },
+    class_features: [],
+    class_weapon_proficiencies: [],
   },
 ];
 

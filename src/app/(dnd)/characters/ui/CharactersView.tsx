@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { StepBasic } from "./StepBasic";
 import { StepAttributes } from "./StepAttributes";
+import { StepRace } from "./StepRace";
 
 export const CharactersView = () => {
   const [step, setStep] = useState<number>(1);
@@ -35,7 +36,8 @@ export const CharactersView = () => {
       </div>
 
       {step === 1 && <StepBasic onNext={nextStep} />}
-      {step === 2 && <StepAttributes onNext={nextStep} onPrev={prevStep} />}
+      {step === 2 && <StepRace onNext={nextStep} onPrev={prevStep} />}
+      {step === 3 && <StepAttributes onNext={nextStep} onPrev={prevStep} />}
       {/* {step === 3 && <Step3Skills onNext={next} onPrev={prev} />}
       {step === 4 && <Step4Equipment onNext={next} onPrev={prev} />}
       {step === 5 && <Step5Summary onPrev={prev} />} */}

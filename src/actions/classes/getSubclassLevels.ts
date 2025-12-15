@@ -13,9 +13,10 @@ export const getSubclassLevels = async ({
     `/subclasses/${subclassIndex}/levels`
   );
 
-  const levelsIndexes = subclassLevels.map((lvl) =>
+  const levelsIndexes = subclassLevels.flatMap((lvl) =>
     lvl.features.map((ft) => ft.index)
   );
+  console.log(levelsIndexes);
 
   const levelsFeatures = levelsIndexes.map((index) =>
     dndFetch.get<SubclassFeature>(`/features/${index}`)

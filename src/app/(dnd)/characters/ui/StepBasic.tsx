@@ -1,7 +1,7 @@
 "use client";
 import { useDNDCharacterStore } from "@/store/characte.store";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,32 +17,34 @@ import {
 import { DND_CLASSES } from "@/data/dndData";
 import { useClassesDetails } from "@/hooks/classes/useClassesDetails";
 import { ClassFeatures } from "./class-features/ClassFeatures";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
-  name: z.string().min(2),
-  race: z.string(),
-  class: z.string(),
+  name: z.string().min(2, "Name must have at least 2 characters"),
+  class: z.string().min(1, "Class is required"),
   level: z.number().min(1).max(20),
 });
+
 type FormData = z.infer<typeof schema>;
 
-export const StepBasic = ({ onNext }: { onNext: () => void }) => {
+export const StepBasic = () => {
+  const router = useRouter();
   const { character, setField } = useDNDCharacterStore();
-  const { register, handleSubmit, setValue, watch } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: character.name,
-      race: character.race,
-      class: character.class,
-      level: 1,
-    },
-  });
+  const { register, handleSubmit, setValue, watch, control } =
+    useForm<FormData>({
+      resolver: zodResolver(schema),
+      defaultValues: {
+        name: character.name,
+        class: character.class,
+        level: 1,
+      },
+    });
 
   const onSubmit = (data: FormData) => {
     setField("name", data.name);
-    setField("race", data.race);
     setField("class", data.class);
-    onNext();
+    setField("level", data.level);
+    router.push("/characters/create-character/race");
   };
 
   const selected = watch("class");
@@ -63,28 +65,34 @@ export const StepBasic = ({ onNext }: { onNext: () => void }) => {
         {/* Class */}
         <div className="col-span-3 ">
           <p className="text-md font-medium">Class:</p>
-          <Select onValueChange={(v) => setValue("class", v)}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a class" className="w-full" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Classes</SelectLabel>
-                {DND_CLASSES.map((r) => (
-                  <SelectItem key={r.index} value={r.index}>
-                    {r.name}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Controller
+            name="class"
+            control={control}
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a class" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Classes</SelectLabel>
+                    {DND_CLASSES.map((r) => (
+                      <SelectItem key={r.index} value={r.index}>
+                        {r.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
+        {/* Level */}
         <div className="col-span-2">
           <p className="text-md font-medium">Level:</p>
           <Input
             type="number"
             {...register("level", { valueAsNumber: true })}
-            placeholder="Name"
           />
         </div>
 
@@ -95,9 +103,11 @@ export const StepBasic = ({ onNext }: { onNext: () => void }) => {
         )}
       </div>
 
-      <Button variant={"outline"} type="submit" onClick={onNext}>
-        Siguiente
-      </Button>
+      <div className="flex justify-end">
+        <Button variant={"outline"} type="submit">
+          Continue
+        </Button>
+      </div>
     </form>
   );
 };

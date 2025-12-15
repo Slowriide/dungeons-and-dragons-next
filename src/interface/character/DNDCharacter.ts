@@ -7,6 +7,7 @@ export interface DNDCharacter {
   hit_points: number;
   class: CharacterClass;
   race: CharacterRace;
+  level: number;
 
   attributes: {
     strength: number;

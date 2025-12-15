@@ -13,6 +13,7 @@ export const characterSchema = z.object({
   index: z.uuid().optional().nullable(),
   name: z.string().min(1, "Name is too short"),
   hitPoints: z.number().min(1),
+  level: z.number().min(1).max(20),
 
   race: z.string().min(1, "Select a race"),
   class: z.string().min(1, "Select a class"),

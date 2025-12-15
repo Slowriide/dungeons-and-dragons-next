@@ -16,6 +16,7 @@ export const useDNDCharacterStore = create<CharacterState>((set) => ({
     hit_points: 10,
     class: undefined,
     race: undefined,
+    level: 1,
 
     attributes: {
       strength: 10,
@@ -67,6 +68,7 @@ export const useDNDCharacterStore = create<CharacterState>((set) => ({
         hit_points: 10,
         class: {} as any,
         race: {} as any,
+        level: 1,
         attributes: {
           strength: 10,
           dexterity: 10,

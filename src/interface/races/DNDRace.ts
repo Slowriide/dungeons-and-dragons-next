@@ -1,3 +1,7 @@
+import { PurOption } from "../common/PurOption";
+
+export type PurpleOption = PurOption;
+
 export interface DNDRace {
   index: string;
   name: string;
@@ -9,6 +13,8 @@ export interface DNDRace {
   size_description: string;
   languages: Language[];
   language_desc: string;
+  language_options?: LanguageOptions;
+  ability_bonus_options?: AbilityBonusOptions;
   traits: Language[];
   subraces: Subrace[];
   url: string;
@@ -29,4 +35,36 @@ export interface Subrace {
   index: string;
   name: string;
   url: string;
+}
+
+export interface LanguageOptions {
+  choose: number;
+  type: string;
+  from: LanguageOptionsFrom;
+}
+
+export interface LanguageOptionsFrom {
+  option_set_type: string;
+  options: PurpleOption[];
+}
+
+export enum OptionType {
+  Reference = "reference",
+}
+
+export interface AbilityBonusOptions {
+  choose: number;
+  type: string;
+  from: AbilityBonusOptionsFrom;
+}
+
+export interface AbilityBonusOptionsFrom {
+  option_set_type: string;
+  options: FluffyOption[];
+}
+
+export interface FluffyOption {
+  option_type: string;
+  ability_score: Language;
+  bonus: number;
 }
