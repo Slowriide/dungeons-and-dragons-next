@@ -16,10 +16,10 @@ export interface DNDCharacter {
 
   backgroundSelections: {
     specialty?: string; // "Actor", "Dancer", etc. (eligió 1)
-    personalityTrait: string; // Trait que eligió
-    ideal: string; // Ideal que eligió
-    bond: string; // Bond que eligió
-    flaw: string; // Flaw que eligió
+    personalityTrait?: string; // Trait que eligió
+    ideal?: string; // Ideal que eligió
+    bond?: string; // Bond que eligió
+    flaw?: string; // Flaw que eligió
   };
 
   attributes: {

@@ -3,10 +3,10 @@ import { Scroll, Heart, Link, AlertTriangle } from "lucide-react";
 interface PersonalitySectionProps {
   personality: {
     specialty?: string | undefined;
-    personalityTrait: string;
-    ideal: string;
-    bond: string;
-    flaw: string;
+    personalityTrait?: string;
+    ideal?: string;
+    bond?: string;
+    flaw?: string;
   };
 }
 
