@@ -4,14 +4,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { DNDRace } from "@/interface/races/DNDRace";
 
 interface Props {
   title: string;
   description: string;
 }
 
-export const RaceAccordion = ({ description, title }: Props) => {
+export const BackgroundAccordion = ({ description, title }: Props) => {
   return (
     <Accordion
       type="single"

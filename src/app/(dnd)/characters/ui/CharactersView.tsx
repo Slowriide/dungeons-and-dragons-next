@@ -9,9 +9,6 @@ import { StepRace } from "./StepRace";
 export const CharactersView = () => {
   const [step, setStep] = useState<number>(1);
 
-  const nextStep = () => setStep((s) => Math.min(s + 1, 5));
-  const prevStep = () => setStep((s) => Math.max(s - 1, 1));
-
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex flex-col">
@@ -28,16 +25,20 @@ export const CharactersView = () => {
                 {s}
               </div>
               <span className="text-xs mt-1 ">
-                {["Basic", "Class", "Attributes", "Abilities", "Review"][s - 1]}
+                {
+                  ["Basic", "Class", "Attributes", "Abilities", "Summary"][
+                    s - 1
+                  ]
+                }
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {step === 1 && <StepBasic onNext={nextStep} />}
-      {step === 2 && <StepRace onNext={nextStep} onPrev={prevStep} />}
-      {step === 3 && <StepAttributes onNext={nextStep} onPrev={prevStep} />}
+      {step === 1 && <StepBasic />}
+      {step === 2 && <StepRace />}
+      {step === 3 && <StepAttributes />}
       {/* {step === 3 && <Step3Skills onNext={next} onPrev={prev} />}
       {step === 4 && <Step4Equipment onNext={next} onPrev={prev} />}
       {step === 5 && <Step5Summary onPrev={prev} />} */}

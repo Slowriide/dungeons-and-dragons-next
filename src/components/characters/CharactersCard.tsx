@@ -40,7 +40,7 @@ export const CharactersCard = ({ character }: Props) => {
               variant={"outline"}
               className="text-muted-foreground h-5 font-bold "
             >
-              {`CR: ${character.class}`}
+              {`CR: ${character.characterClass}`}
             </Badge>
           </div>
         </div>

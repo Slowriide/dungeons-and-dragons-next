@@ -1,13 +1,26 @@
-import { DNDClass } from "../classes/DnDClass";
-import { DNDRace } from "../races/DNDRace";
+import { Background, BackgroundIdeal } from "@/data/Backgrounds";
+import { Proficiencies } from "../../data/Backgrounds";
 
 export interface DNDCharacter {
   index: string;
   name: string;
   hit_points: number;
-  class: CharacterClass;
+  characterClass: CharacterClass;
   race: CharacterRace;
   level: number;
+  size: string;
+  speed: number;
+  alignment: Alignment;
+
+  background: string;
+
+  backgroundSelections: {
+    specialty?: string; // "Actor", "Dancer", etc. (eligió 1)
+    personalityTrait: string; // Trait que eligió
+    ideal: string; // Ideal que eligió
+    bond: string; // Bond que eligió
+    flaw: string; // Flaw que eligió
+  };
 
   attributes: {
     strength: number;
@@ -18,10 +31,27 @@ export interface DNDCharacter {
     charisma: number;
   };
 
+  proficiencies: string[];
+  selectedProficiencies: string[];
+
+  abilityBonuses: {
+    strength?: number; // +2 (Dragonborn)
+    dexterity?: number;
+    constitution?: number;
+    intelligence?: number;
+    wisdom?: number;
+    charisma?: number; // +1 (Dragonborn)
+  };
+
   class_features: string[];
   class_weapon_proficiencies: string[];
 
+  languages: string[];
+
   skills: Record<string, number>;
+
+  raceTraits: Trait[];
+  selectedTraits: Trait[];
 
   equipment: {
     weapons: string[];
@@ -29,6 +59,12 @@ export interface DNDCharacter {
     items: string[];
     gold: number;
   };
+}
+
+export interface Trait {
+  id: string; // "darkvision"
+  name: string; // "Darkvision"
+  description: string;
 }
 
 export type CharacterRace =
@@ -56,6 +92,20 @@ export type CharacterClass =
   | "Sorcerer"
   | "Warlock"
   | "Wizard"
+  | undefined;
+
+export type Size = "Small" | "Medium" | "Large" | "Extra-large";
+
+export type Alignment =
+  | "lawful-good"
+  | "neutral-good"
+  | "chaotic-good"
+  | "lawful-neutral"
+  | "neutral"
+  | "chaotic-neutral"
+  | "lawful-evil"
+  | "neutral-evil"
+  | "chaotic-evil"
   | undefined;
 
 // export interface DNDCharacter {

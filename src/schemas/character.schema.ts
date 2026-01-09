@@ -1,33 +1,38 @@
-import { z } from "zod";
+import { DNDClass } from "@/interface/classes/DnDClass";
+import z from "zod";
 
-export const attributesSchema = z.object({
-  strength: z.number().min(1).max(20),
-  dexterity: z.number().min(1).max(20),
-  constitution: z.number().min(1).max(20),
-  intelligence: z.number().min(1).max(20),
-  wisdom: z.number().min(1).max(20),
-  charisma: z.number().min(1).max(20),
-});
+// Schema en StepBasic
+const createClassSchema = (classDetails: DNDClass | null) => {
+  const baseSchema = z.object({
+    name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+    class: z.string().min(1, "Debes seleccionar una clase"),
+    level: z.number().int().min(1).max(20),
+  });
 
-export const characterSchema = z.object({
-  index: z.uuid().optional().nullable(),
-  name: z.string().min(1, "Name is too short"),
-  hitPoints: z.number().min(1),
-  level: z.number().min(1).max(20),
+  // Si no hay clase seleccionada, solo validamos lo básico
+  if (!classDetails) return baseSchema;
 
-  race: z.string().min(1, "Select a race"),
-  class: z.string().min(1, "Select a class"),
+  // Schema dinámico según la clase seleccionada
+  const requiredSkills = classDetails.proficiency_choices[0]?.choose || 0;
 
-  attributes: attributesSchema,
-
-  skills: z.record(z.string(), z.number()),
-
-  equipment: z.object({
-    weapons: z.array(z.string()).optional().nullable(),
-    armor: z.string().optional().nullable(),
-    items: z.array(z.string()).optional().nullable(),
-    gold: z.number().min(0),
-  }),
-});
-
-export type CharacterSchema = z.infer<typeof characterSchema>;
+  return baseSchema.extend({
+    skills: z
+      .array(z.string())
+      .length(
+        requiredSkills,
+        `Debes seleccionar exactamente ${requiredSkills} habilidades`
+      ),
+    instruments:
+      classDetails.name === "Bard"
+        ? z
+            .array(z.string())
+            .length(classDetails.proficiency_choices[1]?.choose || 0)
+        : z.array(z.string()).optional(),
+    tools:
+      classDetails.name === "Monk"
+        ? z
+            .array(z.string())
+            .length(1, "Debes seleccionar 1 herramienta o instrumento")
+        : z.array(z.string()).optional(),
+  });
+};

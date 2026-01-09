@@ -1,5 +1,5 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import { RacesGrid } from "../../../../components/races/RacesGrid";
 import { MiniRacesGrid } from "@/components/races/MiniRacesGrid";
 
 export const StepRace = () => {

@@ -9,9 +9,33 @@ const characters: DNDCharacter[] = [
     index: "1",
     name: "slow",
     hit_points: 12,
-    class: "Druid",
+    characterClass: "Barbarian",
+    level: 12,
     race: "Half-Elf",
+    languages: [],
+    raceTraits: [{ id: "darkvision", description: "vision", name: "Dark" }],
+    selectedTraits: [{ id: "darkvision", description: "vision", name: "Dark" }],
+    background: "uwu",
+
+    backgroundSelections: {
+      specialty: "string", // "Actor", "Dancer", etc. (eligió 1)
+      personalityTrait: "string", // Trait que eligió
+      ideal: "", // Ideal que eligió
+      bond: "string", // Bond que eligió
+      flaw: "string", // Flaw que eligió
+    },
+    speed: 30,
+    size: "Medium",
+    alignment: "lawful-good",
     attributes: {
+      strength: 2,
+      dexterity: 3,
+      constitution: 4,
+      intelligence: 5,
+      wisdom: 6,
+      charisma: 7,
+    },
+    abilityBonuses: {
       strength: 2,
       dexterity: 3,
       constitution: 4,
@@ -30,18 +54,42 @@ const characters: DNDCharacter[] = [
     class_weapon_proficiencies: [],
   },
   {
-    index: "2",
-    name: "mark",
-    hit_points: 16,
-    class: "Barbarian",
+    index: "3",
+    name: "juanito",
+    hit_points: 5,
+    characterClass: "Bard",
+    level: 13,
     race: "Human",
+    languages: [],
+    raceTraits: [{ id: "darkvision", description: "vision", name: "Dark" }],
+    selectedTraits: [{ id: "darkvision", description: "vision", name: "Dark" }],
+    background: "uwu",
+
+    backgroundSelections: {
+      specialty: "string", // "Actor", "Dancer", etc. (eligió 1)
+      personalityTrait: "string", // Trait que eligió
+      ideal: "", // Ideal que eligió
+      bond: "string", // Bond que eligió
+      flaw: "string", // Flaw que eligió
+    },
+    speed: 30,
+    size: "Medium",
+    alignment: "lawful-good",
     attributes: {
-      strength: 4,
-      dexterity: 5,
-      constitution: 6,
-      intelligence: 1,
-      wisdom: 1,
-      charisma: 1,
+      strength: 2,
+      dexterity: 3,
+      constitution: 4,
+      intelligence: 5,
+      wisdom: 6,
+      charisma: 7,
+    },
+    abilityBonuses: {
+      strength: 2,
+      dexterity: 3,
+      constitution: 4,
+      intelligence: 5,
+      wisdom: 6,
+      charisma: 7,
     },
     skills: {},
     equipment: {

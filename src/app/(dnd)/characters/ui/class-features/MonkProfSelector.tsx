@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 
-export const ProficencieSelector = ({
+export const MonkProficiencySelector = ({
   options,
   desc,
 }: {

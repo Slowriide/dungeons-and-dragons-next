@@ -1,29 +1,39 @@
 "use client";
 
 import { DNDClass } from "@/interface/classes/DnDClass";
-import { useState } from "react";
-import { ProficencieSelector } from "./ProficencieSelector";
+import { Control } from "react-hook-form";
 import { MonkProficiencyChoice } from "@/interface/monkProf";
+import { ProficiencySelector } from "./ProficiencySelector";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+interface FormData {
+  name: string;
+  class: string;
+  level: number;
+  skills: string[];
+  instruments: string[];
+  tools: string[];
+}
 
 interface Props {
   dndClass: DNDClass;
+  control: Control<FormData>;
 }
 
-export const ClassFeatures = ({ dndClass }: Props) => {
-  const [selected, setSelected] = useState({
-    first: "",
-    second: "",
-    third: "",
-  });
-  const proficencyChoices = dndClass.proficiency_choices;
-
-  const proficencies = proficencyChoices[0];
-
-  const extra = proficencyChoices.length > 1 && proficencyChoices[1];
+export const ClassFeatures = ({ dndClass, control }: Props) => {
+  const proficiencyChoices = dndClass.proficiency_choices;
+  const proficiencies = proficiencyChoices[0];
+  const extra = proficiencyChoices.length > 1 && proficiencyChoices[1];
 
   const monkChooses =
     dndClass.name === "Monk"
-      ? (proficencyChoices[1] as MonkProficiencyChoice).from.options.flatMap(
+      ? (proficiencyChoices[1] as MonkProficiencyChoice).from.options.flatMap(
           (opt) =>
             opt.choice
               ? opt.choice.from.options.map((o) => ({
@@ -34,49 +44,72 @@ export const ClassFeatures = ({ dndClass }: Props) => {
         )
       : [];
 
-  console.log(monkChooses);
-
-  //   const profIndexes =
-  //     proficencyChoices?.from.options.map((prof) => prof.item.index) ?? [];
-
-  //   const { data } = useProficiencies({ profIndexes });
-
   return (
     <div className="flex flex-row gap-x-10 ">
-      {proficencyChoices && (
-        <div className="w-max">
-          <p className="text-md font-medium mb-4  w-max">
-            Choose {proficencies.choose} Skills
-          </p>
-          <ProficencieSelector
-            options={proficencies.from.options.map((o) => o.item)}
-            count={proficencies.choose}
-          />
-        </div>
+      {/* Skills */}
+      {proficiencyChoices && (
+        <FormField
+          control={control}
+          name="skills"
+          render={({ field }) => (
+            <FormItem className="w-max">
+              <FormLabel>Choose {proficiencies.choose} Skills</FormLabel>
+              <FormControl>
+                <ProficiencySelector
+                  options={proficiencies.from.options.map((o) => o.item)}
+                  count={proficiencies.choose}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       )}
+
+      {/* Bard Instruments */}
       {dndClass.name === "Bard" && extra && (
-        <div className=" w-max">
-          <p className="text-md font-medium mb-4  w-max">
-            Choose {proficencies.choose} Instruments
-          </p>
-          <ProficencieSelector
-            options={extra.from.options.map((o) => o.item)}
-            count={extra.choose}
-            desc="Choose instrument"
-          />
-        </div>
+        <FormField
+          control={control}
+          name="instruments"
+          render={({ field }) => (
+            <FormItem className="w-max">
+              <FormLabel>Choose {extra.choose} Instruments</FormLabel>
+              <FormControl>
+                <ProficiencySelector
+                  options={extra.from.options.map((o) => o.item)}
+                  count={extra.choose}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       )}
+
+      {/* Monk Tools */}
       {dndClass.name === "Monk" && monkChooses && (
-        <div className=" w-max">
-          <p className="text-md font-medium mb-4  w-max">
-            Choose 1 Insturment or Artisan's tools
-          </p>
-          <ProficencieSelector
-            options={monkChooses}
-            count={1}
-            desc="Choose Insturment or Artisan's tools"
-          />
-        </div>
+        <FormField
+          control={control}
+          name="tools"
+          render={({ field }) => (
+            <FormItem className="w-max">
+              <FormLabel>Choose 1 Instrument or Artisan's tools</FormLabel>
+              <FormControl>
+                <ProficiencySelector
+                  options={monkChooses}
+                  count={1}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       )}
     </div>
   );

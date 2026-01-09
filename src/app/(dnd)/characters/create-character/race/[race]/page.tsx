@@ -1,4 +1,4 @@
-import { RaceManageDetails } from "../../../ui/race/RaceManageDetails";
+import { RaceManageDetails } from "../ui/RaceManageDetails";
 
 interface Props {
   params: Promise<{

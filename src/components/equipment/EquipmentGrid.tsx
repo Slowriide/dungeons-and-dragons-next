@@ -12,7 +12,6 @@ import { isArmor, isWeapon } from "@/utils/equipment/isWeapon";
 import { WeaponCard } from "./WeaponCard";
 import { SelectedArmorCard } from "./SelectedArmorCard";
 import { DNDArmor } from "@/interface/equipment/DNDArmor";
-import { equipment } from "@/mocks/data/equipment";
 import { ArmorCard } from "./ArmorCard";
 
 export const EquipmentGrid = () => {

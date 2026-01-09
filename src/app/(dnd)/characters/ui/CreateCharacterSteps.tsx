@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 const STEPS = [
   { label: "Basic", path: "basic" },
   { label: "Race", path: "race" },
   { label: "Attributes", path: "attributes" },
-  { label: "Abilities", path: "abilities" },
-  { label: "Review", path: "review" },
+  { label: "Background", path: "background" },
+  { label: "Summary", path: "summary" },
 ];
 export const CreateCharacterSteps = () => {
   const pathname = usePathname();
@@ -26,18 +27,23 @@ export const CreateCharacterSteps = () => {
             const isActive = stepNumber <= currentStep;
 
             return (
-              <div key={s.path} className={`flex flex-col items-center $`}>
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 ${
-                    isActive
-                      ? "bg-red-500 border-red-800 text-white"
-                      : "bg-white border-red-500"
-                  }`}
-                >
-                  {stepNumber}
+              <Link
+                href={`/characters/create-character/${s.path}`}
+                key={s.path}
+              >
+                <div className={`flex flex-col items-center $`}>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 ${
+                      isActive
+                        ? "bg-red-500 border-red-800 text-white"
+                        : "bg-white border-red-500"
+                    }`}
+                  >
+                    {stepNumber}
+                  </div>
+                  <span className="text-xs mt-1 ">{s.label}</span>
                 </div>
-                <span className="text-xs mt-1 ">{s.label}</span>
-              </div>
+              </Link>
             );
           })}
         </div>
