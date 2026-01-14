@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { BackgroundSelector } from "./BackgroundSelector";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BACKGROUNDS } from "@/data/Backgrounds";
 import { BackgroundAccordion } from "./accordions/BackgroundAccordion";
 import { BackgroundMultipleOptionsAccordion } from "./accordions/BackgroundMultipleOptionsAccordion";
@@ -17,6 +17,7 @@ import { PersonalitySelectors } from "./PersonalitySelectors";
 import { categorizeEquipment } from "../../../utils/categorizeEquipment";
 import { DND_SKILLS } from "@/data/skills";
 import { CharacterSkill } from "@/interface/character/DNDCharacter";
+import { useStoreHydrated } from "@/hooks/useStoreHydrated";
 
 const backgroundSchema = z.object({
   backgroundId: z.string().min(1, "Debes seleccionar un background"),
@@ -36,7 +37,9 @@ type FormData = z.infer<typeof backgroundSchema>;
 
 export const StepBackground = () => {
   const router = useRouter();
-
+  const hydrated = useStoreHydrated();
+  const [isFormReady, setIsFormReady] = useState(false);
+  const prevBackgroundRef = useRef<string | null>(null);
   const {
     character,
     setBackground,
@@ -59,11 +62,11 @@ export const StepBackground = () => {
       selectedProficiency: undefined,
       selectedEquipment: [],
       selectedLanguages: [],
-      specialty: "",
-      personalityTrait: "",
-      ideal: "",
-      bond: "",
-      flaw: "",
+      specialty: character.backgroundSelections?.specialty ?? "",
+      personalityTrait: character.backgroundSelections?.personalityTrait ?? "",
+      ideal: character.backgroundSelections?.ideal ?? "",
+      bond: character.backgroundSelections?.bond ?? "",
+      flaw: character.backgroundSelections?.flaw ?? "",
     },
     mode: "onChange",
   });
@@ -75,13 +78,58 @@ export const StepBackground = () => {
     (b) => b.id === selectedBackgroundId
   );
 
+  /// load data from store when hydrate
   useEffect(() => {
-    if (selectedBackground) {
-      const count = selectedBackground.languageOptions?.choose ?? 0;
-      form.setValue("selectedLanguages", Array(count).fill(""));
-    }
-  }, [selectedBackgroundId, selectedBackground, form]);
+    if (!hydrated) return;
 
+    const storedData: FormData = {
+      backgroundId: character.background || "",
+      selectedProficiency: character.selectedProficiencies?.[0] || "",
+      selectedEquipment: [],
+      selectedLanguages: character.languages || [],
+      specialty: character.backgroundSelections?.specialty || "",
+      personalityTrait: character.backgroundSelections?.personalityTrait || "",
+      ideal: character.backgroundSelections?.ideal || "",
+      bond: character.backgroundSelections?.bond || "",
+      flaw: character.backgroundSelections?.flaw || "",
+    };
+
+    // ⚠️ Required to wait until Controller + shadcn Select are mounted
+    setTimeout(() => {
+      Object.entries(storedData).forEach(([key, value]) => {
+        form.setValue(key as keyof FormData, value, {
+          shouldDirty: false,
+          shouldTouch: false,
+          shouldValidate: false,
+        });
+      });
+
+      prevBackgroundRef.current = storedData.backgroundId;
+      setIsFormReady(true);
+    }, 0);
+  }, [hydrated]);
+
+  // only if user changes backfround mannualy
+  useEffect(() => {
+    if (!isFormReady || !selectedBackgroundId) return;
+
+    if (
+      prevBackgroundRef.current &&
+      prevBackgroundRef.current !== selectedBackgroundId &&
+      selectedBackgroundId !== character.background
+    ) {
+      form.setValue("specialty", "");
+      form.setValue("personalityTrait", "");
+      form.setValue("ideal", "");
+      form.setValue("bond", "");
+      form.setValue("flaw", "");
+      form.setValue("selectedProficiency", "");
+      form.setValue("selectedEquipment", []);
+      form.setValue("selectedLanguages", []);
+    }
+
+    prevBackgroundRef.current = selectedBackgroundId;
+  }, [selectedBackgroundId, isFormReady]);
   const validateDynamicRules = (data: FormData) => {
     if (!selectedBackground) return true;
 

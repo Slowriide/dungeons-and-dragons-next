@@ -578,6 +578,9 @@ const useDNDCharacterStore = create<CharacterState>()(
     {
       name: "dnd-character-storage",
       version: 3,
+      partialize: (state) => ({
+        character: state.character,
+      }),
     }
   )
 );

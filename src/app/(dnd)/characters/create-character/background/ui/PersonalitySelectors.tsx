@@ -1,6 +1,7 @@
 import { PersonalitySelector } from "./accordions/PersonalitySelector";
 import { Background } from "@/data/Backgrounds";
-import { Control } from "react-hook-form";
+import { DNDCharacter } from "@/interface/character/DNDCharacter";
+import { Control, useForm } from "react-hook-form";
 
 interface Props {
   selectedBackground: Background;
