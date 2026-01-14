@@ -54,7 +54,7 @@ const ATTRIBUTE_KEYS = {
 export const StepAttributes = () => {
   const router = useRouter();
 
-  const { character, setAttributes, nextStep, prevStep } =
+  const { character, setAttributes, setIniciative, nextStep, prevStep } =
     useDNDCharacterStore();
 
   const form = useForm<FormData>({
@@ -77,6 +77,9 @@ export const StepAttributes = () => {
   const usedScores = Object.values(currentValues);
 
   const onSubmit = (data: FormData) => {
+    const iniciative = Math.floor((data.dexterity - 10) / 2);
+
+    setIniciative(iniciative);
     setAttributes(data);
     nextStep();
     console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);

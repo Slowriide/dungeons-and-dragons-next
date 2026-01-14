@@ -26,7 +26,7 @@
 //             <div
 //               className={`proficiency-dot ${save.proficient ? "active" : ""}`}
 //             />
-//             <span className="font-medium text-sm w-8 font-fantasy text-ink">
+//             <span className="font-medium text-sm w-8 font-serif text-ink">
 //               {formatModifier(save.modifier)}
 //             </span>
 //             <span className="text-sm text-muted-foreground">

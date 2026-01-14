@@ -1,9 +1,9 @@
 interface AbilityScoreCardProps {
   ability: {
-    abbreviation: number;
+    abbreviation: string;
     modifier: number;
     score: number;
-    name: number;
+    name: string;
   };
 }
 
@@ -13,22 +13,22 @@ export function AbilityScoreCard({ ability }: AbilityScoreCardProps) {
   };
 
   return (
-    <div className="stat-box rounded-lg p-3 text-center min-w-20">
-      <span className="text-[10px] font-fantasy uppercase tracking-wider text-brown-light">
+    <div className="border-2 border-red-700 rounded-lg p-3 text-center flex-1">
+      <span className="text-[14px] font-serif uppercase tracking-wider">
         {ability.abbreviation}
       </span>
 
       <div className="my-1">
-        <span className="text-2xl font-bold font-fantasy text-burgundy">
+        <span className="text-2xl font-bold ">
           {formatModifier(ability.modifier)}
         </span>
       </div>
 
-      <div className="w-10 h-10 mx-auto rounded-full border-2 border-brown bg-parchment-dark flex items-center justify-center">
+      <div className="w-10 h-10 mx-auto rounded-full border-2 border-red-700 flex items-center justify-center">
         <span className="text-sm font-semibold text-ink">{ability.score}</span>
       </div>
 
-      <span className="text-[9px] text-muted-foreground mt-1 block">
+      <span className="text-[12px] text-muted-foreground mt-1 block">
         {ability.name}
       </span>
     </div>

@@ -14,6 +14,9 @@ import { Form } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { AccordionSelector } from "./AccordionSelector";
 import { PersonalitySelectors } from "./PersonalitySelectors";
+import { categorizeEquipment } from "../../../utils/categorizeEquipment";
+import { DND_SKILLS } from "@/data/skills";
+import { CharacterSkill } from "@/interface/character/DNDCharacter";
 
 const backgroundSchema = z.object({
   backgroundId: z.string().min(1, "Debes seleccionar un background"),
@@ -40,11 +43,11 @@ export const StepBackground = () => {
     setProficiencies,
     setSelectedProficiencies,
     setBackgroundSelections,
-    addItem,
+    addEquipment,
     addLanguage,
     setSkills,
     addClassFeature,
-    setRaceTraits,
+    setbackgroundTraits,
     prevStep,
     nextStep,
   } = useDNDCharacterStore();
@@ -137,6 +140,12 @@ export const StepBackground = () => {
     //Background
     setBackground(data.backgroundId);
 
+    setbackgroundTraits({
+      id: selectedBackground.feature.title,
+      name: selectedBackground.feature.title,
+      description: selectedBackground.feature.description,
+    });
+
     //Personality
     if (
       data.specialty ||
@@ -166,20 +175,36 @@ export const StepBackground = () => {
     }
 
     //Skills
-    const backgroundSkills: Record<string, number> = {};
+    const backgroundSkills: string[] = [];
 
     selectedBackground.startingProficiencies.forEach((skill) => {
       if (skill.index.includes("skill")) {
-        backgroundSkills[skill.index] = 0;
+        backgroundSkills.push(skill.index);
       }
     });
 
     if (data.selectedProficiency?.includes("skill")) {
-      backgroundSkills[data.selectedProficiency] = 0;
+      backgroundSkills.push(data.selectedProficiency);
     }
 
-    const currentSkills = character.skills || {};
-    setSkills({ ...currentSkills, ...backgroundSkills });
+    const validSkills = backgroundSkills.map((s) => {
+      const skillInfo = DND_SKILLS[s as keyof typeof DND_SKILLS];
+      return {
+        index: s,
+        name: skillInfo.name,
+        proficient: true,
+        attribute: skillInfo.attribute,
+      };
+    });
+
+    const currentSkills: CharacterSkill[] = character.skills || [];
+
+    setSkills([
+      ...currentSkills,
+      ...validSkills.filter(
+        (vs) => !currentSkills.some((cs) => cs.index === vs.index)
+      ),
+    ]);
 
     //Langs
     if (data.selectedLanguages && data.selectedLanguages.length > 0) {
@@ -192,21 +217,47 @@ export const StepBackground = () => {
     //Equipment
 
     //Base
-    const equipmentItems = selectedBackground.startingEquipment.map(
-      (eq) => eq.name
-    );
+    selectedBackground.startingEquipment.map((eq) => {
+      addEquipment({
+        name: eq.name,
+        index: eq.index,
+        quantity: eq.quantity || 1,
+        equipped: false,
+        type: categorizeEquipment(eq.index),
+      });
+    });
 
     //optional
     if (data.selectedEquipment && data.selectedEquipment.length > 0) {
       data.selectedEquipment
         .filter((eq) => eq !== "")
-        .forEach((eq) => equipmentItems.push(eq));
+        .forEach((equipIndex) => {
+          addEquipment({
+            index: equipIndex,
+            name: equipIndex.replace(/-/g, " "), // Temporal, mejorar después
+            type: categorizeEquipment(equipIndex),
+            quantity: 1,
+            equipped: false,
+          });
+        });
     }
 
-    equipmentItems.forEach((item) => addItem(item));
+    // Gold
+    const pouch = selectedBackground.startingEquipment.find((eq) =>
+      eq.index.includes("pouch")
+    );
+
+    const gold = pouch?.quantity;
+
+    // Gold
+    addEquipment({
+      index: "gp",
+      name: "Gold Pieces",
+      type: "gold",
+      quantity: gold || 0,
+    });
 
     console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
-    console.log("asdasd");
 
     nextStep();
     router.push("/characters/create-character/summary");

@@ -19,7 +19,10 @@ import { useClassesDetails } from "@/hooks/classes/useClassesDetails";
 import { ClassFeatures } from "./class-features/ClassFeatures";
 import { useRouter } from "next/navigation";
 import useDNDCharacterStore from "@/store/characte.store";
-import { CharacterClass } from "@/interface/character/DNDCharacter";
+import {
+  CharacterClass,
+  CharacterSkill,
+} from "@/interface/character/DNDCharacter";
 import {
   Form,
   FormControl,
@@ -28,6 +31,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { findProficiencyName } from "../utils/findItemNamet";
+import { getProficiencyBonus } from "../utils/getProficiencyBonus";
+import { da } from "zod/v4/locales";
+import { DND_SKILLS } from "@/data/skills";
 
 //Schema base
 const baseSchema = z.object({
@@ -43,6 +50,7 @@ const baseSchema = z.object({
 type FormData = z.infer<typeof baseSchema>;
 
 export const StepBasic = () => {
+  //TODO! EQUIPMENT
   const router = useRouter();
 
   const {
@@ -50,10 +58,13 @@ export const StepBasic = () => {
     setName,
     setClass,
     setLevel,
+    setHitDie,
     nextStep,
     setSkills,
     setClassWeaponProficiencies,
-    addItems,
+    addEquipment,
+    setProficiencies,
+    setProficiencyBonus,
   } = useDNDCharacterStore();
 
   const form = useForm<FormData>({
@@ -124,11 +135,20 @@ export const StepBasic = () => {
     setClass(data.class as CharacterClass);
     setLevel(data.level);
 
+    setHitDie(classDetails.hit_die);
+    setProficiencyBonus(getProficiencyBonus(data.level));
+
     //Skills
-    const skillsData: Record<string, number> = {};
-    data.skills.forEach((skill) => {
-      skillsData[skill] = 0;
+    const skillsData: CharacterSkill[] = data.skills.map((skillIndex) => {
+      const skillInfo = DND_SKILLS[skillIndex as keyof typeof DND_SKILLS];
+      return {
+        index: skillIndex,
+        name: skillInfo.name,
+        proficient: true,
+        attribute: skillInfo.attribute,
+      };
     });
+
     setSkills(skillsData);
 
     // Guardar instrumentos y herramientas en items
@@ -137,9 +157,17 @@ export const StepBasic = () => {
       ...(data.tools || []),
     ];
 
-    if (items.length > 0) {
-      addItems(items);
-    }
+    items.forEach((toolIndex) => {
+      const toolName = findProficiencyName(toolIndex, classDetails);
+
+      addEquipment({
+        index: toolIndex,
+        name: toolName,
+        type: "tool",
+        quantity: 1,
+        equipped: false,
+      });
+    });
 
     //Weapon profs
     const weaponProfs =

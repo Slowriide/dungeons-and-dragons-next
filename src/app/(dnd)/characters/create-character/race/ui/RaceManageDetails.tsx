@@ -68,16 +68,6 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     nextStep,
   } = useDNDCharacterStore();
 
-  useEffect(() => {
-    if (!character.race) {
-      router.replace("/characters/create-character/race");
-    }
-  }, [character.race, router]);
-
-  if (!character.race) {
-    return <p>Redirecting...</p>;
-  }
-
   const form = useForm<FormData>({
     resolver: zodResolver(baseSchema),
     defaultValues: {

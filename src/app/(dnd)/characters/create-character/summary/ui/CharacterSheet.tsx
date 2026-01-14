@@ -1,14 +1,35 @@
-import { DNDCharacter } from "@/interface/character/DNDCharacter";
+import {
+  CharacterSkill,
+  DNDCharacter,
+} from "@/interface/character/DNDCharacter";
 import { CharacterHeader } from "./CharacterHeader";
 import { CombatStats } from "./CombatStats";
 import { PersonalitySection } from "./PersonalitySection";
 import { ProficienciesSection } from "./ProficienciesSection";
+import { AbilitySection } from "./AbilitySection";
+import { EquipmentSection } from "./EquipmentSection";
+import { buildCharacterTraits } from "@/utils/buildCharacterTraits";
+import { TraitsSection } from "./TraitsSection";
+import { SkillsList } from "./SkillsList";
+import { DND_SKILLS } from "@/data/skills";
+import { buildSkillsList } from "../../../utils/buildSkillsList";
 
 interface CharacterSheetProps {
   character: Partial<DNDCharacter>;
 }
 
 export function CharacterSheet({ character }: CharacterSheetProps) {
+  var toolsProfs: string[] = [];
+
+  const some = character.proficiencies?.filter((prof) => prof.includes("tool"));
+  const selecteds = character.selectedProficiencies?.filter((prof) =>
+    prof.includes("tool")
+  );
+
+  toolsProfs = [...(some ?? []), ...(selecteds ?? [])];
+
+  const skills = buildSkillsList(character);
+
   return (
     <div className="min-h-screen parchment-bg parchment-texture">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -24,13 +45,12 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
         />
 
         {/* Ability Scores Row */}
-        <div className="mt-6 fantasy-border rounded-lg p-4 bg-card">
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-            {/* {character.attributes.map((ability) => (
-              <AbilityScoreCard key={ability.name} ability={ability} />
-            ))} */}
-          </div>
-        </div>
+        {character.attributes && (
+          <AbilitySection
+            attributes={character.attributes}
+            abilityBonuses={character.abilityBonuses}
+          />
+        )}
 
         {/* Main Content Grid */}
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -38,24 +58,24 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
           <div className="space-y-6">
             <CombatStats
               armorClass={12}
-              initiative={12}
+              initiative={character.iniciative ?? 0}
               speed={character.speed ?? 0}
               hitPoints={character.hit_points ?? 0}
-              hitDice={12}
-              proficiencyBonus={12}
+              hitDice={character.hit_die ?? 0}
+              proficiencyBonus={character.proficiencyBonus ?? 2}
             />
             {/* <SavingThrows savingThrows={character.savingThrows} /> */}
           </div>
 
           {/* Center Column - Skills & Traits */}
           <div className="space-y-6">
-            {/* <SkillsList skills={character.skills} /> */}
-            {/* <TraitsSection traits={character.traits} /> */}
+            <SkillsList skills={skills} />
+            <TraitsSection traits={buildCharacterTraits(character)} />
           </div>
 
           {/* Right Column - Equipment, Personality, Proficiencies */}
           <div className="space-y-6">
-            {/* <EquipmentSection equipment={character.equipment} /> */}
+            <EquipmentSection equipment={character.equipment ?? []} />
             <PersonalitySection
               personality={
                 character.backgroundSelections ?? {
@@ -68,7 +88,11 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
             />
             <ProficienciesSection
               languages={character.languages ?? []}
-              proficiencies={character.proficiencies ?? []}
+              proficiencies={{
+                armor: character.class_armor_proficiencies ?? [],
+                weapons: character.class_weapon_proficiencies ?? [],
+                tools: toolsProfs,
+              }}
             />
           </div>
         </div>
@@ -76,7 +100,7 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
         {/* Footer */}
         <div className="mt-8 text-center">
           <div className="h-0.5 w-64 mx-auto bg-linear-to-r from-transparent via-gold/50 to-transparent mb-4" />
-          <p className="text-xs text-muted-foreground font-fantasy tracking-wider">
+          <p className="text-xs text-muted-foreground font-serif tracking-wider">
             D&D 5e Character Sheet
           </p>
         </div>

@@ -1,16 +1,15 @@
-import { Background, BackgroundIdeal } from "@/data/Backgrounds";
-import { Proficiencies } from "../../data/Backgrounds";
-
 export interface DNDCharacter {
   index: string;
   name: string;
   hit_points: number;
+  hit_die: number;
   characterClass: CharacterClass;
   race: CharacterRace;
   level: number;
   size: string;
   speed: number;
   alignment: Alignment;
+  proficiencyBonus: number;
 
   background: string;
 
@@ -31,6 +30,8 @@ export interface DNDCharacter {
     charisma: number;
   };
 
+  iniciative: number;
+
   proficiencies: string[];
   selectedProficiencies: string[];
 
@@ -45,21 +46,48 @@ export interface DNDCharacter {
 
   class_features: string[];
   class_weapon_proficiencies: string[];
+  class_armor_proficiencies: string[];
 
   languages: string[];
 
-  skills: Record<string, number>;
+  skills: CharacterSkill[];
 
   raceTraits: Trait[];
   selectedTraits: Trait[];
 
-  equipment: {
-    weapons: string[];
-    armor: string | null;
-    items: string[];
-    gold: number;
+  backgroundTraits: Trait;
+
+  equipment: Equipment[];
+}
+
+export interface CharacterSkill {
+  index: string;
+  name: string;
+  proficient: boolean;
+  attribute: string;
+}
+
+export interface Equipment {
+  index?: string;
+  name: string;
+  type: EquipmentType;
+  quantity: number;
+  equipped?: boolean;
+  description?: string;
+  weight?: number;
+  value?: {
+    amount: number;
+    currency: "cp" | "sp" | "ep" | "gp" | "pp";
   };
 }
+export type EquipmentType =
+  | "weapon"
+  | "armor"
+  | "tool"
+  | "item"
+  | "consumable"
+  | "gold"
+  | "other";
 
 export interface Trait {
   id: string; // "darkvision"

@@ -3,13 +3,13 @@ import {
   Alignment,
   CharacterClass,
   CharacterRace,
+  CharacterSkill,
   DNDCharacter,
+  Equipment,
   Size,
   Trait,
 } from "@/interface/character/DNDCharacter";
 import { persist } from "zustand/middleware";
-import { Proficiencies } from "@/data/Backgrounds";
-import { Proficiency } from "../interface/classes/DnDClass";
 
 type CharacterState = {
   character: Partial<DNDCharacter> & {
@@ -22,7 +22,9 @@ type CharacterState = {
   setClass: (characterClass: CharacterClass) => void;
   setLevel: (level: number) => void;
   setHitPoints: (hit_points: number) => void;
+  setHitDie: (hit_die: number) => void;
   setSpeed: (speed: number) => void;
+  setIniciative: (iniciative: number) => void;
   setSize: (size: string) => void;
   setAlignment: (alignment: Alignment) => void;
 
@@ -35,12 +37,14 @@ type CharacterState = {
     attr: keyof DNDCharacter["abilityBonuses"],
     value: number
   ) => void;
+  setProficiencyBonus: (profBonus: number) => void;
 
   // Métodos para background
   setBackground: (background: string) => void;
   setBackgroundSelections: (
     selections: Partial<DNDCharacter["backgroundSelections"]>
   ) => void;
+  setbackgroundTraits: (background: Trait) => void;
   setSpecialty: (specialty: string) => void;
   setIdeal: (ideals: string) => void;
   setPersonalityTrait: (personalityTraits: string) => void;
@@ -58,8 +62,9 @@ type CharacterState = {
   addTrait: (trais: Trait) => void;
 
   // Métodos para habilidades (skills)
-  setSkills: (skills: Record<string, number>) => void;
-  setSkill: (skill: string, value: number) => void;
+  setSkills: (skills: CharacterSkill[]) => void;
+  setSkill: (skill: CharacterSkill) => void;
+  toggleSkillProficiency: (skillIndex: string) => void;
 
   // Métodos para proficiencies
   setProficiencies: (proficiencies: string[]) => void;
@@ -72,12 +77,10 @@ type CharacterState = {
   getAllProficiencies: () => string[];
 
   // Métodos para equipamiento
-  setEquipment: (equipment: DNDCharacter["equipment"]) => void;
-  addWeapon: (weapon: string) => void;
-  addItem: (item: string) => void;
-  addItems: (items: string[]) => void;
-  setArmor: (armor: string | null) => void;
-  setGold: (gold: number) => void;
+  addEquipment: (equipment: Equipment) => void;
+  removeEquipment: (index: string) => void;
+  toggleEquiped: (index: string) => void;
+  updateQuantity: (index: string, quantiy: number) => void;
 
   // Métodos para idiomas
   setLanguages: (languages: string[]) => void;
@@ -111,15 +114,16 @@ const initialCharacterState: Partial<DNDCharacter> & { currentStep: number } = {
     wisdom: 10,
     charisma: 10,
   },
+  abilityBonuses: {},
   class_features: [],
   class_weapon_proficiencies: [],
-  skills: {},
-  equipment: {
-    weapons: [],
-    armor: null,
-    items: [],
-    gold: 0,
-  },
+  skills: [],
+  raceTraits: [],
+  selectedTraits: [],
+  proficiencies: [],
+  selectedProficiencies: [],
+  languages: [],
+  equipment: [],
   currentStep: 1,
 };
 
@@ -153,6 +157,11 @@ const useDNDCharacterStore = create<CharacterState>()(
           character: { ...state.character, speed },
         })),
 
+      setIniciative: (iniciative) =>
+        set((state) => ({
+          character: { ...state.character, iniciative },
+        })),
+
       setSize: (size) =>
         set((state) => ({
           character: { ...state.character, size },
@@ -166,6 +175,11 @@ const useDNDCharacterStore = create<CharacterState>()(
       setHitPoints: (hit_points) =>
         set((state) => ({
           character: { ...state.character, hit_points },
+        })),
+
+      setHitDie: (hit_die) =>
+        set((state) => ({
+          character: { ...state.character, hit_die },
         })),
 
       // Atributos
@@ -201,6 +215,11 @@ const useDNDCharacterStore = create<CharacterState>()(
           },
         })),
 
+      setProficiencyBonus: (proficiencyBonus) =>
+        set((state) => ({
+          character: { ...state.character, proficiencyBonus },
+        })),
+
       // Background
       setBackground: (background) =>
         set((state) => ({
@@ -216,6 +235,11 @@ const useDNDCharacterStore = create<CharacterState>()(
               ...selections,
             },
           },
+        })),
+
+      setbackgroundTraits: (traits) =>
+        set((state) => ({
+          character: { ...state.character, backgroundTraits: traits },
         })),
 
       setSpecialty: (specialty: string) =>
@@ -301,7 +325,7 @@ const useDNDCharacterStore = create<CharacterState>()(
       // Traits
       setSelectedTraits: (traits) =>
         set((state) => ({
-          character: { ...state.character, traits: traits },
+          character: { ...state.character, selectedTraits: traits },
         })),
 
       setRaceTraits: (raceTraits: Trait[]) =>
@@ -313,7 +337,7 @@ const useDNDCharacterStore = create<CharacterState>()(
         set((state) => ({
           character: {
             ...state.character,
-            traits: [...(state.character.selectedTraits || []), trait],
+            selectedTraits: [...(state.character.selectedTraits ?? []), trait],
           },
         })),
 
@@ -323,14 +347,28 @@ const useDNDCharacterStore = create<CharacterState>()(
           character: { ...state.character, skills },
         })),
 
-      setSkill: (skill, value) =>
+      setSkill: (skill) =>
+        set((state) => {
+          const exists = state.character.skills?.some(
+            (sk) => sk.index === skill.index
+          );
+          if (exists) return state;
+          return {
+            character: {
+              ...state.character,
+              skills: [...(state.character.skills || []), skill],
+            },
+          };
+        }),
+
+      toggleSkillProficiency: (skill) =>
         set((state) => ({
           character: {
             ...state.character,
-            skills: {
-              ...state.character.skills,
-              [skill]: value,
-            },
+            skills:
+              state.character.skills?.map((s) =>
+                s.index === skill ? { ...s, proficient: !s.proficient } : s
+              ) || [],
           },
         })),
 
@@ -344,10 +382,10 @@ const useDNDCharacterStore = create<CharacterState>()(
         set((state) => ({
           character: {
             ...state.character,
-            Proficiencies: {
-              ...state.character.proficiencies,
+            proficiencies: [
+              ...(state.character.proficiencies ?? []),
               proficiency,
-            },
+            ],
           },
         })),
 
@@ -360,10 +398,10 @@ const useDNDCharacterStore = create<CharacterState>()(
         set((state) => ({
           character: {
             ...state.character,
-            Proficiencies: {
-              ...state.character.selectedProficiencies,
+            selectedProficiencies: [
+              ...(state.character.selectedProficiencies ?? []),
               selectedProficiency,
-            },
+            ],
           },
         })),
 
@@ -374,54 +412,92 @@ const useDNDCharacterStore = create<CharacterState>()(
       },
 
       // Equipamiento
-      setEquipment: (equipment) =>
-        set((state) => ({
-          character: { ...state.character, equipment },
-        })),
+      addEquipment: (equipment: Equipment) =>
+        set((state) => {
+          const currentEquipment = Array.isArray(state.character.equipment)
+            ? state.character.equipment
+            : [];
 
-      addWeapon: (weapon) =>
-        set((state) => ({
-          character: {
-            ...state.character,
-            equipment: {
-              ...state.character.equipment!,
-              weapons: [...(state.character.equipment?.weapons || []), weapon],
-            },
-          },
-        })),
+          const existingIndex = currentEquipment.findIndex(
+            (e) => e.index === equipment.index && e.type === equipment.type
+          );
 
-      addItem: (item) =>
-        set((state) => ({
-          character: {
-            ...state.character,
-            equipment: {
-              ...state.character.equipment!,
-              items: [...(state.character.equipment?.items || []), item],
-            },
-          },
-        })),
+          if (existingIndex !== undefined && existingIndex >= 0) {
+            // Si ya existe, aumentar cantidad
+            const updated = [...(state.character.equipment || [])];
+            updated[existingIndex].quantity += equipment.quantity;
+            return { character: { ...state.character, equipment: updated } };
+          } else {
+            // Si no existe, agregar nuevo
+            return {
+              character: {
+                ...state.character,
+                equipment: [...currentEquipment, equipment],
+              },
+            };
+          }
+        }),
 
-      addItems: (items: string[]) =>
-        set((state) => ({
-          character: {
-            ...state.character,
-            equipment: {
-              ...state.character.equipment!,
-              items: [...(state.character.equipment?.items || []), ...items],
-            },
-          },
-        })),
+      removeEquipment: (index: string) =>
+        set((state) => {
+          const currentEquipment = Array.isArray(state.character.equipment)
+            ? state.character.equipment
+            : [];
 
-      setArmor: (armor) =>
-        set((state) => ({
-          character: {
-            ...state.character,
-            equipment: {
-              ...state.character.equipment!,
-              armor,
+          return {
+            character: {
+              ...state.character,
+              equipment: currentEquipment.filter((e) => e.index !== index),
             },
-          },
-        })),
+          };
+        }),
+
+      toggleEquiped: (index) =>
+        set((state) => {
+          const currentEquipment = Array.isArray(state.character.equipment)
+            ? state.character.equipment
+            : [];
+
+          const item = currentEquipment.find((e) => e.index === index);
+
+          if (!item) return state;
+
+          //unequip other items
+          let updated = [...currentEquipment];
+
+          if (item.type === "weapon" || item.type === "armor") {
+            updated = updated.map((e) => {
+              if (e.type === item.type && e.index !== item.index) {
+                return { ...e, equipped: false };
+              }
+              return e;
+            });
+
+            //toggle
+            const itemIndex = updated.findIndex((e) => e.index === index);
+            updated[itemIndex] = {
+              ...updated[itemIndex],
+              equipped: !item.equipped,
+            };
+          }
+          return { character: { ...state.character, equipment: updated } };
+        }),
+
+      updateQuantity: (index: string, quantity: number) =>
+        set((state) => {
+          const currentEquipment = Array.isArray(state.character.equipment)
+            ? state.character.equipment
+            : [];
+
+          return {
+            character: {
+              ...state.character,
+              equipment: currentEquipment.map((e) =>
+                e.index === index ? { ...e, quantity } : e
+              ),
+            },
+          };
+        }),
 
       setLanguages: (langs) =>
         set((state) => ({
@@ -436,17 +512,6 @@ const useDNDCharacterStore = create<CharacterState>()(
           character: {
             ...state.character,
             languages: [...(state.character.languages || []), lang],
-          },
-        })),
-
-      setGold: (gold) =>
-        set((state) => ({
-          character: {
-            ...state.character,
-            equipment: {
-              ...state.character.equipment!,
-              gold,
-            },
           },
         })),
 
@@ -504,15 +569,15 @@ const useDNDCharacterStore = create<CharacterState>()(
         if (char.characterClass) completed++;
         if (char.attributes && char.attributes.strength !== 10) completed++;
         if (char.background) completed++;
-        if (char.skills && Object.keys(char.skills).length > 0) completed++;
-        if (char.equipment && char.equipment.weapons.length > 0) completed++;
+        if (char.skills && char.skills.length > 0) completed++;
+        if (char.equipment && char.equipment.length > 0) completed++;
 
         return Math.round((completed / totalSteps) * 100);
       },
     }),
     {
       name: "dnd-character-storage",
-      version: 2,
+      version: 3,
     }
   )
 );
