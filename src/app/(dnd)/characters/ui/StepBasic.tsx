@@ -33,8 +33,14 @@ import {
 } from "@/components/ui/form";
 import { findProficiencyName } from "../utils/findItemNamet";
 import { getProficiencyBonus } from "../utils/getProficiencyBonus";
-import { da } from "zod/v4/locales";
 import { DND_SKILLS } from "@/data/skills";
+import { BackgroundAccordion } from "../create-character/background/ui/accordions/BackgroundAccordion";
+import { EquipmentSelector } from "./class-features/EquipmentSelector";
+import { equipment } from "../../../../mocks/data/equipment";
+import { EQUIPMENT_OPTIONS } from "@/data/RaceEquipmentOptions";
+import { resolveStartingEquipment } from "../utils/getStartingEquipment";
+import { useEquipmentLookup } from "@/hooks/equipment/useEquipmentByIndex";
+import { mapDNDEquipmentToEquipment } from "@/utils/equipment/mapDNDequimentToCharacterEquipment";
 
 //Schema base
 const baseSchema = z.object({
@@ -45,6 +51,8 @@ const baseSchema = z.object({
   skills: z.array(z.string()),
   instruments: z.array(z.string()),
   tools: z.array(z.string()),
+  equipment: z.array(z.string()).optional(),
+  selectedEquipmentOption: z.string(),
 });
 
 type FormData = z.infer<typeof baseSchema>;
@@ -76,6 +84,8 @@ export const StepBasic = () => {
       skills: [],
       instruments: [],
       tools: [],
+      equipment: [],
+      selectedEquipmentOption: "",
     },
     mode: "onChange",
   });
@@ -88,7 +98,15 @@ export const StepBasic = () => {
     classIndexes: safeIndexes,
   });
 
+  //all equipments
+  const equipmentByIndex = useEquipmentLookup();
+
   const classDetails = data?.dndClass?.[0];
+
+  //equipment options for this class
+  const equipmentOptions = EQUIPMENT_OPTIONS.find(
+    (opt) => opt.dndClass === classDetails?.index
+  );
 
   const validateDynamicRules = () => {
     if (!classDetails) return true;
@@ -121,6 +139,13 @@ export const StepBasic = () => {
         });
         return false;
       }
+    }
+
+    if (form.getValues("selectedEquipmentOption").length !== 1) {
+      form.setError("selectedEquipmentOption", {
+        message: `Debes seleccionar tu equipo`,
+      });
+      return false;
     }
 
     return true;
@@ -169,6 +194,29 @@ export const StepBasic = () => {
       });
     });
 
+    //class equipment
+
+    //find my selected equipment in the options
+    const selectedOpt = equipmentOptions?.options.find(
+      (opt) => opt.optionIndex === data.selectedEquipmentOption
+    );
+
+    selectedOpt?.items.forEach((item) => {
+      //find api item by id
+      const apiEquipment = equipmentByIndex[item.index];
+
+      if (!apiEquipment) {
+        console.warn("Equipment not found:", item.index);
+        return;
+      }
+
+      //map api item to a valid item
+      const equipment = mapDNDEquipmentToEquipment(apiEquipment, item.quantity);
+
+      //add to store
+      addEquipment(equipment);
+    });
+
     //Weapon profs
     const weaponProfs =
       classDetails.proficiencies
@@ -183,7 +231,9 @@ export const StepBasic = () => {
     router.push("/characters/create-character/race");
   };
 
-  const canSubmit = form.formState.isValid && classDetails && !isLoading;
+  if (isError) {
+    return <p>loading</p>;
+  }
 
   return (
     <Form {...form}>
@@ -191,13 +241,14 @@ export const StepBasic = () => {
         {/* Name */}
         <div className="grid grid-cols-5 gap-x-2 gap-y-6">
           <div className="col-span-5">
-            <p className="text-md font-medium">Name:</p>
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem className="col-span-5">
-                  <FormLabel>Character's Name</FormLabel>
+                  <FormLabel className="font-serif font-semibold">
+                    Character's Name
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Ej. Thorin Black Spine" {...field} />
                   </FormControl>
@@ -256,18 +307,48 @@ export const StepBasic = () => {
             )}
           />
 
+          {/* Proficiencies */}
           {data && !isError && (
-            <div className="col-span-2">
-              <ClassFeatures
-                dndClass={data.dndClass[0]}
-                control={form.control}
+            <div className="col-span-5 space-y-6">
+              <h1 className="font-serif text-2xl font-semibold">
+                Proficiencies
+              </h1>
+              <BackgroundAccordion
+                title="Class Proficiencies"
+                description={
+                  classDetails?.proficiencies
+                    .map((prof) => prof.name)
+                    .join(", ") ?? ""
+                }
               />
+              <div className="col-span-2 space-y-6">
+                <ClassFeatures
+                  dndClass={data.dndClass[0]}
+                  control={form.control}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Equipment */}
+          {data && !isError && (
+            <div className="col-span-5 space-y-6">
+              <h1 className="font-serif text-2xl font-semibold">Equipment</h1>
+
+              <div className="col-span-2 space-y-6">
+                {classDetails?.starting_equipment_options && (
+                  <EquipmentSelector
+                    selectedClass={classDetails}
+                    control={form.control}
+                  />
+                )}
+              </div>
             </div>
           )}
         </div>
 
         <div className="flex justify-end">
-          <Button variant={"outline"} type="submit" disabled={!canSubmit}>
+          <Button variant={"outline"} type="submit">
             Continue
           </Button>
         </div>

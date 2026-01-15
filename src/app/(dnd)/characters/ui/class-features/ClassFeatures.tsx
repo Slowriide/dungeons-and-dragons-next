@@ -12,18 +12,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-interface FormData {
-  name: string;
-  class: string;
-  level: number;
-  skills: string[];
-  instruments: string[];
-  tools: string[];
-}
-
 interface Props {
   dndClass: DNDClass;
-  control: Control<FormData>;
+  control: Control<any>;
 }
 
 export const ClassFeatures = ({ dndClass, control }: Props) => {
