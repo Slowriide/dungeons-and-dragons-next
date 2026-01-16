@@ -462,9 +462,10 @@ const useDNDCharacterStore = create<CharacterState>()(
 
           if (!item) return state;
 
-          //unequip other items
+          //copy items
           let updated = [...currentEquipment];
 
+          //unequip other items
           if (item.type === "weapon" || item.type === "armor") {
             updated = updated.map((e) => {
               if (e.type === item.type && e.index !== item.index) {

@@ -7,12 +7,13 @@ import { CombatStats } from "./CombatStats";
 import { PersonalitySection } from "./PersonalitySection";
 import { ProficienciesSection } from "./ProficienciesSection";
 import { AbilitySection } from "./AbilitySection";
-import { EquipmentSection } from "./EquipmentSection";
+import { EquipmentSection } from "./equipment/EquipmentSection";
 import { buildCharacterTraits } from "@/utils/buildCharacterTraits";
 import { TraitsSection } from "./TraitsSection";
 import { SkillsList } from "./SkillsList";
-import { DND_SKILLS } from "@/data/skills";
 import { buildSkillsList } from "../../../utils/buildSkillsList";
+import { buildSavingThrows } from "../../../utils/buildSavingTrows";
+import { SavingThrows } from "./SavingThrows";
 
 interface CharacterSheetProps {
   character: Partial<DNDCharacter>;
@@ -29,6 +30,23 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
   toolsProfs = [...(some ?? []), ...(selecteds ?? [])];
 
   const skills = buildSkillsList(character);
+
+  const savThrowProfs = character.proficiencies?.filter((prof) =>
+    prof.startsWith("saving-throw")
+  );
+
+  const savingThrows = buildSavingThrows({
+    attributes: character.attributes ?? {
+      charisma: 0,
+      constitution: 0,
+      dexterity: 0,
+      intelligence: 0,
+      strength: 0,
+      wisdom: 0,
+    },
+    savingThrowProficiencies: savThrowProfs ?? [],
+    proficiencyBonus: character.proficiencyBonus ?? 0,
+  });
 
   return (
     <div className="min-h-screen parchment-bg parchment-texture">
@@ -64,7 +82,7 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
               hitDice={character.hit_die ?? 0}
               proficiencyBonus={character.proficiencyBonus ?? 2}
             />
-            {/* <SavingThrows savingThrows={character.savingThrows} /> */}
+            <SavingThrows savingThrows={savingThrows} />
           </div>
 
           {/* Center Column - Skills & Traits */}

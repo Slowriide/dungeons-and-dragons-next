@@ -44,12 +44,12 @@ export const StepBackground = () => {
     character,
     setBackground,
     setProficiencies,
+    setSkill,
     setSelectedProficiencies,
     setBackgroundSelections,
     addEquipment,
     addLanguage,
     setSkills,
-    addClassFeature,
     setbackgroundTraits,
     prevStep,
     nextStep,
@@ -215,8 +215,11 @@ export const StepBackground = () => {
 
     //auto
     setProficiencies(
-      selectedBackground.startingProficiencies.map((prof) => prof.index)
+      selectedBackground.startingProficiencies
+        .map((prof) => prof.index)
+        .filter((index) => !index.startsWith("skill-"))
     );
+
     //selecteds
     if (data.selectedProficiency) {
       setSelectedProficiencies([data.selectedProficiency]);

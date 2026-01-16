@@ -73,6 +73,7 @@ export const StepBasic = () => {
     addEquipment,
     setProficiencies,
     setProficiencyBonus,
+    setClassFeatures,
   } = useDNDCharacterStore();
 
   const form = useForm<FormData>({
@@ -193,6 +194,11 @@ export const StepBasic = () => {
         equipped: false,
       });
     });
+
+    //Proficiencies
+    const profs = classDetails.proficiencies.map((prof) => prof.index);
+
+    setProficiencies(profs);
 
     //class equipment
 

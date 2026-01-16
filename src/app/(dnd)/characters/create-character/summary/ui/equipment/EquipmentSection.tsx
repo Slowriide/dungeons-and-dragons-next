@@ -9,6 +9,7 @@ import {
   Coins,
   Boxes,
 } from "lucide-react";
+import { ItemRow } from "./ItemRow";
 
 interface EquipmentSectionProps {
   equipment: Equipment[];
@@ -72,39 +73,7 @@ export function EquipmentSection({ equipment }: EquipmentSectionProps) {
                 {type === "item" ? "Other Items" : `${type}s`}
               </div>
 
-              <div className="space-y-1">
-                {items.map((item, index) => (
-                  <div
-                    key={`${item.name}-${index}`}
-                    className={`flex items-center justify-between py-1.5 px-2 rounded text-sm ${
-                      item.equipped
-                        ? "bg-red-500/10 border border-red-500/20"
-                        : "hover:bg-parchment-dark/50"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {item.equipped && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-700" />
-                      )}
-                      <span
-                        className={
-                          item.equipped
-                            ? "font-medium text-ink"
-                            : "text-muted-foreground"
-                        }
-                      >
-                        {item.name}
-                        {item.quantity > 1 && ` (×${item.quantity})`}
-                      </span>
-                    </div>
-                    {item.description && (
-                      <span className="text-xs text-muted-foreground">
-                        {item.description}
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <ItemRow items={items} />
             </div>
           );
         })}
