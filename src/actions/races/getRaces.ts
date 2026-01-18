@@ -6,7 +6,6 @@ import {
 
 export const getRaces = async (): Promise<DNDRacesListResponse> => {
   const data = await dndFetch.get<DNDRacesListResponse>("/races");
-  console.log(data);
 
   return data;
 };

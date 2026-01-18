@@ -21,7 +21,6 @@ function getModifier(score: number): number {
 //todo fix display + race
 
 export const AbilitySection = ({ attributes, abilityBonuses }: Props) => {
-  console.log(attributes);
   const abilities = Object.entries(ABILITY_CONFIG).map(([key, config]) => {
     const attrKey = key as keyof typeof attributes;
     const baseScore = attributes?.[attrKey] || 10;
@@ -37,8 +36,6 @@ export const AbilitySection = ({ attributes, abilityBonuses }: Props) => {
       modifier: modifier,
     };
   });
-
-  console.log(abilities);
 
   return (
     <div className="mt-6 border-2 border-red-500/50 rounded-lg p-4 bg-card">

@@ -41,6 +41,7 @@ import { EQUIPMENT_OPTIONS } from "@/data/RaceEquipmentOptions";
 import { resolveStartingEquipment } from "../utils/getStartingEquipment";
 import { useEquipmentLookup } from "@/hooks/equipment/useEquipmentByIndex";
 import { mapDNDEquipmentToEquipment } from "@/utils/equipment/mapDNDequimentToCharacterEquipment";
+import { it } from "node:test";
 
 //Schema base
 const baseSchema = z.object({
@@ -58,7 +59,6 @@ const baseSchema = z.object({
 type FormData = z.infer<typeof baseSchema>;
 
 export const StepBasic = () => {
-  //TODO! EQUIPMENT
   const router = useRouter();
 
   const {
@@ -68,12 +68,14 @@ export const StepBasic = () => {
     setLevel,
     setHitDie,
     nextStep,
-    setSkills,
+    setBackgroundSkills,
     setClassWeaponProficiencies,
     addEquipment,
     setProficiencies,
     setProficiencyBonus,
     setClassFeatures,
+    addLanguage,
+    addGold,
   } = useDNDCharacterStore();
 
   const form = useForm<FormData>({
@@ -106,7 +108,7 @@ export const StepBasic = () => {
 
   //equipment options for this class
   const equipmentOptions = EQUIPMENT_OPTIONS.find(
-    (opt) => opt.dndClass === classDetails?.index
+    (opt) => opt.dndClass === classDetails?.index,
   );
 
   const validateDynamicRules = () => {
@@ -162,6 +164,7 @@ export const StepBasic = () => {
     setLevel(data.level);
 
     setHitDie(classDetails.hit_die);
+
     setProficiencyBonus(getProficiencyBonus(data.level));
 
     //Skills
@@ -175,7 +178,7 @@ export const StepBasic = () => {
       };
     });
 
-    setSkills(skillsData);
+    setBackgroundSkills(skillsData);
 
     // Guardar instrumentos y herramientas en items
     const items: string[] = [
@@ -204,23 +207,38 @@ export const StepBasic = () => {
 
     //find my selected equipment in the options
     const selectedOpt = equipmentOptions?.options.find(
-      (opt) => opt.optionIndex === data.selectedEquipmentOption
+      (opt) => opt.optionIndex === data.selectedEquipmentOption,
     );
 
     selectedOpt?.items.forEach((item) => {
+      if (
+        item.index.toLowerCase() === "gp" ||
+        item.index.toLowerCase() === "gold" ||
+        item.index.toLowerCase() === "pouch"
+      ) {
+        addGold(item.quantity);
+      }
+
       //find api item by id
       const apiEquipment = equipmentByIndex[item.index];
 
-      if (!apiEquipment) {
-        console.warn("Equipment not found:", item.index);
-        return;
+      if (apiEquipment) {
+        const equipment = mapDNDEquipmentToEquipment(
+          apiEquipment,
+          item.quantity,
+        );
+
+        addEquipment(equipment);
+      } else {
+        addEquipment({
+          index: item.index,
+          name: item.name,
+          quantity: item.quantity,
+          type: "other",
+          equipped: false,
+          description: "Custom equipment",
+        });
       }
-
-      //map api item to a valid item
-      const equipment = mapDNDEquipmentToEquipment(apiEquipment, item.quantity);
-
-      //add to store
-      addEquipment(equipment);
     });
 
     //Weapon profs

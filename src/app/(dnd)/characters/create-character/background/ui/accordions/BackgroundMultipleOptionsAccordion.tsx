@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BackgroundChoiceGroup } from "@/data/Backgrounds";
+import useDNDCharacterStore from "@/store/characte.store";
 import { Control } from "react-hook-form";
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
   description: string;
   options: BackgroundChoiceGroup;
   control: Control<any>;
+  excludeLanguages?: string[];
 }
 
 export const BackgroundMultipleOptionsAccordion = ({
@@ -28,8 +30,19 @@ export const BackgroundMultipleOptionsAccordion = ({
   title,
   options,
   control,
+  excludeLanguages = [],
 }: Props) => {
-  // opciones válidas para un select específico
+  const { character } = useDNDCharacterStore();
+
+  const alreadyHasLanguages = [
+    ...(character.raceLanguages || []),
+    ...(character.languages || []),
+    ...excludeLanguages,
+  ];
+
+  const availableOptions = options.options.filter(
+    (opt) => !alreadyHasLanguages.includes(opt.index),
+  );
 
   return (
     <Accordion
@@ -39,9 +52,26 @@ export const BackgroundMultipleOptionsAccordion = ({
     >
       <AccordionItem value="item-1" className="">
         <AccordionTrigger> {title}</AccordionTrigger>
-        <AccordionContent className="flex flex-col gap-4 text-balance">
+        <AccordionContent className="flex flex-col gap-4 text-balance ">
           <div>
             <p>{description}</p>
+
+            {alreadyHasLanguages.length > 0 && (
+              <div className="mb-4 p-3 bg-muted rounded-md">
+                <p className="text-sm font-semibold mb-2">
+                  Languages you already have:
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {alreadyHasLanguages
+                    .map(
+                      (langIndex) =>
+                        options.options.find((o) => o.index === langIndex)
+                          ?.name || langIndex,
+                    )
+                    .join(", ")}
+                </p>
+              </div>
+            )}
             <FormField
               name="selectedLanguages"
               control={control}
@@ -51,13 +81,15 @@ export const BackgroundMultipleOptionsAccordion = ({
                   : [];
 
                 const getAvailableFor = (i: number) => {
-                  const others = new Set(
+                  const selectedInOtherSelects = new Set(
                     currentValues.filter(
-                      (val, idx) => idx !== i && Boolean(val)
-                    )
+                      (val, idx) => idx !== i && Boolean(val),
+                    ),
                   );
 
-                  return options.options.filter((o) => !others.has(o.index));
+                  return availableOptions.filter(
+                    (opt) => !selectedInOtherSelects.has(opt.index),
+                  );
                 };
 
                 return (

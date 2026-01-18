@@ -63,7 +63,7 @@ export const FetcheableChoiceAccordion = ({
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      value={field.value ?? ""}
+                      value={field.value || ""}
                     >
                       <SelectTrigger className="w-full border-gray-200 mt-2">
                         <SelectValue placeholder="Select Proficiency" />
@@ -75,7 +75,7 @@ export const FetcheableChoiceAccordion = ({
                             <SelectItem key={e.index} value={e.index}>
                               {e.name}
                             </SelectItem>
-                          ))
+                          )),
                         )}
                       </SelectContent>
                     </Select>

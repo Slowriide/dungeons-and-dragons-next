@@ -28,14 +28,14 @@ const baseSchema = z.object({
       id: z.string(),
       name: z.string(),
       description: z.string(),
-    })
+    }),
   ),
   selectedTraits: z.array(
     z.object({
       id: z.string(),
       name: z.string(),
       description: z.string(),
-    })
+    }),
   ),
   abilityBonus: z.array(z.string()), //half-elf
   language: z.array(z.string()), //half-elf human
@@ -57,6 +57,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
   const {
     character,
     setSize,
+    setRaceLanguages,
     setSpeed,
     setAlignment,
     setLanguages,
@@ -170,6 +171,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     if (!validateDynamicRules(data)) return;
 
     const raceName = race.name as CharacterRace;
+    const autoLanguages = race.languages.map((lang) => lang.index);
 
     let traits: Trait[] = [];
 
@@ -177,7 +179,8 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     setSize(race.size);
     setSpeed(race.speed);
     setAlignment(data.alignment as Alignment);
-    setLanguages(data.language);
+    setLanguages(autoLanguages);
+    setRaceLanguages(data.language);
     setRaceTraits(data.raceTraits);
     setSelectedTraits(data.selectedTraits);
 

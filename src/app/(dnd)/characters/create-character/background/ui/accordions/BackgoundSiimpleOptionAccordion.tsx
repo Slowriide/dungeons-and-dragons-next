@@ -44,7 +44,7 @@ export const BackgroundSimpleOptionAccordion = ({
               <FormItem>
                 <FormControl>
                   <Select
-                    value={field.value ?? ""}
+                    value={field.value || ""}
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger className="mt-2">

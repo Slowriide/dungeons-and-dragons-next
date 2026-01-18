@@ -74,7 +74,9 @@ export function CombatStats({
         </div>
 
         <div className="flex items-baseline gap-1 justify-center mb-2">
-          <span className="text-3xl font-bold font-serif text-ink">{12}</span>
+          <span className="text-3xl font-bold font-serif text-ink">
+            {hitPoints}
+          </span>
           <span className="text-lg text-muted-foreground">/</span>
           <span className="text-lg text-muted-foreground">{hitPoints}</span>
         </div>

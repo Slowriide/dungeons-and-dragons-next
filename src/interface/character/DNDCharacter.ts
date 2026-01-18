@@ -49,8 +49,11 @@ export interface DNDCharacter {
   class_armor_proficiencies: string[];
 
   languages: string[];
+  raceLanguages?: string[];
+  backgroundLanguages?: string[];
 
   skills: CharacterSkill[];
+  backgroundSkills: CharacterSkill[];
 
   raceTraits: Trait[];
   selectedTraits: Trait[];
@@ -58,6 +61,7 @@ export interface DNDCharacter {
   backgroundTraits: Trait;
 
   equipment: Equipment[];
+  gold: number;
 }
 
 export interface CharacterSkill {

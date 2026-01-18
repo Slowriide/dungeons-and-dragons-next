@@ -14,7 +14,7 @@ export const MonsterSummary = async ({ monster }: Props) => {
         </h2>
         {monster.special_abilities &&
           monster.special_abilities.map((spec) => (
-            <div>
+            <div key={spec.name}>
               <h3 className="font-serif text-xl font-semibold">{spec.name}</h3>
               <div className="text-muted-foreground">
                 <p className="mb-4">{spec.desc}</p>
@@ -31,7 +31,7 @@ export const MonsterSummary = async ({ monster }: Props) => {
 
         {monster.actions &&
           monster.actions.map((act) => (
-            <div>
+            <div key={act.name}>
               <h3 className="font-serif text-xl font-semibold">{act.name}</h3>
               <div className="text-muted-foreground">
                 <p className="mb-4">{act.desc}</p>
@@ -48,7 +48,7 @@ export const MonsterSummary = async ({ monster }: Props) => {
 
         {monster.legendary_actions &&
           monster.legendary_actions.map((act) => (
-            <div>
+            <div key={act.name}>
               <h3 className="font-serif text-xl font-semibold">{act.name}</h3>
               <div className="text-muted-foreground">
                 <p className="mb-4">{act.desc}</p>

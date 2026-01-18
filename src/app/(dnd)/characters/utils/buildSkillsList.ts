@@ -13,14 +13,18 @@ export function buildSkillsList(character: Partial<DNDCharacter>): Skill[] {
 
   // ["skill-stealth", { name: "Stealth", attribute: "DEX" }],
   return Object.entries(DND_SKILLS).map(([index, skill]) => {
-    const charSkill = character.skills?.find((s) => s.index === index);
+    const charSkill =
+      character.skills?.find((s) => s.index === index) ||
+      character.backgroundSkills?.find((s) => s.index === index);
 
     const prof = Boolean(charSkill);
 
-    const abilityMod =
+    const abilityNumber =
       character.attributes?.[
         skill.attribute.toLowerCase() as keyof typeof character.attributes
       ] ?? 0;
+
+    const abilityMod = Math.floor((abilityNumber - 10) / 2);
 
     return {
       name: skill.name,

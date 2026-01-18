@@ -22,7 +22,7 @@ import { useStoreHydrated } from "@/hooks/useStoreHydrated";
 const backgroundSchema = z.object({
   backgroundId: z.string().min(1, "Debes seleccionar un background"),
   selectedProficiency: z.string().optional(),
-  selectedEquipment: z.array(z.string()).min(1),
+  selectedEquipment: z.array(z.string()).optional(),
   selectedLanguages: z.array(z.string()).optional(),
 
   //Personality
@@ -45,12 +45,14 @@ export const StepBackground = () => {
     setBackground,
     setProficiencies,
     setSkill,
+    addGold,
     setSelectedProficiencies,
     setBackgroundSelections,
     addEquipment,
     addLanguage,
     setSkills,
     setbackgroundTraits,
+    setBackgroundLanguages,
     prevStep,
     nextStep,
   } = useDNDCharacterStore();
@@ -75,7 +77,7 @@ export const StepBackground = () => {
   const selectedProf = form.watch("selectedProficiency");
 
   const selectedBackground = BACKGROUNDS.find(
-    (b) => b.id === selectedBackgroundId
+    (b) => b.id === selectedBackgroundId,
   );
 
   /// load data from store when hydrate
@@ -86,7 +88,7 @@ export const StepBackground = () => {
       backgroundId: character.background || "",
       selectedProficiency: character.selectedProficiencies?.[0] || "",
       selectedEquipment: [],
-      selectedLanguages: character.languages || [],
+      selectedLanguages: character.backgroundLanguages || [],
       specialty: character.backgroundSelections?.specialty || "",
       personalityTrait: character.backgroundSelections?.personalityTrait || "",
       ideal: character.backgroundSelections?.ideal || "",
@@ -144,16 +146,18 @@ export const StepBackground = () => {
     }
 
     //equipment
-    if (
-      selectedBackground.startingEquipmentOptions &&
-      selectedBackground.startingEquipmentOptions?.length > 0
-    ) {
-      const requiredCount = selectedBackground.startingEquipmentOptions.length;
-      const selectedCount = data.selectedEquipment?.filter(
-        (eq) => eq !== ""
-      ).length;
+    const equipmentChoiceGroups =
+      selectedBackground.startingEquipmentOptions?.filter(
+        (group) => group.choose && group.choose > 0,
+      ) ?? [];
 
-      if (requiredCount !== selectedCount) {
+    if (equipmentChoiceGroups.length > 0) {
+      const requiredCount = equipmentChoiceGroups.length;
+
+      const selectedCount =
+        data.selectedEquipment?.filter((eq) => eq !== "").length ?? 0;
+
+      if (selectedCount !== requiredCount) {
         form.setError("selectedEquipment", {
           message: `Debes seleccionar ${requiredCount} opciones de equipment`,
         });
@@ -162,24 +166,26 @@ export const StepBackground = () => {
     }
 
     //langs
-    const requiredLangs = selectedBackground.languageOptions?.choose || 0;
-    const selectedLangs = data.selectedLanguages?.filter(
-      (lang) => lang !== ""
-    ).length;
-
     if (
       selectedBackground.languageOptions &&
-      selectedBackground.languageOptions?.choose > 0
+      selectedBackground.languageOptions.choose > 0
     ) {
-      if (requiredLangs !== selectedLangs) {
+      const requiredLangs = selectedBackground.languageOptions.choose;
+      const selectedLangs =
+        data.selectedLanguages?.filter((lang) => lang !== "").length ?? 0;
+
+      if (selectedLangs !== requiredLangs) {
         form.setError("selectedLanguages", {
-          message: `Debes seleccionar ${requiredLangs} idiomas`,
+          message: `Debes seleccionar exactamente ${requiredLangs} idioma${requiredLangs > 1 ? "s" : ""}`,
         });
         return false;
       }
     }
+
     return true;
   };
+
+  console.log(form.formState.errors);
 
   const onSubmit = (data: FormData) => {
     if (!selectedBackground) return;
@@ -217,7 +223,7 @@ export const StepBackground = () => {
     setProficiencies(
       selectedBackground.startingProficiencies
         .map((prof) => prof.index)
-        .filter((index) => !index.startsWith("skill-"))
+        .filter((index) => !index.startsWith("skill-")),
     );
 
     //selecteds
@@ -253,22 +259,30 @@ export const StepBackground = () => {
     setSkills([
       ...currentSkills,
       ...validSkills.filter(
-        (vs) => !currentSkills.some((cs) => cs.index === vs.index)
+        (vs) => !currentSkills.some((cs) => cs.index === vs.index),
       ),
     ]);
 
     //Langs
     if (data.selectedLanguages && data.selectedLanguages.length > 0) {
-      const validLanguages = data.selectedLanguages?.filter(
-        (lang) => lang !== ""
+      const validLanguages = data.selectedLanguages.filter(
+        (lang) => lang !== "",
       );
-      validLanguages.forEach((lang) => addLanguage(lang));
+      setBackgroundLanguages(validLanguages);
     }
 
     //Equipment
 
     //Base
     selectedBackground.startingEquipment.map((eq) => {
+      if (
+        eq.index.toLowerCase() === "gp" ||
+        eq.index.toLowerCase() === "gold" ||
+        eq.index.toLowerCase() === "pouch"
+      ) {
+        addGold(eq.quantity || 1);
+      }
+
       addEquipment({
         name: eq.name,
         index: eq.index,
@@ -295,7 +309,7 @@ export const StepBackground = () => {
 
     // Gold
     const pouch = selectedBackground.startingEquipment.find((eq) =>
-      eq.index.includes("pouch")
+      eq.index.includes("pouch"),
     );
 
     const gold = pouch?.quantity;
@@ -412,7 +426,7 @@ export const StepBackground = () => {
                         control={form.control}
                         fieldName={`selectedEquipment`}
                       />
-                    )
+                    ),
                   )}
               </div>
             </div>

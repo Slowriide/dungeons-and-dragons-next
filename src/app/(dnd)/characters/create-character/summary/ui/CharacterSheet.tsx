@@ -24,7 +24,7 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
 
   const some = character.proficiencies?.filter((prof) => prof.includes("tool"));
   const selecteds = character.selectedProficiencies?.filter((prof) =>
-    prof.includes("tool")
+    prof.includes("tool"),
   );
 
   toolsProfs = [...(some ?? []), ...(selecteds ?? [])];
@@ -32,8 +32,14 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
   const skills = buildSkillsList(character);
 
   const savThrowProfs = character.proficiencies?.filter((prof) =>
-    prof.startsWith("saving-throw")
+    prof.startsWith("saving-throw"),
   );
+
+  const langs = [
+    ...(character.languages ?? []),
+    ...(character.raceLanguages ?? []),
+    ...(character.backgroundLanguages ?? []),
+  ];
 
   const savingThrows = buildSavingThrows({
     attributes: character.attributes ?? {
@@ -83,6 +89,14 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
               proficiencyBonus={character.proficiencyBonus ?? 2}
             />
             <SavingThrows savingThrows={savingThrows} />
+            <ProficienciesSection
+              languages={langs ?? []}
+              proficiencies={{
+                armor: character.class_armor_proficiencies ?? [],
+                weapons: character.class_weapon_proficiencies ?? [],
+                tools: toolsProfs,
+              }}
+            />
           </div>
 
           {/* Center Column - Skills & Traits */}
@@ -103,14 +117,6 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
                   flaw: "",
                 }
               }
-            />
-            <ProficienciesSection
-              languages={character.languages ?? []}
-              proficiencies={{
-                armor: character.class_armor_proficiencies ?? [],
-                weapons: character.class_weapon_proficiencies ?? [],
-                tools: toolsProfs,
-              }}
             />
           </div>
         </div>

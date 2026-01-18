@@ -35,14 +35,14 @@ type CharacterState = {
   setAbilityBonuses: (attributeBonuses: DNDCharacter["abilityBonuses"]) => void;
   setAttributeBonus: (
     attr: keyof DNDCharacter["abilityBonuses"],
-    value: number
+    value: number,
   ) => void;
   setProficiencyBonus: (profBonus: number) => void;
 
   // Métodos para background
   setBackground: (background: string) => void;
   setBackgroundSelections: (
-    selections: Partial<DNDCharacter["backgroundSelections"]>
+    selections: Partial<DNDCharacter["backgroundSelections"]>,
   ) => void;
   setbackgroundTraits: (background: Trait) => void;
   setSpecialty: (specialty: string) => void;
@@ -63,6 +63,7 @@ type CharacterState = {
 
   // Métodos para habilidades (skills)
   setSkills: (skills: CharacterSkill[]) => void;
+  setBackgroundSkills: (skills: CharacterSkill[]) => void;
   setSkill: (skill: CharacterSkill) => void;
   toggleSkillProficiency: (skillIndex: string) => void;
 
@@ -82,9 +83,15 @@ type CharacterState = {
   toggleEquiped: (index: string) => void;
   updateQuantity: (index: string, quantiy: number) => void;
 
+  addGold: (amount: number) => void;
+
   // Métodos para idiomas
   setLanguages: (languages: string[]) => void;
   addLanguage: (language: string) => void;
+  setRaceLanguages: (languages: string[]) => void;
+  setBackgroundLanguages: (languages: string[]) => void;
+
+  getAllLanguages: () => string[];
 
   // Control de pasos
   setCurrentStep: (step: number) => void;
@@ -347,10 +354,15 @@ const useDNDCharacterStore = create<CharacterState>()(
           character: { ...state.character, skills },
         })),
 
+      setBackgroundSkills: (backgroundSkills) =>
+        set((state) => ({
+          character: { ...state.character, backgroundSkills },
+        })),
+
       setSkill: (skill) =>
         set((state) => {
           const exists = state.character.skills?.some(
-            (sk) => sk.index === skill.index
+            (sk) => sk.index === skill.index,
           );
           if (exists) return state;
           return {
@@ -367,7 +379,7 @@ const useDNDCharacterStore = create<CharacterState>()(
             ...state.character,
             skills:
               state.character.skills?.map((s) =>
-                s.index === skill ? { ...s, proficient: !s.proficient } : s
+                s.index === skill ? { ...s, proficient: !s.proficient } : s,
               ) || [],
           },
         })),
@@ -419,7 +431,7 @@ const useDNDCharacterStore = create<CharacterState>()(
             : [];
 
           const existingIndex = currentEquipment.findIndex(
-            (e) => e.index === equipment.index && e.type === equipment.type
+            (e) => e.index === equipment.index && e.type === equipment.type,
           );
 
           if (existingIndex !== undefined && existingIndex >= 0) {
@@ -494,11 +506,19 @@ const useDNDCharacterStore = create<CharacterState>()(
             character: {
               ...state.character,
               equipment: currentEquipment.map((e) =>
-                e.index === index ? { ...e, quantity } : e
+                e.index === index ? { ...e, quantity } : e,
               ),
             },
           };
         }),
+
+      addGold: (amount: number) =>
+        set((state) => ({
+          character: {
+            ...state.character,
+            gold: (state.character.gold ?? 0) + amount,
+          },
+        })),
 
       setLanguages: (langs) =>
         set((state) => ({
@@ -515,6 +535,27 @@ const useDNDCharacterStore = create<CharacterState>()(
             languages: [...(state.character.languages || []), lang],
           },
         })),
+
+      setRaceLanguages: (languages) =>
+        set((state) => ({
+          character: { ...state.character, raceLanguages: languages },
+        })),
+
+      setBackgroundLanguages: (languages) =>
+        set((state) => ({
+          character: { ...state.character, backgroundLanguages: languages },
+        })),
+
+      getAllLanguages: () => {
+        const char = get().character;
+        const allLangs = [
+          ...(char.raceLanguages || []),
+          ...(char.backgroundLanguages || []),
+          ...(char.languages || []),
+        ];
+        // Eliminar duplicados
+        return [...new Set(allLangs)];
+      },
 
       // Control de pasos
       setCurrentStep: (step) =>
@@ -582,8 +623,8 @@ const useDNDCharacterStore = create<CharacterState>()(
       partialize: (state) => ({
         character: state.character,
       }),
-    }
-  )
+    },
+  ),
 );
 
 export default useDNDCharacterStore;

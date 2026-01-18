@@ -884,7 +884,7 @@ export const BACKGROUNDS: Background[] = [
     ],
     proficienciesOptions: {
       choose: 1,
-      options: [{ index: "gaming-set", name: "Gaming Set" }],
+      options: [{ index: "gaming-sets", name: "Gaming Sets" }],
     },
 
     languageOptions: {

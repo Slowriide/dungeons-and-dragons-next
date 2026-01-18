@@ -54,8 +54,14 @@ const ATTRIBUTE_KEYS = {
 export const StepAttributes = () => {
   const router = useRouter();
 
-  const { character, setAttributes, setIniciative, nextStep, prevStep } =
-    useDNDCharacterStore();
+  const {
+    character,
+    setAttributes,
+    setIniciative,
+    nextStep,
+    prevStep,
+    setHitPoints,
+  } = useDNDCharacterStore();
 
   const form = useForm<FormData>({
     resolver: zodResolver(attributesSchema),
@@ -77,10 +83,24 @@ export const StepAttributes = () => {
   const usedScores = Object.values(currentValues);
 
   const onSubmit = (data: FormData) => {
-    const iniciative = Math.floor((data.dexterity - 10) / 2);
+    const bonus = character.abilityBonuses;
 
+    const finalAttributes = {
+      strength: data.strength + (bonus?.strength ?? 0),
+      dexterity: data.dexterity + (bonus?.dexterity ?? 0),
+      constitution: data.constitution + (bonus?.constitution ?? 0),
+      intelligence: data.intelligence + (bonus?.intelligence ?? 0),
+      wisdom: data.wisdom + (bonus?.wisdom ?? 0),
+      charisma: data.charisma + (bonus?.charisma ?? 0),
+    };
+
+    const iniciative = Math.floor((finalAttributes.dexterity - 10) / 2);
+    const constBonus = Math.floor((finalAttributes.constitution - 10) / 2);
+    const hp = (character.hit_die ?? 0) * (character.level ?? 1) + constBonus;
+
+    setHitPoints(hp);
     setIniciative(iniciative);
-    setAttributes(data);
+    setAttributes(finalAttributes);
     nextStep();
     console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
     router.push("/characters/create-character/background");
