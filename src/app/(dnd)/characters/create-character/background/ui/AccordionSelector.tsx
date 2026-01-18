@@ -27,7 +27,7 @@ export const AccordionSelector = ({
     <>
       {isFetchNeeded ? (
         <FetcheableChoiceAccordion
-          title={selectedProficiency ?? `Select Proficiency (${option.name})`}
+          title={`Select Proficiency (${option.name})`}
           description={`The ${selectedBackground.name} allows you to choose one proficiency`}
           indexes={[option.index]}
           control={control}

@@ -26,6 +26,7 @@ import { Trait } from "@/interface/character/DNDCharacter";
 import { useEffect } from "react";
 
 interface FormData {
+  race: string;
   raceTraits: Trait[];
   selectedTraits: Trait[];
   abilityBonus: string[];
@@ -63,7 +64,7 @@ export const TraitsAccordion = ({
           (t) =>
             !t.proficiency_choices?.from &&
             !t.trait_specific?.subtrait_options &&
-            !t.language_options?.from
+            !t.language_options?.from,
         )
         .map((t) => ({
           id: t.index,
@@ -86,7 +87,7 @@ export const TraitsAccordion = ({
     traitIndex: string,
     traitName: string,
     traitDescription: string,
-    onChange: (value: Trait[]) => void
+    onChange: (value: Trait[]) => void,
   ) => {
     const existingIndex = currentTraits.findIndex((t) => t.name === traitName);
 
@@ -143,14 +144,14 @@ export const TraitsAccordion = ({
                             onValueChange={(selectedIndex) => {
                               const selectedOption =
                                 trait.proficiency_choices?.from.options.find(
-                                  (opt) => opt.item.index === selectedIndex
+                                  (opt) => opt.item.index === selectedIndex,
                                 );
                               if (selectedOption) {
                                 handleTraitSelect(
                                   selectedIndex,
                                   selectedOption.item.name,
                                   trait.desc.join(" "), // Concatenar descripciones
-                                  field.onChange
+                                  field.onChange,
                                 );
                               }
                             }}
@@ -171,7 +172,7 @@ export const TraitsAccordion = ({
                                     >
                                       {r.item.name}
                                     </SelectItem>
-                                  )
+                                  ),
                                 )}
                               </SelectGroup>
                             </SelectContent>
@@ -198,7 +199,7 @@ export const TraitsAccordion = ({
                                 // Buscar el subtrait seleccionado
                                 const selectedOption =
                                   trait.trait_specific?.subtrait_options?.from.options.find(
-                                    (opt) => opt.item.index === selectedIndex
+                                    (opt) => opt.item.index === selectedIndex,
                                   );
 
                                 if (selectedOption) {
@@ -206,7 +207,7 @@ export const TraitsAccordion = ({
                                     selectedIndex,
                                     selectedOption.item.name,
                                     trait.desc.join(" "),
-                                    field.onChange
+                                    field.onChange,
                                   );
                                 }
                               }}
@@ -228,7 +229,7 @@ export const TraitsAccordion = ({
                                       >
                                         {r.item.name}
                                       </SelectItem>
-                                    )
+                                    ),
                                   )}
                                 </SelectGroup>
                               </SelectContent>

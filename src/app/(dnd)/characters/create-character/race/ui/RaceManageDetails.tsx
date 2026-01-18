@@ -11,18 +11,35 @@ import useDNDCharacterStore from "@/store/characte.store";
 import z from "zod/v3";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { CharacterRace, Trait } from "@/interface/character/DNDCharacter";
 import { PersonalitySelector } from "../../background/ui/accordions/PersonalitySelector";
 import { Alignment } from "../../../../../../interface/character/DNDCharacter";
 import { DND_ALIGNMENTS } from "@/interface/DNDAlingments";
 import { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { DND_CLASSES, DND_RACES } from "@/data/dndData";
 
 interface Props {
   raceIndex: string;
 }
 
 const baseSchema = z.object({
+  race: z.string(),
   raceTraits: z.array(
     z.object({
       id: z.string(),
@@ -37,7 +54,7 @@ const baseSchema = z.object({
       description: z.string(),
     }),
   ),
-  abilityBonus: z.array(z.string()), //half-elf
+  abilityBonus: z.array(z.string()), //half-el
   language: z.array(z.string()), //half-elf human
   tools: z.array(z.string()), //dwarf
   alignment: z.string().min(1, "Debes seleccionar un alignment"),
@@ -72,6 +89,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
   const form = useForm<FormData>({
     resolver: zodResolver(baseSchema),
     defaultValues: {
+      race: raceIndex || "",
       raceTraits: [],
       selectedTraits: [],
       abilityBonus: [],
@@ -173,8 +191,6 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     const raceName = race.name as CharacterRace;
     const autoLanguages = race.languages.map((lang) => lang.index);
 
-    let traits: Trait[] = [];
-
     setRace(raceName);
     setSize(race.size);
     setSpeed(race.speed);
@@ -244,6 +260,43 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="min-h-screen bg-background space-y-6 ">
+          <FormField
+            control={form.control}
+            name="race"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-serif text-xl font-semibold mb-2">
+                  Selected Race
+                </FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    router.replace(
+                      `/characters/create-character/race/${value}`,
+                    );
+                  }}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Class" />
+                    </SelectTrigger>
+                  </FormControl>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Classes</SelectLabel>
+                      {DND_RACES.map((dndRace) => (
+                        <SelectItem key={dndRace.index} value={dndRace.index}>
+                          {dndRace.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
           <h1 className="font-serif text-xl font-semibold mb-2">
             Characteristics
           </h1>

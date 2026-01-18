@@ -27,6 +27,7 @@ import { Control } from "react-hook-form";
 import { boolean } from "zod";
 
 interface FormData {
+  race: string;
   raceTraits: Trait[];
   selectedTraits: Trait[];
   abilityBonus: string[];
@@ -71,7 +72,8 @@ export const AbBonusAccordionOptions = ({
                       const availableOptions = options.filter((opt) => {
                         const isSelectedInOther = field.value?.some(
                           (selectedVal, idx) =>
-                            idx !== i && selectedVal === opt.ability_score.index
+                            idx !== i &&
+                            selectedVal === opt.ability_score.index,
                         );
                         return !isSelectedInOther;
                       });
