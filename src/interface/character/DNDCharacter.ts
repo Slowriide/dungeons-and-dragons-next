@@ -44,7 +44,7 @@ export interface DNDCharacter {
     charisma?: number; // +1 (Dragonborn)
   };
 
-  class_features: string[];
+  class_features: CharacterClassFeature[];
   class_weapon_proficiencies: string[];
   class_armor_proficiencies: string[];
 
@@ -62,6 +62,13 @@ export interface DNDCharacter {
 
   equipment: Equipment[];
   gold: number;
+}
+
+export interface CharacterClassFeature {
+  index: string;
+  level: number;
+  name: string;
+  description: string;
 }
 
 export interface CharacterSkill {
@@ -90,7 +97,6 @@ export type EquipmentType =
   | "tool"
   | "item"
   | "consumable"
-  | "gold"
   | "other";
 
 export interface Trait {

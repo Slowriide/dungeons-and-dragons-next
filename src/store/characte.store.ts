@@ -2,6 +2,7 @@ import { create } from "zustand";
 import {
   Alignment,
   CharacterClass,
+  CharacterClassFeature,
   CharacterRace,
   CharacterSkill,
   DNDCharacter,
@@ -52,8 +53,8 @@ type CharacterState = {
   setFlaw: (flaws: string) => void;
 
   // Métodos para características de clase
-  setClassFeatures: (features: string[]) => void;
-  addClassFeature: (feature: string) => void;
+  setClassFeatures: (features: CharacterClassFeature[]) => void;
+  addClassFeature: (feature: CharacterClassFeature) => void;
   setClassWeaponProficiencies: (proficiencies: string[]) => void;
 
   // Métodos para características de clase

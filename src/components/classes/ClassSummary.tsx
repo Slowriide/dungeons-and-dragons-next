@@ -15,7 +15,7 @@ interface Props {
 export const ClassSummary = async ({ classItem }: Props) => {
   const index = classItem.index;
   const { classLevels } = await getClassesLevelsDetails({
-    subraceIndex: index,
+    classIndex: index,
   });
 
   const profs = classItem.proficiencies.map((p) => p.name);

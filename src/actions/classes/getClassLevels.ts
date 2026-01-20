@@ -1,17 +1,15 @@
 import { dndFetch } from "@/api/DndApi";
 import { DNDClassLevels } from "@/interface/classes/ClassLevels";
-import { DNDRace } from "@/interface/races/DNDRace";
-import { DNDSubrace } from "@/interface/races/DNDSubrace";
 
 interface Options {
-  subraceIndex: string;
+  classIndex: string;
 }
 
 export const getClassesLevelsDetails = async ({
-  subraceIndex,
+  classIndex,
 }: Options): Promise<{ classLevels: DNDClassLevels[] }> => {
   const classLevels = await dndFetch.get<DNDClassLevels[]>(
-    `/classes/${subraceIndex}/levels`
+    `/classes/${classIndex}/levels`,
   );
 
   return { classLevels };

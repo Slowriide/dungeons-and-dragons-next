@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import useDNDCharacterStore from "@/store/characte.store";
 import {
   CharacterClass,
+  CharacterClassFeature,
   CharacterSkill,
 } from "@/interface/character/DNDCharacter";
 import {
@@ -42,6 +43,9 @@ import { resolveStartingEquipment } from "../utils/getStartingEquipment";
 import { useEquipmentLookup } from "@/hooks/equipment/useEquipmentByIndex";
 import { mapDNDEquipmentToEquipment } from "@/utils/equipment/mapDNDequimentToCharacterEquipment";
 import { it } from "node:test";
+import { useClassLevels } from "@/hooks/classes/useClassLevels";
+import { useFeaturesLevelsDetails } from "@/hooks/classes/useFeaturesLevelsDetails";
+import { ClassFeature } from "@/interface/classes/ClassFeature";
 
 //Schema base
 const baseSchema = z.object({
@@ -98,18 +102,54 @@ export const StepBasic = () => {
   const safeIndexes = classIndex ? [classIndex] : [];
 
   const { data, isError, isLoading } = useClassesDetails({
-    classIndexes: safeIndexes,
+    classIndexes: safeIndexes ? safeIndexes : [],
+  });
+
+  const {
+    data: levelsData,
+    isError: isLevelsError,
+    isLoading: isLevelLoading,
+  } = useClassLevels({ classIndex: safeIndexes[0] ?? [] });
+
+  const featureIndexes =
+    levelsData?.classLevels?.[0]?.features.map((f) => f.index) || [];
+
+  console.log(safeIndexes);
+
+  const {
+    data: features,
+    isLoading: isFeaturesLoading,
+    isError: isFeaturesError,
+  } = useFeaturesLevelsDetails({
+    featureIndexes: featureIndexes ?? [],
+    enabled: featureIndexes.length > 0,
   });
 
   //all equipments
   const equipmentByIndex = useEquipmentLookup();
-
   const classDetails = data?.dndClass?.[0];
 
   //equipment options for this class
   const equipmentOptions = EQUIPMENT_OPTIONS.find(
     (opt) => opt.dndClass === classDetails?.index,
   );
+
+  // errors
+  if (isError || isLevelsError || isFeaturesError) {
+    return <div>Error loading class data</div>;
+  }
+
+  // loading
+  if (!classIndex) {
+    return <div>Select a class to continue</div>;
+  }
+
+  if (isLoading || isLevelLoading || isFeaturesLoading) {
+    return <div>Loading class information...</div>;
+  }
+
+  // ✅ Todos los datos están disponibles aquí
+  const levelOne = levelsData?.classLevels[0];
 
   const validateDynamicRules = () => {
     if (!classDetails) return true;
@@ -179,6 +219,23 @@ export const StepBasic = () => {
     });
 
     setBackgroundSkills(skillsData);
+
+    //Features
+
+    const classFeaturesData = features?.dndClassFeature ?? [];
+
+    const classFeatures: CharacterClassFeature[] = classFeaturesData.map(
+      (feature) => {
+        return {
+          index: feature.index,
+          level: feature.level ?? 1,
+          description: feature.desc.join(" ") ?? "",
+          name: feature.name ?? "",
+        };
+      },
+    );
+
+    setClassFeatures(classFeatures);
 
     // Guardar instrumentos y herramientas en items
     const items: string[] = [
@@ -254,10 +311,6 @@ export const StepBasic = () => {
 
     router.push("/characters/create-character/race");
   };
-
-  if (isError) {
-    return <p>loading</p>;
-  }
 
   return (
     <Form {...form}>
@@ -351,6 +404,20 @@ export const StepBasic = () => {
                   control={form.control}
                 />
               </div>
+            </div>
+          )}
+
+          {/* Features */}
+          {features && features.dndClassFeature.length > 0 && (
+            <div className="col-span-5 space-y-6">
+              <h1 className="font-serif text-2xl font-semibold">Features</h1>
+              {features.dndClassFeature.map((feature) => (
+                <BackgroundAccordion
+                  key={feature.index}
+                  title={`Level ${feature.level}: ${feature.name}`}
+                  description={feature.desc.join(" ")}
+                />
+              ))}
             </div>
           )}
 

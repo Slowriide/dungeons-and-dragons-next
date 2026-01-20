@@ -1,4 +1,5 @@
 import { DNDClass } from "@/interface/classes/DnDClass";
+import { geClassImages } from "@/utils/class/getClassImage";
 
 import Image from "next/image";
 
@@ -9,16 +10,18 @@ interface Props {
 export const ClassHeader = ({ classItem }: Props) => {
   const primary =
     classItem.multi_classing?.prerequisites?.[0]?.ability_score?.name ?? "STR";
+  const img = geClassImages(classItem.index);
 
   return (
     <div className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10">
       {/* Left: Image */}
-      <div className="relative aspect-4/3 overflow-hidden rounded-lg">
+      <div className="relative w-full max-w-md mx-auto my-auto">
         <Image
-          src={"/placeholder.svg"}
+          src={img}
           alt={classItem.name}
-          fill
-          className="object-cover"
+          width={500}
+          height={500}
+          className="w-full h-auto rounded-lg"
         />
       </div>
 

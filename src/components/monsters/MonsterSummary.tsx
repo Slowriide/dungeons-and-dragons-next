@@ -41,13 +41,14 @@ export const MonsterSummary = async ({ monster }: Props) => {
       </section>
 
       {/* Legendary Actions */}
-      <section className="space-y-6 border-b border-red-500 pb-8 mt-8">
-        <h2 className=" font-serif text-3xl font-semibold text-red-500 ">
-          Legendary Actions
-        </h2>
 
-        {monster.legendary_actions &&
-          monster.legendary_actions.map((act) => (
+      {monster.legendary_actions && (
+        <section className="space-y-6 border-b border-red-500 pb-8 mt-8">
+          <h2 className=" font-serif text-3xl font-semibold text-red-500 ">
+            Legendary Actions
+          </h2>
+
+          {monster.legendary_actions.map((act) => (
             <div key={act.name}>
               <h3 className="font-serif text-xl font-semibold">{act.name}</h3>
               <div className="text-muted-foreground">
@@ -55,7 +56,8 @@ export const MonsterSummary = async ({ monster }: Props) => {
               </div>
             </div>
           ))}
-      </section>
+        </section>
+      )}
     </div>
   );
 };

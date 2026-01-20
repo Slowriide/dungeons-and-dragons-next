@@ -3,7 +3,7 @@ import { DNDCharacter, Trait } from "@/interface/character/DNDCharacter";
 
 // selectors/buildCharacterTraits.ts
 export function buildCharacterTraits(
-  character: Partial<DNDCharacter>
+  character: Partial<DNDCharacter>,
 ): SheetTrait[] {
   const traits: SheetTrait[] = [];
 
@@ -15,7 +15,7 @@ export function buildCharacterTraits(
         name: t.name,
         description: t.description,
         source: "racial" as SheetTrait["source"],
-      }))
+      })),
     );
   }
 
@@ -23,11 +23,11 @@ export function buildCharacterTraits(
   if (character.class_features) {
     traits.push(
       ...character.class_features.map((feature) => ({
-        id: feature,
-        name: feature,
-        description: "getClassFeatureDescription(feature)",
+        id: feature.index,
+        name: feature.name,
+        description: feature.description,
         source: "class" as SheetTrait["source"],
-      }))
+      })),
     );
   }
 

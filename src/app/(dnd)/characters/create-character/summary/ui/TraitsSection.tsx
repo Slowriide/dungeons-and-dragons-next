@@ -17,19 +17,22 @@ interface TraitsSectionProps {
 
 const sourceConfig = {
   racial: { label: "Racial", icon: User, color: "text-amber-400" },
-  class: { label: "text-destructive", icon: Sword, color: "text-amber-400" },
+  class: { label: "Class", icon: Sword, color: "text-amber-400" },
   background: { label: "Background", icon: Award, color: "text-amber-400" },
   feat: { label: "Feat", icon: Sparkles, color: "text-amber-400" },
 };
 
 export function TraitsSection({ traits }: TraitsSectionProps) {
-  const groupedTraits = traits.reduce((acc, trait) => {
-    if (!acc[trait.source]) {
-      acc[trait.source] = [];
-    }
-    acc[trait.source].push(trait);
-    return acc;
-  }, {} as Record<string, SheetTrait[]>);
+  const groupedTraits = traits.reduce(
+    (acc, trait) => {
+      if (!acc[trait.source]) {
+        acc[trait.source] = [];
+      }
+      acc[trait.source].push(trait);
+      return acc;
+    },
+    {} as Record<string, SheetTrait[]>,
+  );
 
   return (
     <div className="border-2 border-red-500/50 rounded-lg p-4 bg-card">
@@ -50,25 +53,15 @@ export function TraitsSection({ traits }: TraitsSectionProps) {
                 {config.label} Traits
               </div>
 
-              {sourceTraits.map((trait) => (
+              {sourceTraits.map((trait, index) => (
                 <AccordionItem
-                  key={trait.name}
+                  key={`${source}-${trait.id || trait.name}-${index}`}
                   value={trait.name}
                   className="border-0"
                 >
                   <AccordionTrigger className="py-2 px-3 rounded-md hover:bg-parchment-dark/50 hover:no-underline text-sm font-medium text-ink">
                     <div className="flex items-center gap-2">
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          source === "racial"
-                            ? "bg-gold"
-                            : source === "class"
-                            ? "bg-burgundy"
-                            : source === "background"
-                            ? "bg-brown"
-                            : "bg-gold-light"
-                        }`}
-                      />
+                      <span className={`w-1.5 h-1.5 rounded-full`} />
                       {trait.name}
                     </div>
                   </AccordionTrigger>

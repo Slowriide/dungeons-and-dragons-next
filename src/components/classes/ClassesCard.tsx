@@ -1,14 +1,9 @@
-import { geisCinzel } from "@/config/fonts";
 import { Card } from "../ui/card";
-import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { DNDMonster } from "@/interface/monsters/DnDMonster";
-import { getDnDImages } from "@/utils/getDnDImages";
 import Link from "next/link";
-import { DNDRace } from "@/interface/races/DNDRace";
-import { getRaceImages } from "@/utils/race/getRaceImages";
 import { DNDClass } from "@/interface/classes/DnDClass";
 import { getClassInfo } from "@/utils/class/getClassInfo";
+import { geClassImages } from "@/utils/class/getClassImage";
 
 interface Props {
   dndClass: DNDClass;
@@ -16,6 +11,7 @@ interface Props {
 
 export const ClassesCard = ({ dndClass }: Props) => {
   const { description, logo } = getClassInfo(dndClass.index);
+  const img = geClassImages(dndClass.index);
 
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
@@ -23,7 +19,7 @@ export const ClassesCard = ({ dndClass }: Props) => {
         {/* Image */}
         <div className="relative w-full aspect-3/3 overflow-hidden ">
           <Image
-            src={"/placeholder.svg"}
+            src={img}
             alt={"Class"}
             fill
             sizes="400"
