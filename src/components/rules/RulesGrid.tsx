@@ -7,10 +7,6 @@ import { useRulesDetails } from "@/hooks/rules/useRulesDetails";
 import { useRulesList } from "@/hooks/rules/useRulesList";
 
 export const RulesGrid = () => {
-  const [selectedMagicItem, setSelectedMagicItem] = useState<DNDRule | null>(
-    null
-  );
-
   const { data: rulesList } = useRulesList();
 
   const rulesIndexes = rulesList?.results.map((rule) => rule.index) || [];
@@ -28,11 +24,7 @@ export const RulesGrid = () => {
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
       {filteredRules.map((rule) => (
-        <RulesCard
-          key={rule.index}
-          rule={rule}
-          setSelectedMagicItem={setSelectedMagicItem}
-        />
+        <RulesCard key={rule.index} rule={rule} />
       ))}
     </main>
   );

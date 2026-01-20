@@ -1,4 +1,3 @@
-import { DNDClass } from "@/interface/classes/DnDClass";
 import { DNDMonster } from "@/interface/monsters/DnDMonster";
 import { getDnDImages } from "@/utils/getDnDImages";
 
@@ -20,12 +19,16 @@ export const MonsterHeader = ({ monster }: Props) => {
   return (
     <div className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10 ">
       {/* Left: Image */}
-      <div className="relative aspect-4/3 overflow-hidden rounded-lg">
+      <div className="relative w-full max-w-md mx-auto my-auto">
         <Image
           src={getDnDImages(monster.image)}
           alt={monster.name}
-          fill
-          className="object-cover"
+          width={500}
+          height={500}
+          className="w-full h-auto rounded-lg"
+          priority // Carga esta imagen primero
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2UwZTBlMCIvPjwvc3ZnPg=="
         />
       </div>
 

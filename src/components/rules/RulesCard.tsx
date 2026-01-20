@@ -7,15 +7,11 @@ import { MarkdownText } from "../MarkdownText";
 
 interface Props {
   rule: DNDRule;
-  setSelectedMagicItem: (rule: DNDRule) => void;
 }
 
-export const RulesCard = ({ rule, setSelectedMagicItem }: Props) => {
+export const RulesCard = ({ rule }: Props) => {
   return (
-    <Card
-      className="glass-card p-4 gap-y-0"
-      onClick={() => setSelectedMagicItem(rule)}
-    >
+    <Card className="glass-card p-4 gap-y-0">
       <div className="flex flex-row justify-between mb-1">
         <p
           className={`${geisCinzel.className} antialiased font-semibold text-lg`}

@@ -40,10 +40,10 @@ export const SubclassSumary = async ({ classItem }: Props) => {
           </div>
         ))}
       </div>
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col gap-3">
         {subclassLevels.map((sublevel) => (
           <div key={`${sublevel.index}`}>
-            <h3 className="font-serif text-xl font-semibold mb-2">
+            <h3 className="font-serif text-xl font-semibold">
               Level {sublevel.level}: {sublevel.name}
             </h3>
             <p className="mb-6">{sublevel.desc}</p>

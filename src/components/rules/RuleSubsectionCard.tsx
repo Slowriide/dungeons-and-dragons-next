@@ -7,7 +7,7 @@ interface Props {
 }
 export const RuleSubsectionCard = ({ ruleSubsection }: Props) => {
   return (
-    <div className="flex flex-col mt-10 space-y-6">
+    <div className="flex flex-col my-10 space-y-6">
       {/*Name */}
       <div className="flex flex-row items-center space-x-5">
         <h1

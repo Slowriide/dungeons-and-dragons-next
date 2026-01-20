@@ -3,13 +3,7 @@ import { titleFont } from "@/config/fonts";
 import Link from "next/link";
 import { SearchBar } from "./SearchBar";
 import { NavButton } from "./NavButton";
-import {
-  HomeIcon,
-  LogInIcon,
-  ScrollIcon,
-  ShieldIcon,
-  SwordIcon,
-} from "lucide-react";
+import { LogInIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { HoverDropdrownButton } from "./HoverDropdrownButton";
 

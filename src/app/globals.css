@@ -5,6 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-parchment: #f5f1e6;
+  --color-parchment-dark: #e6dec8;
+  --color-ink: #28241e;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

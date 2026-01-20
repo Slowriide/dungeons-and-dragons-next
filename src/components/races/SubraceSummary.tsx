@@ -15,8 +15,8 @@ export const SubraceSummary = async ({ race }: Props) => {
   return (
     <div>
       {subraces.map((subrace) => (
-        <div className="space-y-8 mb-10">
-          <section key={subrace.index}>
+        <div className="space-y-8 mb-10" key={subrace.index}>
+          <section>
             <h2 className="mb-4 font-serif text-4xl font-bold text-balance">
               {subrace.name}
             </h2>

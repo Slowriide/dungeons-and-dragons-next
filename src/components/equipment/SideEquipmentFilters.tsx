@@ -10,12 +10,13 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ResetFiltersButton } from "../ResetFiltersButton";
 import { SearchCard } from "../SearchCard";
 import { useToggleFilters } from "@/hooks/useToggleFilters";
 import { EquipmentCategories } from "@/interface/equipment/EquipmentCategory";
+import { useDebouncedFilters } from "@/hooks/useDebounceFilters";
 
 export const SideEquipmentFilters = () => {
   const { toggleFilters } = useToggleFilters();
@@ -29,20 +30,41 @@ export const SideEquipmentFilters = () => {
   const [maxCost, setMaxCost] = useState(searchParams.get("maxCost") ?? "");
 
   const [minWeight, setMinWeight] = useState(
-    searchParams.get("minWeight") ?? ""
+    searchParams.get("minWeight") ?? "",
   );
   const [maxWeight, setMaxWeight] = useState(
-    searchParams.get("maxWeight") ?? ""
+    searchParams.get("maxWeight") ?? "",
   );
 
-  const handleParamChange = (key: string, value: string) => {
+  const debouncedFilters = useDebouncedFilters({
+    minCost,
+    maxCost,
+    minWeight,
+    maxWeight,
+  });
+
+  // Apply filters when debounced values change
+  useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (value) params.set(key, value);
-    else params.delete(key);
+    if (debouncedFilters.minCost)
+      params.set("minCost", debouncedFilters.minCost);
+    else params.delete("minCost");
+
+    if (debouncedFilters.maxCost)
+      params.set("maxCost", debouncedFilters.maxCost);
+    else params.delete("maxCost");
+
+    if (debouncedFilters.minWeight)
+      params.set("minWeight", debouncedFilters.minWeight);
+    else params.delete("minWeight");
+
+    if (debouncedFilters.maxWeight)
+      params.set("maxWeight", debouncedFilters.maxWeight);
+    else params.delete("maxWeight");
 
     router.replace(`?${params.toString()}`);
-  };
+  }, [debouncedFilters]);
 
   return (
     <div className=" col-span-1 space-y-4">
@@ -98,9 +120,6 @@ export const SideEquipmentFilters = () => {
             value={minCost}
             min={0}
             onChange={(e) => setMinCost(e.target.value)}
-            onKeyDown={(e) =>
-              e.key === "Enter" && handleParamChange("minCost", minCost)
-            }
           />
           <p>-</p>
           <Input
@@ -111,9 +130,6 @@ export const SideEquipmentFilters = () => {
             value={maxCost}
             min={0}
             onChange={(e) => setMaxCost(e.target.value)}
-            onKeyDown={(e) =>
-              e.key === "Enter" && handleParamChange("maxCost", maxCost)
-            }
           />
         </div>
       </Card>
@@ -133,9 +149,6 @@ export const SideEquipmentFilters = () => {
             className="placeholder:text-gray-400"
             value={minWeight}
             onChange={(e) => setMinWeight(e.target.value)}
-            onKeyDown={(e) =>
-              e.key === "Enter" && handleParamChange("minWeight", minWeight)
-            }
           />
           <p>-</p>
           <Input
@@ -144,9 +157,6 @@ export const SideEquipmentFilters = () => {
             className="placeholder:text-gray-400"
             value={maxWeight}
             onChange={(e) => setMaxWeight(e.target.value)}
-            onKeyDown={(e) =>
-              e.key === "Enter" && handleParamChange("maxWeight", maxWeight)
-            }
           />
         </div>
       </Card>
