@@ -34,6 +34,7 @@ export interface DNDCharacter {
 
   proficiencies: string[];
   selectedProficiencies: string[];
+  classProficiencies: ClassProficiency[];
 
   abilityBonuses: {
     strength?: number; // +2 (Dragonborn)
@@ -61,7 +62,13 @@ export interface DNDCharacter {
   backgroundTraits: Trait;
 
   equipment: Equipment[];
+  selectedEquipmentOption: string;
   gold: number;
+}
+
+export interface ClassProficiency {
+  index: string;
+  type: "tool" | "instrument" | "armor" | "weapon";
 }
 
 export interface CharacterClassFeature {
@@ -79,13 +86,14 @@ export interface CharacterSkill {
 }
 
 export interface Equipment {
-  index?: string;
+  index: string;
   name: string;
   type: EquipmentType;
   quantity: number;
   equipped?: boolean;
   description?: string;
   weight?: number;
+  source: "class" | "background" | "other";
   value?: {
     amount: number;
     currency: "cp" | "sp" | "ep" | "gp" | "pp";

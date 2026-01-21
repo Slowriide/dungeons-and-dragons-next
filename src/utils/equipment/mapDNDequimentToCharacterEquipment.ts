@@ -4,7 +4,7 @@ import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 
 export function mapDNDEquipmentToEquipment(
   apiEquipment: DNDEquipment,
-  quantity: number
+  quantity: number,
 ): Equipment {
   return {
     index: apiEquipment.index,
@@ -13,6 +13,7 @@ export function mapDNDEquipmentToEquipment(
     equipped: false,
     description: apiEquipment.desc.join("\n"),
     weight: apiEquipment.weight,
+    source: "class",
     type: categorizeEquipment(apiEquipment.equipment_category.index),
     value: {
       amount: apiEquipment.cost.quantity,

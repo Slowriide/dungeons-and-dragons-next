@@ -5,12 +5,14 @@ import {
   CharacterClassFeature,
   CharacterRace,
   CharacterSkill,
+  ClassProficiency,
   DNDCharacter,
   Equipment,
   Size,
   Trait,
 } from "@/interface/character/DNDCharacter";
 import { persist } from "zustand/middleware";
+import { classProficiencies } from "../utils/class/classProficiencies";
 
 type CharacterState = {
   character: Partial<DNDCharacter> & {
@@ -70,6 +72,7 @@ type CharacterState = {
 
   // Métodos para proficiencies
   setProficiencies: (proficiencies: string[]) => void;
+  setClassProficiencies: (proficiencies: ClassProficiency[]) => void;
   addProficiency: (proficiencie: string) => void;
 
   setSelectedProficiencies: (selectedProficiencies: string[]) => void;
@@ -80,6 +83,8 @@ type CharacterState = {
 
   // Métodos para equipamiento
   addEquipment: (equipment: Equipment) => void;
+  setSelectedEquipmentOption: (selectedEquipmentOption: string) => void;
+
   removeEquipment: (index: string) => void;
   toggleEquiped: (index: string) => void;
   updateQuantity: (index: string, quantiy: number) => void;
@@ -391,6 +396,11 @@ const useDNDCharacterStore = create<CharacterState>()(
           character: { ...state.character, proficiencies },
         })),
 
+      setClassProficiencies: (classProficiencies) =>
+        set((state) => ({
+          character: { ...state.character, classProficiencies },
+        })),
+
       addProficiency: (proficiency) =>
         set((state) => ({
           character: {
@@ -450,6 +460,14 @@ const useDNDCharacterStore = create<CharacterState>()(
             };
           }
         }),
+
+      setSelectedEquipmentOption: (selectedEquipmentOption: string) =>
+        set((state) => ({
+          character: {
+            ...state.character,
+            selectedEquipmentOption: selectedEquipmentOption,
+          },
+        })),
 
       removeEquipment: (index: string) =>
         set((state) => {

@@ -48,7 +48,7 @@ export const StepBackground = () => {
     setSelectedProficiencies,
     setBackgroundSelections,
     addEquipment,
-    setSkills,
+    setBackgroundSkills,
     setbackgroundTraits,
     setBackgroundLanguages,
     prevStep,
@@ -130,6 +130,7 @@ export const StepBackground = () => {
 
     prevBackgroundRef.current = selectedBackgroundId;
   }, [selectedBackgroundId, isFormReady]);
+
   const validateDynamicRules = (data: FormData) => {
     if (!selectedBackground) return true;
 
@@ -182,8 +183,6 @@ export const StepBackground = () => {
 
     return true;
   };
-
-  console.log(form.formState.errors);
 
   const onSubmit = (data: FormData) => {
     if (!selectedBackground) return;
@@ -254,7 +253,7 @@ export const StepBackground = () => {
 
     const currentSkills: CharacterSkill[] = character.skills || [];
 
-    setSkills([
+    setBackgroundSkills([
       ...currentSkills,
       ...validSkills.filter(
         (vs) => !currentSkills.some((cs) => cs.index === vs.index),
@@ -287,6 +286,7 @@ export const StepBackground = () => {
         quantity: eq.quantity || 1,
         equipped: false,
         type: categorizeEquipment(eq.index),
+        source: "background",
       });
     });
 
@@ -301,24 +301,10 @@ export const StepBackground = () => {
             type: categorizeEquipment(equipIndex),
             quantity: 1,
             equipped: false,
+            source: "background",
           });
         });
     }
-
-    // Gold
-    const pouch = selectedBackground.startingEquipment.find((eq) =>
-      eq.index.includes("pouch"),
-    );
-
-    const gold = pouch?.quantity;
-
-    // Gold
-    addEquipment({
-      index: "gp",
-      name: "Gold Pieces",
-      type: "gold",
-      quantity: gold || 0,
-    });
 
     console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
 

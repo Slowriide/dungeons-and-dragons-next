@@ -23,6 +23,7 @@ import {
   CharacterClass,
   CharacterClassFeature,
   CharacterSkill,
+  ClassProficiency,
 } from "@/interface/character/DNDCharacter";
 import {
   Form,
@@ -46,6 +47,8 @@ import { it } from "node:test";
 import { useClassLevels } from "@/hooks/classes/useClassLevels";
 import { useFeaturesLevelsDetails } from "@/hooks/classes/useFeaturesLevelsDetails";
 import { ClassFeature } from "@/interface/classes/ClassFeature";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useStoreHydrated } from "@/hooks/useStoreHydrated";
 
 //Schema base
 const baseSchema = z.object({
@@ -64,6 +67,7 @@ type FormData = z.infer<typeof baseSchema>;
 
 export const StepBasic = () => {
   const router = useRouter();
+  const hydrated = useStoreHydrated();
 
   const {
     character,
@@ -72,34 +76,81 @@ export const StepBasic = () => {
     setLevel,
     setHitDie,
     nextStep,
-    setBackgroundSkills,
+    setSkills,
     setClassWeaponProficiencies,
     addEquipment,
-    setProficiencies,
+    setSelectedEquipmentOption,
+    removeEquipment,
+    setClassProficiencies,
     setProficiencyBonus,
     setClassFeatures,
     addLanguage,
     addGold,
   } = useDNDCharacterStore();
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(baseSchema),
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       name: character.name || "",
       class: character.characterClass || "",
       level: character.level || 1,
-      skills: [],
-      instruments: [],
-      tools: [],
-      equipment: [],
-      selectedEquipmentOption: "",
-    },
+      skills: character.skills?.map((sk) => sk.index) || [],
+      instruments:
+        character.classProficiencies
+          ?.filter((p) => p.type === "instrument")
+          .map((p) => p.index) || [],
+
+      tools:
+        character.classProficiencies
+          ?.filter((p) => p.type === "tool")
+          .map((p) => p.index) || [],
+
+      selectedEquipmentOption: character.selectedEquipmentOption || "",
+    }),
+    [hydrated, character],
+  );
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(baseSchema),
+    defaultValues,
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (hydrated) {
+      form.reset({
+        name: character.name || "",
+        class: character.characterClass || "",
+        level: character.level || 1,
+        skills: character.skills?.map((sk) => sk.index) || [],
+        instruments:
+          character.classProficiencies
+            ?.filter((p) => p.type === "instrument")
+            .map((p) => p.index) || [],
+        tools:
+          character.classProficiencies
+            ?.filter((p) => p.type === "tool")
+            .map((p) => p.index) || [],
+        selectedEquipmentOption: character.selectedEquipmentOption || "",
+      });
+    }
+  }, [hydrated, character, form]);
 
   const selected = form.watch("class");
   const classIndex = selected?.toLowerCase();
   const safeIndexes = classIndex ? [classIndex] : [];
+
+  const prevClassRef = useRef(selected);
+
+  useEffect(() => {
+    // Solo limpiar si la clase cambió Y no es la carga inicial
+    if (hydrated && prevClassRef.current && prevClassRef.current !== selected) {
+      form.setValue("skills", []);
+      form.setValue("instruments", []);
+      form.setValue("tools", []);
+      form.setValue("selectedEquipmentOption", "");
+    }
+    prevClassRef.current = selected;
+  }, [selected, hydrated, form]);
 
   const { data, isError, isLoading } = useClassesDetails({
     classIndexes: safeIndexes ? safeIndexes : [],
@@ -114,8 +165,6 @@ export const StepBasic = () => {
   const featureIndexes =
     levelsData?.classLevels?.[0]?.features.map((f) => f.index) || [];
 
-  console.log(safeIndexes);
-
   const {
     data: features,
     isLoading: isFeaturesLoading,
@@ -125,8 +174,9 @@ export const StepBasic = () => {
     enabled: featureIndexes.length > 0,
   });
 
-  //all equipments
+  //all equipments map
   const equipmentByIndex = useEquipmentLookup();
+
   const classDetails = data?.dndClass?.[0];
 
   //equipment options for this class
@@ -147,9 +197,9 @@ export const StepBasic = () => {
   if (isLoading || isLevelLoading || isFeaturesLoading) {
     return <div>Loading class information...</div>;
   }
-
-  // ✅ Todos los datos están disponibles aquí
-  const levelOne = levelsData?.classLevels[0];
+  if (!hydrated) {
+    return <div>Loading...</div>;
+  }
 
   const validateDynamicRules = () => {
     if (!classDetails) return true;
@@ -218,7 +268,7 @@ export const StepBasic = () => {
       };
     });
 
-    setBackgroundSkills(skillsData);
+    setSkills(skillsData);
 
     //Features
 
@@ -237,30 +287,35 @@ export const StepBasic = () => {
 
     setClassFeatures(classFeatures);
 
-    // Guardar instrumentos y herramientas en items
-    const items: string[] = [
-      ...(data.instruments || []),
-      ...(data.tools || []),
-    ];
+    //Proficiencies
 
-    items.forEach((toolIndex) => {
-      const toolName = findProficiencyName(toolIndex, classDetails);
+    const ToolOrInstumentClassProficiencies: ClassProficiency[] = [];
 
-      addEquipment({
-        index: toolIndex,
-        name: toolName,
-        type: "tool",
-        quantity: 1,
-        equipped: false,
+    data.instruments.forEach((instrumentIndex) => {
+      ToolOrInstumentClassProficiencies.push({
+        index: instrumentIndex,
+        type: "instrument",
       });
     });
 
-    //Proficiencies
-    const profs = classDetails.proficiencies.map((prof) => prof.index);
+    data.tools.forEach((toolsIndex) => {
+      ToolOrInstumentClassProficiencies.push({
+        index: toolsIndex,
+        type: "tool",
+      });
+    });
 
-    setProficiencies(profs);
+    setClassProficiencies(ToolOrInstumentClassProficiencies);
 
     //class equipment
+
+    //if the options changes, delete prev selected equipment
+    if (data.selectedEquipmentOption !== character.selectedEquipmentOption) {
+      const startEquipment =
+        character.equipment?.filter((eq) => eq.source === "class") || [];
+
+      startEquipment.forEach((eq) => removeEquipment(eq.index));
+    }
 
     //find my selected equipment in the options
     const selectedOpt = equipmentOptions?.options.find(
@@ -276,9 +331,10 @@ export const StepBasic = () => {
         addGold(item.quantity);
       }
 
-      //find api item by id
+      //find api selected item by id in all items map
       const apiEquipment = equipmentByIndex[item.index];
 
+      //map to my item
       if (apiEquipment) {
         const equipment = mapDNDEquipmentToEquipment(
           apiEquipment,
@@ -294,9 +350,12 @@ export const StepBasic = () => {
           type: "other",
           equipped: false,
           description: "Custom equipment",
+          source: "class",
         });
       }
     });
+
+    setSelectedEquipmentOption(data.selectedEquipmentOption);
 
     //Weapon profs
     const weaponProfs =
