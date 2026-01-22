@@ -14,6 +14,13 @@ import { SkillsList } from "./SkillsList";
 import { buildSkillsList } from "../../../utils/buildSkillsList";
 import { buildSavingThrows } from "../../../utils/buildSavingTrows";
 import { SavingThrows } from "./SavingThrows";
+import useDNDCharacterStore from "@/store/characte.store";
+import {
+  getFinalAttributes,
+  getInitiative,
+  getMaxHP,
+  getModifier,
+} from "@/utils/characterCalculations";
 
 interface CharacterSheetProps {
   character: Partial<DNDCharacter>;
@@ -26,8 +33,19 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
   const selecteds = character.selectedProficiencies?.filter((prof) =>
     prof.includes("tool"),
   );
+  const hasOther = character.selectedTraits?.filter((tr) =>
+    tr.name.includes("Tool"),
+  );
 
-  toolsProfs = [...(some ?? []), ...(selecteds ?? [])];
+  console.log(character.selectedTraits);
+
+  toolsProfs = [
+    ...(some ?? []),
+    ...(selecteds ?? []),
+    ...(hasOther?.map((t) => t.id) ?? []),
+  ];
+
+  // console.log(toolsProfs);
 
   const skills = buildSkillsList(character);
 
@@ -54,6 +72,32 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     proficiencyBonus: character.proficiencyBonus ?? 0,
   });
 
+  const finalAttributes = getFinalAttributes(
+    character.attributes ?? {
+      charisma: 0,
+      constitution: 0,
+      dexterity: 0,
+      intelligence: 0,
+      strength: 0,
+      wisdom: 0,
+    },
+    character.abilityBonuses ?? {
+      charisma: 0,
+      constitution: 0,
+      dexterity: 0,
+      intelligence: 0,
+      strength: 0,
+      wisdom: 0,
+    },
+  );
+  const initiative = getInitiative(finalAttributes.dexterity);
+
+  const maxHP = getMaxHP(
+    character.hit_die || 8,
+    character.level || 1,
+    finalAttributes.constitution,
+  );
+
   return (
     <div className="min-h-screen parchment-bg parchment-texture">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -69,12 +113,20 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
         />
 
         {/* Ability Scores Row */}
-        {character.attributes && (
-          <AbilitySection
-            attributes={character.attributes}
-            abilityBonuses={character.abilityBonuses}
-          />
-        )}
+
+        <AbilitySection
+          attributes={
+            character.attributes ?? {
+              charisma: 0,
+              constitution: 0,
+              dexterity: 0,
+              intelligence: 0,
+              strength: 0,
+              wisdom: 0,
+            }
+          }
+          abilityBonuses={character.abilityBonuses}
+        />
 
         {/* Main Content Grid */}
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -82,9 +134,9 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
           <div className="space-y-6">
             <CombatStats
               armorClass={12}
-              initiative={character.iniciative ?? 0}
+              initiative={initiative}
               speed={character.speed ?? 0}
-              hitPoints={character.hit_points ?? 0}
+              hitPoints={maxHP}
               hitDice={character.hit_die ?? 0}
               proficiencyBonus={character.proficiencyBonus ?? 2}
             />

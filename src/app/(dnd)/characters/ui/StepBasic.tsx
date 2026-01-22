@@ -55,7 +55,6 @@ const baseSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
   class: z.string().min(1, "Debes seleccionar una clase"),
   level: z.number().int().min(1).max(20),
-
   skills: z.array(z.string()),
   instruments: z.array(z.string()),
   tools: z.array(z.string()),
@@ -160,7 +159,7 @@ export const StepBasic = () => {
     data: levelsData,
     isError: isLevelsError,
     isLoading: isLevelLoading,
-  } = useClassLevels({ classIndex: safeIndexes[0] ?? [] });
+  } = useClassLevels({ classIndex: safeIndexes[0] });
 
   const featureIndexes =
     levelsData?.classLevels?.[0]?.features.map((f) => f.index) || [];
@@ -187,11 +186,6 @@ export const StepBasic = () => {
   // errors
   if (isError || isLevelsError || isFeaturesError) {
     return <div>Error loading class data</div>;
-  }
-
-  // loading
-  if (!classIndex) {
-    return <div>Select a class to continue</div>;
   }
 
   if (isLoading || isLevelLoading || isFeaturesLoading) {
@@ -243,6 +237,7 @@ export const StepBasic = () => {
 
     return true;
   };
+  console.log(form.formState.errors);
 
   const onSubmit = (data: FormData) => {
     if (!classDetails) return;

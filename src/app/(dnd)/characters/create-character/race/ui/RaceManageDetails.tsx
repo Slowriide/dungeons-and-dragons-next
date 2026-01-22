@@ -22,7 +22,7 @@ import { CharacterRace, Trait } from "@/interface/character/DNDCharacter";
 import { PersonalitySelector } from "../../background/ui/accordions/PersonalitySelector";
 import { Alignment } from "../../../../../../interface/character/DNDCharacter";
 import { DND_ALIGNMENTS } from "@/interface/DNDAlingments";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -32,7 +32,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DND_CLASSES, DND_RACES } from "@/data/dndData";
+import { DND_RACES } from "@/data/dndData";
+import { useStoreHydrated } from "@/hooks/useStoreHydrated";
 
 interface Props {
   raceIndex: string;
@@ -54,7 +55,7 @@ const baseSchema = z.object({
       description: z.string(),
     }),
   ),
-  abilityBonus: z.array(z.string()), //half-el
+  abilityBonus: z.array(z.string()), //half-elf
   language: z.array(z.string()), //half-elf human
   tools: z.array(z.string()), //dwarf
   alignment: z.string().min(1, "Debes seleccionar un alignment"),
@@ -64,7 +65,7 @@ type FormData = z.infer<typeof baseSchema>;
 
 export const RaceManageDetails = ({ raceIndex }: Props) => {
   const router = useRouter();
-
+  const hydrated = useStoreHydrated();
   const shouldFetch = Boolean(raceIndex);
 
   const { data, isLoading, isError } = useRacesDetails({
@@ -82,23 +83,67 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     setSelectedTraits,
     setRace,
     setAbilityBonuses,
+    setSelectedAbilityBonuses,
     prevStep,
     nextStep,
   } = useDNDCharacterStore();
 
+  const defaultValues = useMemo(
+    () => ({
+      race: raceIndex || "",
+      raceTraits: character.raceTraits || [],
+      selectedTraits: character.selectedTraits || [],
+      abilityBonus: character.selectedAbilityBonuses || [],
+      language: character.raceLanguages || [],
+      tools: [],
+      alignment: character.alignment,
+    }),
+    [hydrated, raceIndex],
+  );
+
   const form = useForm<FormData>({
     resolver: zodResolver(baseSchema),
-    defaultValues: {
-      race: raceIndex || "",
-      raceTraits: [],
-      selectedTraits: [],
-      abilityBonus: [],
-      language: [],
-      tools: [],
-      alignment: "",
-    },
+    defaultValues: defaultValues,
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    form.reset({
+      race: raceIndex || "",
+      raceTraits: character.raceTraits || [],
+      selectedTraits: character.selectedTraits || [],
+      abilityBonus: character.selectedAbilityBonuses || [],
+      language: character.raceLanguages || [],
+      tools: [],
+      alignment: character.alignment,
+    });
+  }, [hydrated]);
+
+  const prevRaceRef = useRef(raceIndex);
+  const selectedRace = form.watch("race");
+  useEffect(() => {
+    // Solo limpiar si la clase cambió Y no es la carga inicial
+    if (!hydrated) return;
+    if (
+      hydrated &&
+      prevRaceRef.current &&
+      prevRaceRef.current !== selectedRace
+    ) {
+      form.reset({
+        race: raceIndex,
+        raceTraits: [],
+        selectedTraits: [],
+        abilityBonus: [],
+        language: [],
+        tools: [],
+        alignment: "",
+      });
+    }
+
+    prevRaceRef.current = raceIndex;
+  }, [raceIndex, hydrated]);
 
   if (!data || isLoading) {
     return <p>loading</p>;
@@ -106,10 +151,10 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
 
   const race = data?.race[0];
 
-  const hasLangOptions = race.language_options?.from;
-  const hasAbOptions = race.ability_bonus_options?.from;
+  const hasLangOptions = race?.language_options?.from;
+  const hasAbOptions = race?.ability_bonus_options?.from;
 
-  const abilityBonucesList = race.ability_bonuses
+  const abilityBonucesList = race?.ability_bonuses
     .map((ab) => `${ab.ability_score.name} +${ab.bonus}`)
     .join(", ");
 
@@ -161,7 +206,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     }
 
     if (race.name === "Dwarf") {
-      if (form.getValues("tools").length !== 1) {
+      if (form.getValues("selectedTraits").length !== 1) {
         form.setError("tools", {
           message: "Debes seleccionar 1 herramienta",
         });
@@ -210,6 +255,28 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     } = {};
 
     if (hasAbOptions) {
+      setSelectedAbilityBonuses(data.abilityBonus);
+    }
+
+    if (hasAbOptions) {
+      //base race abilitybonus
+      race.ability_bonuses.forEach((ab) => {
+        const mapping: Record<string, keyof typeof abilityBonuses> = {
+          str: "strength",
+          dex: "dexterity",
+          con: "constitution",
+          int: "intelligence",
+          wis: "wisdom",
+          cha: "charisma",
+        };
+        const key = mapping[ab.ability_score.index]; //strength for example
+        if (key) {
+          abilityBonuses[key] = ab.bonus;
+        }
+      });
+
+      //selected abilitybonus
+
       data.abilityBonus.forEach((abIndex) => {
         const mapping: Record<string, keyof typeof abilityBonuses> = {
           str: "strength",
@@ -219,17 +286,13 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
           wis: "wisdom",
           cha: "charisma",
         };
-        const key = mapping[abIndex]; //strength
+        const key = mapping[abIndex];
         if (key) {
-          abilityBonuses[key] = 1; // Half-Elf da +1 a los elegidos
+          abilityBonuses[key] = (abilityBonuses[key] || 0) + 1;
         }
       });
-
-      // Half-Elf también tiene +2 CHA fijo
-      if (race.name === "Half-Elf") {
-        abilityBonuses.charisma = 2;
-      }
     } else {
+      //race without options only base
       race.ability_bonuses.forEach((ab) => {
         const mapping: Record<string, keyof typeof abilityBonuses> = {
           str: "strength",

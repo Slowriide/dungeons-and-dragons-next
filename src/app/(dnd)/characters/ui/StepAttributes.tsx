@@ -28,7 +28,7 @@ const attributesSchema = z
     },
     {
       message: "Cada atributo debe tener un valor diferente",
-    }
+    },
   );
 
 type FormData = z.infer<typeof attributesSchema>;
@@ -83,24 +83,15 @@ export const StepAttributes = () => {
   const usedScores = Object.values(currentValues);
 
   const onSubmit = (data: FormData) => {
-    const bonus = character.abilityBonuses;
+    setAttributes({
+      strength: data.strength,
+      dexterity: data.dexterity,
+      constitution: data.constitution,
+      intelligence: data.intelligence,
+      wisdom: data.wisdom,
+      charisma: data.charisma,
+    });
 
-    const finalAttributes = {
-      strength: data.strength + (bonus?.strength ?? 0),
-      dexterity: data.dexterity + (bonus?.dexterity ?? 0),
-      constitution: data.constitution + (bonus?.constitution ?? 0),
-      intelligence: data.intelligence + (bonus?.intelligence ?? 0),
-      wisdom: data.wisdom + (bonus?.wisdom ?? 0),
-      charisma: data.charisma + (bonus?.charisma ?? 0),
-    };
-
-    const iniciative = Math.floor((finalAttributes.dexterity - 10) / 2);
-    const constBonus = Math.floor((finalAttributes.constitution - 10) / 2);
-    const hp = (character.hit_die ?? 0) * (character.level ?? 1) + constBonus;
-
-    setHitPoints(hp);
-    setIniciative(iniciative);
-    setAttributes(finalAttributes);
     nextStep();
     console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
     router.push("/characters/create-character/background");
@@ -131,7 +122,7 @@ export const StepAttributes = () => {
                           {ATTRIBUTE_KEYS[key as keyof typeof ATTRIBUTE_KEYS]} +
                           {value}
                         </span>
-                      )
+                      ),
                   )}
                 </div>
               </div>

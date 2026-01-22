@@ -44,6 +44,7 @@ export interface DNDCharacter {
     wisdom?: number;
     charisma?: number; // +1 (Dragonborn)
   };
+  selectedAbilityBonuses?: string[];
 
   class_features: CharacterClassFeature[];
   class_weapon_proficiencies: string[];

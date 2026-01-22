@@ -42,6 +42,7 @@ export const RaceAccordionOptions = ({
       type="single"
       collapsible
       className="w-full border border-gray-200 px-4 cursor-pointer"
+      value="item-1"
     >
       <AccordionItem value="item-1" className="">
         <AccordionTrigger> {title}</AccordionTrigger>

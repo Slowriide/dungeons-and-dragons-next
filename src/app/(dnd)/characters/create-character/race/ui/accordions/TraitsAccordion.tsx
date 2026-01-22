@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/form";
 import { Trait } from "@/interface/character/DNDCharacter";
 import { useEffect } from "react";
+import { fi } from "zod/v4/locales";
 
 interface FormData {
   race: string;
@@ -69,7 +70,7 @@ export const TraitsAccordion = ({
         .map((t) => ({
           id: t.index,
           name: t.name,
-          description: t.desc.join(" "), // 👈 Concatenar descripciones
+          description: t.desc.join(" "), // Concatenar descripciones
         }));
 
       // Notificar al padre con los traits completos
@@ -119,133 +120,163 @@ export const TraitsAccordion = ({
 
   return (
     <div className="space-y-6">
-      {traits.map((trait) => (
-        <Accordion
-          key={trait.index}
-          type="single"
-          collapsible
-          className="w-full border border-gray-200 px-4 cursor-pointer "
-        >
-          <AccordionItem value="item-1" className="">
-            <AccordionTrigger>{trait.name}</AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance">
-              <div>
-                <p>{trait.desc}</p>
+      {traits.map((trait) => {
+        // Determinar si este trait tiene opciones
+        const hasProfChoices = !!trait.proficiency_choices?.from;
+        const hasSubtraits = !!trait.trait_specific?.subtrait_options;
+        const isAutomatic = !hasProfChoices && !hasSubtraits;
 
-                {/* Optional Prof Choices */}
-                <FormField
-                  control={control}
-                  name="selectedTraits"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        {trait.proficiency_choices?.from && (
-                          <Select
-                            onValueChange={(selectedIndex) => {
-                              const selectedOption =
-                                trait.proficiency_choices?.from.options.find(
-                                  (opt) => opt.item.index === selectedIndex,
-                                );
-                              if (selectedOption) {
-                                handleTraitSelect(
-                                  selectedIndex,
-                                  selectedOption.item.name,
-                                  trait.desc.join(" "), // Concatenar descripciones
-                                  field.onChange,
-                                );
-                              }
-                            }}
-                          >
-                            <SelectTrigger className="w-full border-gray-200 mt-2">
-                              <SelectValue
-                                placeholder={`Select ${trait.name}`}
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>{trait.name}</SelectLabel>
-                                {trait.proficiency_choices.from.options.map(
-                                  (r) => (
-                                    <SelectItem
-                                      key={r.item.index}
-                                      value={r.item.index}
-                                    >
-                                      {r.item.name}
-                                    </SelectItem>
-                                  ),
-                                )}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        )}
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+        return (
+          <Accordion
+            key={trait.index}
+            type="single"
+            collapsible
+            className="w-full border border-gray-200 px-4 cursor-pointer "
+            defaultValue="item-1"
+          >
+            <AccordionItem value="item-1" className="">
+              <AccordionTrigger>{trait.name}</AccordionTrigger>
+              <AccordionContent className="flex flex-col gap-4 text-balance">
+                <div>
+                  <p>{trait.desc}</p>
 
-                {/* Dragonborn Trait */}
-                {trait.trait_specific?.subtrait_options && (
-                  <div>
-                    <DraconicTable traits={traits} />
+                  {/* Optional Prof Choices */}
+                  {hasProfChoices && (
                     <FormField
                       control={control}
                       name="selectedTraits"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Select
-                              onValueChange={(selectedIndex) => {
-                                // Buscar el subtrait seleccionado
-                                const selectedOption =
-                                  trait.trait_specific?.subtrait_options?.from.options.find(
-                                    (opt) => opt.item.index === selectedIndex,
-                                  );
+                      render={({ field }) => {
+                        const currentSelection = field.value.find(
+                          (t) => t.name === trait.name,
+                        );
 
-                                if (selectedOption) {
-                                  handleTraitSelect(
-                                    selectedIndex,
-                                    selectedOption.item.name,
-                                    trait.desc.join(" "),
-                                    field.onChange,
-                                  );
-                                }
-                              }}
-                            >
-                              <SelectTrigger className="w-full border-gray-200 mt-2">
-                                <SelectValue
-                                  placeholder={`Select ${trait.name}`}
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>{trait.name}</SelectLabel>
+                        return (
+                          <FormItem>
+                            <FormControl>
+                              {trait.proficiency_choices?.from && (
+                                <Select
+                                  value={currentSelection?.id || ""}
+                                  onValueChange={(selectedIndex) => {
+                                    const selectedOption =
+                                      trait.proficiency_choices?.from.options.find(
+                                        (opt) =>
+                                          opt.item.index === selectedIndex,
+                                      );
 
-                                  {trait.trait_specific?.subtrait_options.from.options.map(
-                                    (r) => (
-                                      <SelectItem
-                                        key={r.item.index}
-                                        value={r.item.index}
-                                      >
-                                        {r.item.name}
-                                      </SelectItem>
-                                    ),
-                                  )}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                                    if (selectedOption) {
+                                      field.onChange([
+                                        {
+                                          id: selectedIndex,
+                                          name: trait.name,
+                                          description: `${trait.name}: ${selectedOption.item.name}`,
+                                        },
+                                      ]);
+                                    }
+                                  }}
+                                >
+                                  <SelectTrigger className="w-full border-gray-200 mt-2">
+                                    <SelectValue
+                                      placeholder={`Select ${trait.name}`}
+                                    />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      <SelectLabel>{trait.name}</SelectLabel>
+                                      {trait.proficiency_choices.from.options.map(
+                                        (r) => (
+                                          <SelectItem
+                                            key={r.item.index}
+                                            value={r.item.index}
+                                          >
+                                            {r.item.name}
+                                          </SelectItem>
+                                        ),
+                                      )}
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                              )}
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
                     />
-                  </div>
-                )}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      ))}
+                  )}
+
+                  {/* Dragonborn Trait */}
+                  {hasSubtraits && (
+                    <div>
+                      <DraconicTable traits={traits} />
+                      <FormField
+                        control={control}
+                        name="selectedTraits"
+                        render={({ field }) => {
+                          const currentSelection = field.value?.find(
+                            (t) =>
+                              t.name.includes("Draconic Ancestry") ||
+                              t.id.includes(trait.index),
+                          );
+
+                          return (
+                            <FormItem>
+                              <FormControl>
+                                <Select
+                                  value={currentSelection?.id || ""}
+                                  onValueChange={(selectedIndex) => {
+                                    const selectedOption =
+                                      trait.trait_specific?.subtrait_options?.from.options.find(
+                                        (opt) =>
+                                          opt.item.index === selectedIndex,
+                                      );
+
+                                    if (selectedOption) {
+                                      field.onChange([
+                                        {
+                                          id: selectedIndex,
+                                          name: selectedOption.item.name,
+                                          description: trait.desc.join(" "),
+                                        },
+                                      ]);
+                                    }
+                                  }}
+                                >
+                                  <SelectTrigger className="w-full border-gray-200 mt-2">
+                                    <SelectValue
+                                      placeholder={`Select ${trait.name}`}
+                                    />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      <SelectLabel>{trait.name}</SelectLabel>
+
+                                      {trait.trait_specific?.subtrait_options.from.options.map(
+                                        (r) => (
+                                          <SelectItem
+                                            key={r.item.index}
+                                            value={r.item.index}
+                                          >
+                                            {r.item.name}
+                                          </SelectItem>
+                                        ),
+                                      )}
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        );
+      })}
     </div>
   );
 };

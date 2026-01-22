@@ -13,6 +13,13 @@ import {
 } from "@/interface/character/DNDCharacter";
 import { persist } from "zustand/middleware";
 import { classProficiencies } from "../utils/class/classProficiencies";
+import {
+  Attributes,
+  getFinalAttributes,
+  getInitiative,
+  getMaxHP,
+  getModifier,
+} from "@/utils/characterCalculations";
 
 type CharacterState = {
   character: Partial<DNDCharacter> & {
@@ -36,6 +43,9 @@ type CharacterState = {
   setAttribute: (attr: keyof DNDCharacter["attributes"], value: number) => void;
 
   setAbilityBonuses: (attributeBonuses: DNDCharacter["abilityBonuses"]) => void;
+
+  setSelectedAbilityBonuses: (attributeBonuses: string[]) => void;
+
   setAttributeBonus: (
     attr: keyof DNDCharacter["abilityBonuses"],
     value: number,
@@ -215,6 +225,14 @@ const useDNDCharacterStore = create<CharacterState>()(
       setAbilityBonuses: (bonuses) =>
         set((state) => ({
           character: { ...state.character, abilityBonuses: bonuses },
+        })),
+
+      setSelectedAbilityBonuses: (bonuses) =>
+        set((state) => ({
+          character: {
+            ...state.character,
+            selectedAbilityBonuses: bonuses,
+          },
         })),
 
       setAttributeBonus: (attr, value) =>

@@ -17,6 +17,17 @@ export function buildCharacterTraits(
         source: "racial" as SheetTrait["source"],
       })),
     );
+
+    if (character.selectedTraits) {
+      traits.push(
+        ...character.selectedTraits.map((t) => ({
+          id: t.id,
+          name: t.name,
+          description: t.description,
+          source: "racial" as SheetTrait["source"],
+        })),
+      );
+    }
   }
 
   // 🗡️ Class features

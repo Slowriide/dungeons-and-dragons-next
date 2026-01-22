@@ -54,6 +54,7 @@ export const AbBonusAccordionOptions = ({
       type="single"
       collapsible
       className="w-full border border-gray-200 px-4 cursor-pointer"
+      defaultValue="item-1"
     >
       <AccordionItem value="item-1">
         <AccordionTrigger> {title}</AccordionTrigger>
@@ -68,8 +69,17 @@ export const AbBonusAccordionOptions = ({
                 <FormItem>
                   <div className="space-y-2">
                     {Array.from({ length: 2 }).map((_, i) => {
-                      // Opciones disponibles: excluir las ya seleccionadas en otros selects
+                      const currentValue = field.value?.[i] || "";
+
+                      // Exclude options in other selects
                       const availableOptions = options.filter((opt) => {
+                        const optionIndex = opt.ability_score.index;
+
+                        //in this select include
+                        if (optionIndex === currentValue) {
+                          return true;
+                        }
+
                         const isSelectedInOther = field.value?.some(
                           (selectedVal, idx) =>
                             idx !== i &&
@@ -82,14 +92,18 @@ export const AbBonusAccordionOptions = ({
                         <Select
                           key={i}
                           onValueChange={(value) => {
-                            // copia el array
+                            // copy array
                             const newValue = [...(field.value || [])];
-                            // Actualizar el array en la posición i
+
+                            // update position i
                             newValue[i] = value;
-                            // Filtrar valores vacíos antes de guardar
-                            field.onChange(newValue.filter(boolean));
+
+                            // Filter empty/undefined values
+                            field.onChange(
+                              newValue.filter((v) => v && v !== ""),
+                            );
                           }}
-                          value={field.value?.[i] || ""}
+                          value={currentValue}
                         >
                           <SelectTrigger className="w-full border-gray-200 mt-2">
                             <SelectValue placeholder="Select Ability Bonus" />
