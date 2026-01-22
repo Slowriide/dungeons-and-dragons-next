@@ -94,7 +94,7 @@ export interface Equipment {
   equipped?: boolean;
   description?: string;
   weight?: number;
-  source: "class" | "background" | "other";
+  source: "class" | "background-selected" | "background-base" | "other";
   value?: {
     amount: number;
     currency: "cp" | "sp" | "ep" | "gp" | "pp";

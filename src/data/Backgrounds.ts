@@ -368,7 +368,6 @@ export const BACKGROUNDS: Background[] = [
     },
 
     startingEquipment: [
-      { index: "musical-instruments", name: "Musical Instrument", quantity: 1 },
       { index: "clothes-costume", name: "Clothes, Costume", quantity: 1 },
       { index: "pouch", name: "Pouch", quantity: 15 },
     ],

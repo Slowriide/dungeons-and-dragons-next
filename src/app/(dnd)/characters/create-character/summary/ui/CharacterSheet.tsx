@@ -159,7 +159,10 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
 
           {/* Right Column - Equipment, Personality, Proficiencies */}
           <div className="space-y-6">
-            <EquipmentSection equipment={character.equipment ?? []} />
+            <EquipmentSection
+              equipment={character.equipment ?? []}
+              gold={character.gold || 0}
+            />
             <PersonalitySection
               personality={
                 character.backgroundSelections ?? {

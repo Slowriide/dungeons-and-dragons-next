@@ -87,8 +87,9 @@ export const StepBasic = () => {
     addGold,
   } = useDNDCharacterStore();
 
-  const defaultValues = useMemo(
-    () => ({
+  const form = useForm<FormData>({
+    resolver: zodResolver(baseSchema),
+    defaultValues: {
       name: character.name || "",
       class: character.characterClass || "",
       level: character.level || 1,
@@ -104,13 +105,7 @@ export const StepBasic = () => {
           .map((p) => p.index) || [],
 
       selectedEquipmentOption: character.selectedEquipmentOption || "",
-    }),
-    [hydrated, character],
-  );
-
-  const form = useForm<FormData>({
-    resolver: zodResolver(baseSchema),
-    defaultValues,
+    },
     mode: "onChange",
   });
 
@@ -191,6 +186,7 @@ export const StepBasic = () => {
   if (isLoading || isLevelLoading || isFeaturesLoading) {
     return <div>Loading class information...</div>;
   }
+
   if (!hydrated) {
     return <div>Loading...</div>;
   }
@@ -237,7 +233,6 @@ export const StepBasic = () => {
 
     return true;
   };
-  console.log(form.formState.errors);
 
   const onSubmit = (data: FormData) => {
     if (!classDetails) return;
@@ -324,6 +319,7 @@ export const StepBasic = () => {
         item.index.toLowerCase() === "pouch"
       ) {
         addGold(item.quantity);
+        return;
       }
 
       //find api selected item by id in all items map

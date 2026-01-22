@@ -19,6 +19,7 @@ import {
 
 interface EquipmentSectionProps {
   equipment: Equipment[];
+  gold: number;
 }
 
 const typeConfig: Record<
@@ -38,7 +39,7 @@ const typeConfig: Record<
   other: { icon: Package, color: "text-muted-foreground", label: "Other" },
 };
 
-export function EquipmentSection({ equipment }: EquipmentSectionProps) {
+export function EquipmentSection({ equipment, gold }: EquipmentSectionProps) {
   const groupedEquipment = equipment.reduce(
     (acc, item) => {
       if (!acc[item.type]) {
@@ -94,6 +95,18 @@ export function EquipmentSection({ equipment }: EquipmentSectionProps) {
           })}
         </div>
       </Accordion>
+
+      <div className="mb-4 p-3 bg-amber-50 dark:bg-amber-950/20 rounded-md border border-amber-200 dark:border-amber-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Coins className="w-4 h-4 text-amber-500" />
+            <span className="font-serif text-sm font-medium">Gold</span>
+          </div>
+          <span className="text-md font-bold text-amber-600 dark:text-amber-400">
+            {gold} gp
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

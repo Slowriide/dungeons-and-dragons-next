@@ -40,6 +40,7 @@ export const BackgroundOptionsAccordion = ({
       type="single"
       collapsible
       className="w-full border border-gray-200 px-4 cursor-pointer"
+      defaultValue="item-1"
     >
       <AccordionItem value="item-1" className="">
         <AccordionTrigger> {title}</AccordionTrigger>
@@ -74,7 +75,7 @@ export const BackgroundOptionsAccordion = ({
                         value={currentValue}
                       >
                         <SelectTrigger className="w-full border-gray-200 mt-2">
-                          <SelectValue placeholder="Select Proficiency" />
+                          <SelectValue placeholder="Select Equipment" />
                         </SelectTrigger>
 
                         <SelectContent>

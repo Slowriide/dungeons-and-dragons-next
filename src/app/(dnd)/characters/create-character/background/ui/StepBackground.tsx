@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { BackgroundSelector } from "./BackgroundSelector";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BACKGROUNDS } from "@/data/Backgrounds";
 import { BackgroundAccordion } from "./accordions/BackgroundAccordion";
 import { BackgroundMultipleOptionsAccordion } from "./accordions/BackgroundMultipleOptionsAccordion";
@@ -38,8 +38,7 @@ type FormData = z.infer<typeof backgroundSchema>;
 export const StepBackground = () => {
   const router = useRouter();
   const hydrated = useStoreHydrated();
-  const [isFormReady, setIsFormReady] = useState(false);
-  const prevBackgroundRef = useRef<string | null>(null);
+
   const {
     character,
     setBackground,
@@ -51,6 +50,7 @@ export const StepBackground = () => {
     setBackgroundSkills,
     setbackgroundTraits,
     setBackgroundLanguages,
+    removeEquipment,
     prevStep,
     nextStep,
   } = useDNDCharacterStore();
@@ -59,9 +59,12 @@ export const StepBackground = () => {
     resolver: zodResolver(backgroundSchema),
     defaultValues: {
       backgroundId: character.background || "",
-      selectedProficiency: undefined,
-      selectedEquipment: [],
-      selectedLanguages: [],
+      selectedProficiency: character.selectedProficiencies?.[0] || "",
+      selectedEquipment:
+        character.equipment
+          ?.filter((eq) => eq.source === "background-selected")
+          .map((eq) => eq.index) ?? [],
+      selectedLanguages: character.backgroundLanguages || [],
       specialty: character.backgroundSelections?.specialty ?? "",
       personalityTrait: character.backgroundSelections?.personalityTrait ?? "",
       ideal: character.backgroundSelections?.ideal ?? "",
@@ -85,7 +88,10 @@ export const StepBackground = () => {
     const storedData: FormData = {
       backgroundId: character.background || "",
       selectedProficiency: character.selectedProficiencies?.[0] || "",
-      selectedEquipment: [],
+      selectedEquipment:
+        character.equipment
+          ?.filter((eq) => eq.source === "background-selected")
+          .map((eq) => eq.index) ?? [],
       selectedLanguages: character.backgroundLanguages || [],
       specialty: character.backgroundSelections?.specialty || "",
       personalityTrait: character.backgroundSelections?.personalityTrait || "",
@@ -105,18 +111,18 @@ export const StepBackground = () => {
       });
 
       prevBackgroundRef.current = storedData.backgroundId;
-      setIsFormReady(true);
     }, 0);
   }, [hydrated]);
 
+  const selected = form.watch("backgroundId");
+  const prevBackgroundRef = useRef(selected);
+
   // only if user changes backfround mannualy
   useEffect(() => {
-    if (!isFormReady || !selectedBackgroundId) return;
-
     if (
+      hydrated &&
       prevBackgroundRef.current &&
-      prevBackgroundRef.current !== selectedBackgroundId &&
-      selectedBackgroundId !== character.background
+      prevBackgroundRef.current !== selected
     ) {
       form.setValue("specialty", "");
       form.setValue("personalityTrait", "");
@@ -128,8 +134,12 @@ export const StepBackground = () => {
       form.setValue("selectedLanguages", []);
     }
 
-    prevBackgroundRef.current = selectedBackgroundId;
-  }, [selectedBackgroundId, isFormReady]);
+    prevBackgroundRef.current = selected;
+  }, [selected, hydrated, form]);
+
+  if (!hydrated) {
+    return <div>Loading...</div>;
+  }
 
   const validateDynamicRules = (data: FormData) => {
     if (!selectedBackground) return true;
@@ -271,13 +281,22 @@ export const StepBackground = () => {
     //Equipment
 
     //Base
+    const previousEquipment =
+      character.equipment?.filter((eq) => eq.source === "background-base") ||
+      [];
+
+    previousEquipment.forEach((eq) => removeEquipment(eq.index));
+
     selectedBackground.startingEquipment.map((eq) => {
       if (
         eq.index.toLowerCase() === "gp" ||
         eq.index.toLowerCase() === "gold" ||
         eq.index.toLowerCase() === "pouch"
       ) {
+        console.log(`${eq.index} - ${eq.quantity}`);
+
         addGold(eq.quantity || 1);
+        return;
       }
 
       addEquipment({
@@ -286,22 +305,36 @@ export const StepBackground = () => {
         quantity: eq.quantity || 1,
         equipped: false,
         type: categorizeEquipment(eq.index),
-        source: "background",
+        source: "background-base",
       });
     });
 
-    //optional
+    //optional equipment
+
+    //delete prev equipment
+    const previousSelectedEquipment =
+      character.equipment?.filter(
+        (eq) => eq.source === "background-selected",
+      ) || [];
+
+    previousSelectedEquipment.forEach((eq) => removeEquipment(eq.index));
+
     if (data.selectedEquipment && data.selectedEquipment.length > 0) {
       data.selectedEquipment
         .filter((eq) => eq !== "")
         .forEach((equipIndex) => {
+          // Buscar el nombre real del equipo en las opciones
+          const equipmentItem = selectedBackground.startingEquipmentOptions
+            ?.flatMap((group) => group.options)
+            .find((opt) => opt.index === equipIndex);
+
           addEquipment({
             index: equipIndex,
-            name: equipIndex.replace(/-/g, " "), // Temporal, mejorar después
+            name: equipmentItem?.name || equipIndex.replace(/-/g, " "),
             type: categorizeEquipment(equipIndex),
             quantity: 1,
             equipped: false,
-            source: "background",
+            source: "background-selected",
           });
         });
     }
