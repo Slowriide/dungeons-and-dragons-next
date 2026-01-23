@@ -31,9 +31,9 @@ export function buildCharacterTraits(
   }
 
   // 🗡️ Class features
-  if (character.class_features) {
+  if (character.classFeatures) {
     traits.push(
-      ...character.class_features.map((feature) => ({
+      ...character.classFeatures.map((feature) => ({
         id: feature.index,
         name: feature.name,
         description: feature.description,
