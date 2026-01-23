@@ -1,4 +1,4 @@
-import { getRaces } from "@/actions/races/getRaces";
+import { getRaces } from "@/services/races/getRaces";
 import { useQuery } from "@tanstack/react-query";
 
 export const useRacesList = () => {

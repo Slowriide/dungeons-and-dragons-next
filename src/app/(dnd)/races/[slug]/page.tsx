@@ -1,4 +1,4 @@
-import { getRacesDetails } from "@/actions/races/getRacesDetails";
+import { getRacesDetails } from "@/services/races/getRacesDetails";
 import { RaceHeaderCard } from "@/components/races/RaceHeaderCard";
 import { RaceSummary } from "@/components/races/RaceSummary";
 import { SubraceSummary } from "@/components/races/SubraceSummary";

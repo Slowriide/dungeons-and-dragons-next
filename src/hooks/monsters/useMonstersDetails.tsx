@@ -2,7 +2,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getMonstersDetails } from "@/actions/monsters/getMonstersDetails";
+import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";
 import { useSearchParams } from "next/navigation";
 
 interface Props {

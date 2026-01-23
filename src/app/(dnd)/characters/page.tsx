@@ -4,8 +4,11 @@ import { CharactersView } from "./ui/CharactersView";
 import { CharactersGrid } from "@/components/characters/CharactersGrid";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getAllCharacters } from "@/actions/characters";
 
-export default function CharactersPage() {
+export default async function CharactersPage() {
+  const characters = await getAllCharacters();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">
@@ -25,7 +28,7 @@ export default function CharactersPage() {
           </Link>
         </div>
       </div>
-      <CharactersGrid />
+      <CharactersGrid characters={characters} />
     </div>
   );
 }

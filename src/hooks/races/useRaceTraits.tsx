@@ -2,7 +2,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getRaceTraits } from "@/actions/races/getRaceTraits";
+import { getRaceTraits } from "@/services/races/getRaceTraits";
 
 interface Props {
   traitsIndexes: string[];

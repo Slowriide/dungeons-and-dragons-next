@@ -1,4 +1,4 @@
-import { getClassFeaturesDetails } from "@/actions/classes/getClassFeaturesDetails";
+import { getClassFeaturesDetails } from "@/services/classes/getClassFeaturesDetails";
 import { useQuery } from "@tanstack/react-query";
 
 interface Options {

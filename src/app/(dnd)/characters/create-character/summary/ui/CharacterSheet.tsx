@@ -1,7 +1,4 @@
-import {
-  CharacterSkill,
-  DNDCharacter,
-} from "@/interface/character/DNDCharacter";
+import { DNDCharacter } from "@/interface/character/DNDCharacter";
 import { CharacterHeader } from "./CharacterHeader";
 import { CombatStats } from "./CombatStats";
 import { PersonalitySection } from "./PersonalitySection";
@@ -14,12 +11,10 @@ import { SkillsList } from "./SkillsList";
 import { buildSkillsList } from "../../../utils/buildSkillsList";
 import { buildSavingThrows } from "../../../utils/buildSavingTrows";
 import { SavingThrows } from "./SavingThrows";
-import useDNDCharacterStore from "@/store/characte.store";
 import {
   getFinalAttributes,
   getInitiative,
   getMaxHP,
-  getModifier,
 } from "@/utils/characterCalculations";
 
 interface CharacterSheetProps {

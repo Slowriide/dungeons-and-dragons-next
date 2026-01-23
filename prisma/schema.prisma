@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String      @id @default(cuid())
+  email      String      @unique
+  name       String?
+  characters Character[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Character {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Basic Info
+  name             String
+  characterClass   String
+  race             String
+  background       String?
+  level            Int     @default(1)
+  alignment        String?
+  experiencePoints Int     @default(0)
+
+  // Attributes
+  baseAttributes Json // { strength: 10, dexterity: 12, ... }
+  abilityBonuses Json? // { strength: 2, dexterity: 1, ... }
+
+  // Combat Stats
+  hitDie           Int?
+  hitPoints        Int?
+  armorClass       Int?
+  speed            Int?
+  proficiencyBonus Int?
+
+  // Skills & Proficiencies
+  skills                Json? // CharacterSkill[]
+  classProficiencies    Json? // ClassProficiency[]
+  proficiencies         String[]
+  selectedProficiencies String[]
+  languages             String[]
+  raceLanguages         String[]
+  backgroundLanguages   String[]
+
+  // Equipment
+  equipment               Json? // Equipment[]
+  selectedEquipmentOption String?
+  gold                    Int     @default(0)
+
+  // Traits & Features
+  raceTraits      Json? // Trait[]
+  selectedTraits  Json? // Trait[]
+  backgroundTrait Json? // Trait
+  classFeatures   Json? // CharacterClassFeature[]
+
+  // Personality
+  backgroundSelections Json? // BackgroundSelections
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}

@@ -1,4 +1,4 @@
-import { getClassesDetails } from "@/actions/classes/getClassesDetails";
+import { getClassesDetails } from "@/services/classes/getClassesDetails";
 import { ClassHeader } from "@/components/classes/ClassHeader";
 import { ClassSummary } from "@/components/classes/ClassSummary";
 

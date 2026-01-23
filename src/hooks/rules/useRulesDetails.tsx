@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getRuleDetails } from "@/actions/rules/getRuleDetails";
+import { getRuleDetails } from "@/services/rules/getRuleDetails";
 import { useSearchParams } from "next/navigation";
 
 interface Props {
@@ -27,7 +27,7 @@ export const useRulesDetails = ({ rulesIndexes }: Props) => {
       rule.index.toLowerCase().includes(query);
 
     const matchSubsection = rule.subsections.some((sub) =>
-      sub.name.toLowerCase().includes(query)
+      sub.name.toLowerCase().includes(query),
     );
 
     return matchName || matchSubsection;

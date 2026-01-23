@@ -1,5 +1,5 @@
-import { getClassesFeatures } from "@/actions/classes/getClassesFeatures";
-import { getClassFeaturesDetails } from "@/actions/classes/getClassFeaturesDetails";
+import { getClassesFeatures } from "@/services/classes/getClassesFeatures";
+import { getClassFeaturesDetails } from "@/services/classes/getClassFeaturesDetails";
 
 interface Props {
   classIndex: string;

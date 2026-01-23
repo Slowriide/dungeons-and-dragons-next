@@ -2,7 +2,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getSpellsDetails } from "@/actions/spells/getSpellsDetails";
+import { getSpellsDetails } from "@/services/spells/getSpellsDetails";
 import { DNDSpell } from "@/interface/spells/DndSpell";
 
 export const useSpellsDetails = (spellIndexes: string | string[]) => {

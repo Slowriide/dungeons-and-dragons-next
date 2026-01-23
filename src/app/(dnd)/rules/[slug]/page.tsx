@@ -1,4 +1,4 @@
-import { getRuleSubsectionDetails } from "@/actions/rules/getRulesSections";
+import { getRuleSubsectionDetails } from "@/services/rules/getRulesSections";
 import { RuleSubsectionCard } from "@/components/rules/RuleSubsectionCard";
 
 interface Props {

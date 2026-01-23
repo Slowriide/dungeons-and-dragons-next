@@ -5,19 +5,29 @@ import Image from "next/image";
 import { getDnDImages } from "@/utils/getDnDImages";
 import Link from "next/link";
 import { DNDCharacter } from "../../interface/character/DNDCharacter";
+import { geClassImages } from "@/utils/class/getClassImage";
 
-interface Props {
-  character: DNDCharacter;
+interface Character {
+  id: string;
+  name: string;
+  characterClass: string;
+  race: string;
+  level: number;
+  createdAt: Date;
 }
 
-export const CharactersCard = ({ character }: Props) => {
+interface CharacterCardProps {
+  character: Character;
+}
+
+export const CharactersCard = ({ character }: CharacterCardProps) => {
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
       <Link href={`/characters`}>
         {/* Image */}
         <div className="relative w-full aspect-3/3 overflow-hidden">
           <Image
-            src={"/placeholder.svg"}
+            src={geClassImages(character.characterClass.toLowerCase())}
             alt={"Character"}
             fill
             sizes="400"

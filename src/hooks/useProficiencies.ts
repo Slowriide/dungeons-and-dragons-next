@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { DNDProficiencie } from "@/interface/DNDProficiencie";
-import { getProficencies } from "@/actions/getProficencies";
+import { getProficencies } from "@/services/getProficencies";
 
 interface Props {
   profIndexes: string[];

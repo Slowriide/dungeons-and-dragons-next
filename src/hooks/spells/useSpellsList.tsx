@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getSpells } from "@/actions/spells/getSpells";
+import { getSpells } from "@/services/spells/getSpells";
 import { useSearchParams } from "next/navigation";
 
 interface Options {

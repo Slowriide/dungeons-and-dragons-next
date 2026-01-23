@@ -1,4 +1,4 @@
-import { getClassesLevelsDetails } from "@/actions/classes/getClassLevels";
+import { getClassesLevelsDetails } from "@/services/classes/getClassLevels";
 import { DNDClass } from "@/interface/classes/DnDClass";
 import { Badge } from "../ui/badge";
 import { classProficiencies } from "@/utils/class/classProficiencies";

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { getMonsters } from "@/actions/monsters/getMonsters";
+import { getMonsters } from "@/services/monsters/getMonsters";
 
 export const useMonstersList = () => {
   const search = useSearchParams();

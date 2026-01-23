@@ -1,4 +1,4 @@
-import { getMonstersDetails } from "@/actions/monsters/getMonstersDetails";
+import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";
 import { MonsterHeader } from "@/components/monsters/MonsterHeader";
 import { MonsterSummary } from "@/components/monsters/MonsterSummary";
 interface Props {

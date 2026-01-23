@@ -1,7 +1,7 @@
 import { DNDRace } from "@/interface/races/DNDRace";
 import React from "react";
 import { Badge } from "../ui/badge";
-import { getSubacesDetails } from "@/actions/races/getSubraceDetails";
+import { getSubacesDetails } from "@/services/races/getSubraceDetails";
 
 interface Props {
   race: DNDRace;

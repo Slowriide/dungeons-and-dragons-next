@@ -1,5 +1,5 @@
-import { getSubclassDetails } from "@/actions/classes/getSubclasses";
-import { getSubclassLevels } from "@/actions/classes/getSubclassLevels";
+import { getSubclassDetails } from "@/services/classes/getSubclasses";
+import { getSubclassLevels } from "@/services/classes/getSubclassLevels";
 import { DNDClass } from "@/interface/classes/DnDClass";
 
 interface Props {

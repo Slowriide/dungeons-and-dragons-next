@@ -1,4 +1,4 @@
-import { getClasses } from "@/actions/classes/getClasses";
+import { getClasses } from "@/services/classes/getClasses";
 import { useQuery } from "@tanstack/react-query";
 
 export const useClassesList = () => {

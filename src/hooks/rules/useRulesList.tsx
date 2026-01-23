@@ -1,4 +1,4 @@
-import { getRules } from "@/actions/rules/getRules";
+import { getRules } from "@/services/rules/getRules";
 import { useQuery } from "@tanstack/react-query";
 
 export const useRulesList = () => {

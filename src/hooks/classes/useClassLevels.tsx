@@ -1,4 +1,4 @@
-import { getClassesLevelsDetails } from "@/actions/classes/getClassLevels";
+import { getClassesLevelsDetails } from "@/services/classes/getClassLevels";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {

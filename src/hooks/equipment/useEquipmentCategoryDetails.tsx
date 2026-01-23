@@ -1,11 +1,10 @@
-import { getEquipmentCategories } from "@/actions/equipment/getEquipmentCategories";
 import { useQuery } from "@tanstack/react-query";
-import { getEquipmentCategoryDetails } from "../../actions/equipment/getEquipmentCategoryDetails";
+import { getEquipmentCategoryDetails } from "../../services/equipment/getEquipmentCategoryDetails";
 
 interface Props {
   equipmentCatIndexes: string[];
 }
-
+console.log("SERVICE IMPORT", getEquipmentCategoryDetails);
 export const useEquipmentCategoryDetails = ({ equipmentCatIndexes }: Props) => {
   const cleaned = equipmentCatIndexes.filter(Boolean); // ❗Saca strings vacías
 

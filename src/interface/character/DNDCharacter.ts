@@ -46,7 +46,7 @@ export interface DNDCharacter {
   };
   selectedAbilityBonuses?: string[];
 
-  class_features: CharacterClassFeature[];
+  classFeatures: CharacterClassFeature[];
   class_weapon_proficiencies: string[];
   class_armor_proficiencies: string[];
 
@@ -60,7 +60,7 @@ export interface DNDCharacter {
   raceTraits: Trait[];
   selectedTraits: Trait[];
 
-  backgroundTraits: Trait;
+  backgroundTrait: Trait;
 
   equipment: Equipment[];
   selectedEquipmentOption: string;

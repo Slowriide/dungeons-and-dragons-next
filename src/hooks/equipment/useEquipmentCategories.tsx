@@ -1,4 +1,4 @@
-import { getEquipmentCategories } from "@/actions/equipment/getEquipmentCategories";
+import { getEquipmentCategories } from "@/services/equipment/getEquipmentCategories";
 import { equipment } from "@/mocks/data/equipment";
 import { useQuery } from "@tanstack/react-query";
 

@@ -2,7 +2,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getClassesDetails } from "@/actions/classes/getClassesDetails";
+import { getClassesDetails } from "@/services/classes/getClassesDetails";
 import { useSearchParams } from "next/navigation";
 
 interface Props {

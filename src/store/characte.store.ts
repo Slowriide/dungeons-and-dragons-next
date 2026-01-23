@@ -20,6 +20,7 @@ import {
   getMaxHP,
   getModifier,
 } from "@/utils/characterCalculations";
+import { saveCharacter, updateCharacter } from "@/actions/characters";
 
 type CharacterState = {
   character: Partial<DNDCharacter> & {
@@ -115,7 +116,8 @@ type CharacterState = {
   prevStep: () => void;
 
   // Utilidades
-  updateCharacter: (updates: Partial<DNDCharacter>) => void;
+  saveCharacter: () => void;
+  updateCharacter: (id: string) => void;
   resetCharacter: () => void;
   isCharacterComplete: () => boolean;
   getProgress: () => number;
@@ -138,7 +140,7 @@ const initialCharacterState: Partial<DNDCharacter> & { currentStep: number } = {
     charisma: 10,
   },
   abilityBonuses: {},
-  class_features: [],
+  classFeatures: [],
   class_weapon_proficiencies: [],
   skills: [],
   raceTraits: [],
@@ -338,10 +340,7 @@ const useDNDCharacterStore = create<CharacterState>()(
         set((state) => ({
           character: {
             ...state.character,
-            class_features: [
-              ...(state.character.class_features || []),
-              feature,
-            ],
+            class_features: [...(state.character.classFeatures || []), feature],
           },
         })),
 
@@ -616,10 +615,33 @@ const useDNDCharacterStore = create<CharacterState>()(
           },
         })),
 
-      updateCharacter: (updates) =>
-        set((state) => ({
-          character: { ...state.character, ...updates },
-        })),
+      saveCharacter: async () => {
+        const character = get().character;
+
+        const result = await saveCharacter(character);
+
+        if (result.success) {
+          set((state) => ({
+            character: {
+              ...state.character,
+              id: result.characterId,
+            },
+          }));
+
+          return result.characterId;
+        }
+
+        throw new Error("Failed to save character");
+      },
+
+      updateCharacter: async (id: string) => {
+        const character = get().character;
+        const result = await updateCharacter(id, character);
+
+        if (!result.success) {
+          throw new Error("Failed to update character");
+        }
+      },
 
       resetCharacter: () =>
         set((state) => ({

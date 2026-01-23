@@ -2,9 +2,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getMonstersDetails } from "@/actions/monsters/getMonstersDetails";
+import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";
 import { useSearchParams } from "next/navigation";
-import { getRacesDetails } from "@/actions/races/getRacesDetails";
+import { getRacesDetails } from "@/services/races/getRacesDetails";
 
 interface Props {
   racesIndexes: string[];
@@ -25,7 +25,7 @@ export const useRacesDetails = ({ racesIndexes }: Props) => {
   const races = results.data?.race ?? [];
 
   const filteredResults = races.filter(
-    (race) => race.index.includes(query) || race.name.includes(query)
+    (race) => race.index.includes(query) || race.name.includes(query),
   );
 
   return {
