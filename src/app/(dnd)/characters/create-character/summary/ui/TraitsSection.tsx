@@ -16,10 +16,22 @@ interface TraitsSectionProps {
 }
 
 const sourceConfig = {
-  racial: { label: "Racial", icon: User, color: "text-amber-400" },
-  class: { label: "Class", icon: Sword, color: "text-amber-400" },
-  background: { label: "Background", icon: Award, color: "text-amber-400" },
-  feat: { label: "Feat", icon: Sparkles, color: "text-amber-400" },
+  racial: {
+    label: "Racial",
+    icon: User,
+    color: "text-secondary-foreground/80",
+  },
+  class: { label: "Class", icon: Sword, color: "text-secondary-foreground/80" },
+  background: {
+    label: "Background",
+    icon: Award,
+    color: "text-secondary-foreground/80",
+  },
+  feat: {
+    label: "Feat",
+    icon: Sparkles,
+    color: "text-secondary-foreground/80",
+  },
 };
 
 export function TraitsSection({ traits }: TraitsSectionProps) {

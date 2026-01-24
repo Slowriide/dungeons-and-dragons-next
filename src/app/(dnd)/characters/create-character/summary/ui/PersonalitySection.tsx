@@ -22,11 +22,11 @@ export function PersonalitySection({ personality }: PersonalitySectionProps) {
         {/* Personality Traits */}
         <div>
           <div className="flex items-center gap-2 text-xs font-serif uppercase tracking-wider text-muted-foreground mb-2">
-            <Scroll className="w-3 h-3 text-amber-400" />
+            <Scroll className="w-3 h-3 text-secondary-foreground/80" />
             Traits
           </div>
           <div className="space-y-2">
-            <p className="text-sm font-manuscript italic text-ink leading-relaxed pl-3 border-l-2 border-amber-400">
+            <p className="text-sm font-manuscript italic text-ink leading-relaxed pl-3 border-l-2 border-secondary-foreground/80">
               "{personality.personalityTrait}"
             </p>
           </div>
@@ -35,10 +35,10 @@ export function PersonalitySection({ personality }: PersonalitySectionProps) {
         {/* Ideals */}
         <div>
           <div className="flex items-center gap-2 text-xs font-serif uppercase tracking-wider text-muted-foreground mb-2">
-            <Heart className="w-3 h-3 text-amber-400" />
+            <Heart className="w-3 h-3 text-secondary-foreground/80" />
             Ideals
           </div>
-          <p className="text-sm font-manuscript italic text-ink leading-relaxed pl-3 border-l-2 border-amber-400">
+          <p className="text-sm font-manuscript italic text-ink leading-relaxed pl-3 border-l-2 border-secondary-foreground/80">
             "{personality.ideal}"
           </p>
         </div>
@@ -46,10 +46,10 @@ export function PersonalitySection({ personality }: PersonalitySectionProps) {
         {/* Bonds */}
         <div>
           <div className="flex items-center gap-2 text-xs font-serif uppercase tracking-wider text-muted-foreground mb-2">
-            <Link className="w-3 h-3 text-amber-400" />
+            <Link className="w-3 h-3 text-secondary-foreground/80" />
             Bonds
           </div>
-          <p className="text-sm font-manuscript italic text-ink leading-relaxed pl-3 border-l-2 border-amber-400">
+          <p className="text-sm font-manuscript italic text-ink leading-relaxed pl-3 border-l-2 border-secondary-foreground/80">
             "{personality.bond}"
           </p>
         </div>

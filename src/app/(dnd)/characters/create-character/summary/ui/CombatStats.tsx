@@ -32,7 +32,7 @@ export function CombatStats({
       {/* Top row - AC, Initiative, Speed */}
       <div className="grid grid-cols-3 gap-3">
         <div className="border-2 border-red-700 rounded-lg p-3 text-center">
-          <Shield className="w-5 h-5 mx-auto text-amber-400 mb-1" />
+          <Shield className="w-5 h-5 mx-auto text-secondary-foreground/80 mb-1" />
           <span className="text-2xl font-bold font-serif text-ink">
             {armorClass}
           </span>
@@ -42,7 +42,7 @@ export function CombatStats({
         </div>
 
         <div className="border-2 border-red-700 rounded-lg p-3 text-center">
-          <Zap className="w-5 h-5 mx-auto text-amber-400 mb-1" />
+          <Zap className="w-5 h-5 mx-auto text-secondary-foreground/80 mb-1" />
           <span className="text-2xl font-bold font-serif text-ink">
             {formatModifier(initiative)}
           </span>
@@ -52,7 +52,7 @@ export function CombatStats({
         </div>
 
         <div className="border-2 border-red-700 rounded-lg p-3 text-center">
-          <Footprints className="w-5 h-5 mx-auto text-amber-400 mb-1" />
+          <Footprints className="w-5 h-5 mx-auto text-secondary-foreground/80 mb-1" />
           <span className="text-2xl font-bold font-serif text-ink">
             {speed}
           </span>
@@ -91,8 +91,8 @@ export function CombatStats({
                 hpPercentage > 50
                   ? "linear-gradient(90deg, hsl(120 40% 35%), hsl(100 45% 40%))"
                   : hpPercentage > 25
-                  ? "linear-gradient(90deg, hsl(45 80% 45%), hsl(35 85% 50%))"
-                  : "linear-gradient(90deg, hsl(0 65% 45%), hsl(15 70% 50%))",
+                    ? "linear-gradient(90deg, hsl(45 80% 45%), hsl(35 85% 50%))"
+                    : "linear-gradient(90deg, hsl(0 65% 45%), hsl(15 70% 50%))",
             }}
           />
         </div>
@@ -101,7 +101,7 @@ export function CombatStats({
       {/* Bottom row - Hit Dice & Proficiency */}
       <div className="grid grid-cols-2 gap-3">
         <div className="border-2 border-red-700 rounded-lg p-3 text-center">
-          <Dices className="w-5 h-5 mx-auto text-amber-400 mb-1" />
+          <Dices className="w-5 h-5 mx-auto text-secondary-foreground/80 mb-1" />
           <span className="text-lg font-bold font-serif text-ink">
             {hitDice}
           </span>
@@ -112,7 +112,7 @@ export function CombatStats({
         </div>
 
         <div className="border-2 border-red-700 rounded-lg p-3 text-center">
-          <Star className="w-5 h-5 mx-auto text-amber-400 mb-1" />
+          <Star className="w-5 h-5 mx-auto text-secondary-foreground/80 mb-1" />
           <span className="text-2xl font-bold font-serif text-ink">
             +{proficiencyBonus}
           </span>

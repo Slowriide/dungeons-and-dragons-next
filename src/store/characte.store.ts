@@ -8,6 +8,7 @@ import {
   ClassProficiency,
   DNDCharacter,
   Equipment,
+  GoldEntry,
   Size,
   Trait,
 } from "@/interface/character/DNDCharacter";
@@ -69,6 +70,7 @@ type CharacterState = {
   setClassFeatures: (features: CharacterClassFeature[]) => void;
   addClassFeature: (feature: CharacterClassFeature) => void;
   setClassWeaponProficiencies: (proficiencies: string[]) => void;
+  setClassArmorProficiencies: (proficiencies: string[]) => void;
 
   // Métodos para características de clase
   setSelectedTraits: (traits: Trait[]) => void;
@@ -97,10 +99,13 @@ type CharacterState = {
   setSelectedEquipmentOption: (selectedEquipmentOption: string) => void;
 
   removeEquipment: (index: string) => void;
+  clearEquipmentBySource: (source: Equipment["source"]) => void;
   toggleEquiped: (index: string) => void;
   updateQuantity: (index: string, quantiy: number) => void;
 
-  addGold: (amount: number) => void;
+  addGold: (amount: number, source: GoldEntry["source"]) => void;
+  removeGoldBySource: (source: GoldEntry["source"]) => void;
+  getTotalGold: () => number;
 
   // Métodos para idiomas
   setLanguages: (languages: string[]) => void;
@@ -131,6 +136,16 @@ const initialCharacterState: Partial<DNDCharacter> & { currentStep: number } = {
   race: undefined,
   level: 1,
   background: undefined,
+  gold: [],
+  backgroundLanguages: [],
+  backgroundSelections: {
+    specialty: "",
+    personalityTrait: "",
+    ideal: "",
+    bond: "",
+    flaw: "",
+  },
+  backgroundSkills: [],
   attributes: {
     strength: 10,
     dexterity: 10,
@@ -352,6 +367,14 @@ const useDNDCharacterStore = create<CharacterState>()(
           },
         })),
 
+      setClassArmorProficiencies: (proficiencies) =>
+        set((state) => ({
+          character: {
+            ...state.character,
+            class_armor_proficiencies: proficiencies,
+          },
+        })),
+
       // Traits
       setSelectedTraits: (traits) =>
         set((state) => ({
@@ -500,6 +523,16 @@ const useDNDCharacterStore = create<CharacterState>()(
           };
         }),
 
+      clearEquipmentBySource: (source: Equipment["source"]) =>
+        set((state) => ({
+          character: {
+            ...state.character,
+            equipment:
+              state.character.equipment?.filter((eq) => eq.source !== source) ||
+              [],
+          },
+        })),
+
       toggleEquiped: (index) =>
         set((state) => {
           const currentEquipment = Array.isArray(state.character.equipment)
@@ -548,13 +581,30 @@ const useDNDCharacterStore = create<CharacterState>()(
           };
         }),
 
-      addGold: (amount: number) =>
+      addGold: (amount, source) =>
         set((state) => ({
           character: {
             ...state.character,
-            gold: (state.character.gold ?? 0) + amount,
+            gold: [
+              ...(state.character.gold || []),
+              { quantity: amount, source },
+            ],
           },
         })),
+
+      removeGoldBySource: (source: GoldEntry["source"]) =>
+        set((state) => ({
+          character: {
+            ...state.character,
+            gold:
+              state.character.gold?.filter((g) => g.source !== source) || [],
+          },
+        })),
+
+      getTotalGold: () => {
+        const { gold } = get().character;
+        return gold?.reduce((total, entry) => total + entry.quantity, 0) || 0;
+      },
 
       setLanguages: (langs) =>
         set((state) => ({
@@ -631,7 +681,7 @@ const useDNDCharacterStore = create<CharacterState>()(
           return result.characterId;
         }
 
-        throw new Error("Failed to save character");
+        throw new Error(result.error);
       },
 
       updateCharacter: async (id: string) => {

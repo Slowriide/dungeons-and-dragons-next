@@ -24,20 +24,15 @@ model User {
 model Character {
   id     String  @id @default(cuid())
   userId String?
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Basic Info
   name             String
   characterClass   String
   race             String
-  background       String?
   level            Int     @default(1)
+  background       String?
   alignment        String?
   experiencePoints Int     @default(0)
-
-  // Attributes
-  baseAttributes Json // { strength: 10, dexterity: 12, ... }
-  abilityBonuses Json? // { strength: 2, dexterity: 1, ... }
 
   // Combat Stats
   hitDie           Int?
@@ -45,25 +40,39 @@ model Character {
   armorClass       Int?
   speed            Int?
   proficiencyBonus Int?
+  size             String?
+  iniciative       Int?
 
-  // Skills & Proficiencies
-  skills                Json? // CharacterSkill[]
-  classProficiencies    Json? // ClassProficiency[]
-  proficiencies         String[]
-  selectedProficiencies String[]
-  languages             String[]
-  raceLanguages         String[]
-  backgroundLanguages   String[]
+  // Attributes
+  baseAttributes         Json // { strength: 10, dexterity: 12, ... }
+  abilityBonuses         Json? // { strength: 2, dexterity: 1, ... }
+  selectedAbilityBonuses String[] // ["str", "dex"]
 
-  // Equipment
+  // Skills
+  skills             Json? // CharacterSkill[]
+  backgroundSkills   Json? // CharacterSkill[]
+  classProficiencies Json? // ClassProficiency[]
+
+  // Proficiencies
+  proficiencies            String[]
+  selectedProficiencies    String[]
+  classWeaponProficiencies String[]
+  classArmorProficiencies  String[]
+
+  // Languages
+  languages           String[]
+  raceLanguages       String[]
+  backgroundLanguages String[]
+
+  // Equipment & Gold
   equipment               Json? // Equipment[]
   selectedEquipmentOption String?
-  gold                    Int     @default(0)
+  gold                    Json? // GoldEntry[]
 
   // Traits & Features
   raceTraits      Json? // Trait[]
   selectedTraits  Json? // Trait[]
-  backgroundTrait Json? // Trait
+  backgroundTrait Json? // Trait (singular)
   classFeatures   Json? // CharacterClassFeature[]
 
   // Personality
@@ -72,6 +81,7 @@ model Character {
   // Metadata
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }

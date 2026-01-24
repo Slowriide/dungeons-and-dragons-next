@@ -51,6 +51,8 @@ export const StepBackground = () => {
     setbackgroundTraits,
     setBackgroundLanguages,
     removeEquipment,
+    removeGoldBySource,
+    clearEquipmentBySource,
     prevStep,
     nextStep,
   } = useDNDCharacterStore();
@@ -281,11 +283,9 @@ export const StepBackground = () => {
     //Equipment
 
     //Base
-    const previousEquipment =
-      character.equipment?.filter((eq) => eq.source === "background-base") ||
-      [];
-
-    previousEquipment.forEach((eq) => removeEquipment(eq.index));
+    removeGoldBySource("background-base");
+    clearEquipmentBySource("background-base");
+    clearEquipmentBySource("background-selected");
 
     selectedBackground.startingEquipment.map((eq) => {
       if (
@@ -295,7 +295,7 @@ export const StepBackground = () => {
       ) {
         console.log(`${eq.index} - ${eq.quantity}`);
 
-        addGold(eq.quantity || 1);
+        addGold(eq.quantity || 1, "background-base");
         return;
       }
 

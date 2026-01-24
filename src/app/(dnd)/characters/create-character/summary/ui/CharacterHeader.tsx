@@ -41,7 +41,7 @@ export function CharacterHeader({
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-6">
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif uppercase tracking-wider text-muted-foreground mb-1">
-              <Crown className="w-3 h-3 text-amber-400" />
+              <Crown className="w-3 h-3 text-secondary-foreground/80" />
               Class & Level
             </div>
             <p className="text-lg  font-semibold capitalize">
@@ -51,7 +51,7 @@ export function CharacterHeader({
 
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif  uppercase tracking-wider text-muted-foreground mb-1">
-              <User className="w-3 h-3 text-amber-400" />
+              <User className="w-3 h-3 text-secondary-foreground/80" />
               Race
             </div>
             <p className="text-lg font-semibold">{race}</p>
@@ -59,7 +59,7 @@ export function CharacterHeader({
 
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif  uppercase tracking-wider text-muted-foreground mb-1">
-              <Scroll className="w-3 h-3 text-amber-400" />
+              <Scroll className="w-3 h-3 text-secondary-foreground/80" />
               Background
             </div>
             <p className="text-lg  font-semibold capitalize">
@@ -69,7 +69,7 @@ export function CharacterHeader({
 
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif  uppercase tracking-wider text-muted-foreground mb-1">
-              <Compass className="w-3 h-3 text-amber-400" />
+              <Compass className="w-3 h-3 text-secondary-foreground/80" />
               Alignment
             </div>
             <p className="text-lg font-semibold capitalize">
@@ -81,7 +81,7 @@ export function CharacterHeader({
             <div className="text-xs font-serif uppercase tracking-wider text-muted-foreground mb-1">
               Experience Points
             </div>
-            <p className="text-lg  font-semibold text-amber-400">
+            <p className="text-lg  font-semibold text-secondary-foreground/80">
               {experiencePoints.toLocaleString()} XP
             </p>
           </div>

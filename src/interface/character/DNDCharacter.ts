@@ -10,6 +10,7 @@ export interface DNDCharacter {
   speed: number;
   alignment: Alignment;
   proficiencyBonus: number;
+  armorClass: number;
 
   background: string;
 
@@ -64,12 +65,23 @@ export interface DNDCharacter {
 
   equipment: Equipment[];
   selectedEquipmentOption: string;
-  gold: number;
+
+  gold: GoldEntry[];
+}
+export interface GoldEntry {
+  quantity: number;
+  source:
+    | "class"
+    | "background-selected"
+    | "background-base"
+    | "loot"
+    | "quest"
+    | "other";
 }
 
 export interface ClassProficiency {
   index: string;
-  type: "tool" | "instrument" | "armor" | "weapon";
+  type: "tool" | "instrument" | "armor" | "weapon" | "saving-throw";
 }
 
 export interface CharacterClassFeature {

@@ -77,10 +77,12 @@ export const StepBasic = () => {
     nextStep,
     setSkills,
     setClassWeaponProficiencies,
+    setClassArmorProficiencies,
     addEquipment,
     setSelectedEquipmentOption,
-    removeEquipment,
     setClassProficiencies,
+    clearEquipmentBySource,
+    removeGoldBySource,
     setProficiencyBonus,
     setClassFeatures,
     addLanguage,
@@ -279,33 +281,49 @@ export const StepBasic = () => {
 
     //Proficiencies
 
-    const ToolOrInstumentClassProficiencies: ClassProficiency[] = [];
+    const Profs: ClassProficiency[] = [];
+
+    classDetails.proficiencies.forEach((prof) => {
+      if (prof.index.includes("shields")) {
+        Profs.push({
+          index: prof.index,
+          type: "weapon",
+        });
+        return;
+      }
+      if (prof.index.includes("saving-throw")) {
+        Profs.push({
+          index: prof.index,
+          type: "saving-throw",
+        });
+        return;
+      }
+    });
 
     data.instruments.forEach((instrumentIndex) => {
-      ToolOrInstumentClassProficiencies.push({
+      Profs.push({
         index: instrumentIndex,
         type: "instrument",
       });
     });
 
     data.tools.forEach((toolsIndex) => {
-      ToolOrInstumentClassProficiencies.push({
+      Profs.push({
         index: toolsIndex,
         type: "tool",
       });
     });
 
-    setClassProficiencies(ToolOrInstumentClassProficiencies);
+    console.log(Profs);
+
+    setClassProficiencies(Profs);
 
     //class equipment
 
     //if the options changes, delete prev selected equipment
-    if (data.selectedEquipmentOption !== character.selectedEquipmentOption) {
-      const startEquipment =
-        character.equipment?.filter((eq) => eq.source === "class") || [];
 
-      startEquipment.forEach((eq) => removeEquipment(eq.index));
-    }
+    clearEquipmentBySource("class");
+    removeGoldBySource("class");
 
     //find my selected equipment in the options
     const selectedOpt = equipmentOptions?.options.find(
@@ -318,7 +336,7 @@ export const StepBasic = () => {
         item.index.toLowerCase() === "gold" ||
         item.index.toLowerCase() === "pouch"
       ) {
-        addGold(item.quantity);
+        addGold(item.quantity, "class");
         return;
       }
 
@@ -355,6 +373,14 @@ export const StepBasic = () => {
         .map((p) => p.name) ?? [];
 
     setClassWeaponProficiencies(weaponProfs);
+
+    //armor profs
+    const armorsProfs =
+      classDetails.proficiencies
+        ?.filter((p) => p.index.includes("armor"))
+        .map((p) => p.name) ?? [];
+
+    setClassArmorProficiencies(armorsProfs);
 
     console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
     nextStep();

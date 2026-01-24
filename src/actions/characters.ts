@@ -32,7 +32,13 @@ function validateCharacterForSave(
   );
 }
 
-export async function saveCharacter(characterData: Partial<DNDCharacter>) {
+export async function saveCharacter(
+  characterData: Partial<DNDCharacter>,
+): Promise<{
+  success: boolean;
+  characterId?: string;
+  error?: string;
+}> {
   try {
     if (!validateCharacterForSave(characterData)) {
       return {
@@ -53,34 +59,46 @@ export async function saveCharacter(characterData: Partial<DNDCharacter>) {
         // Optional strings
         background: characterData.background,
         alignment: characterData.alignment,
-        experiencePoints: 10, // TODO
+        experiencePoints: 0, //TODO
 
-        // JSON fields - usar toJsonValue
-        baseAttributes: toJsonValue(characterData.attributes),
-        abilityBonuses: toJsonValue(characterData.abilityBonuses),
-
-        // Numbers
+        // Combat Stats
         hitDie: characterData.hit_die,
         hitPoints: characterData.hit_points,
-        armorClass: 12, // TODO
+        armorClass: characterData.armorClass ?? 10,
         speed: characterData.speed,
         proficiencyBonus: characterData.proficiencyBonus,
 
-        // JSON arrays - usar toJsonValue
+        size: characterData.size,
+        iniciative: characterData.iniciative, // Nota: puede que quieras calcularlo dinámicamente
+
+        // JSON fields - Attributes & Bonuses
+        baseAttributes: toJsonValue(characterData.attributes),
+        abilityBonuses: toJsonValue(characterData.abilityBonuses),
+        selectedAbilityBonuses: characterData.selectedAbilityBonuses ?? [], // ← NUEVO
+
+        // Skills
         skills: toJsonValue(characterData.skills),
+        backgroundSkills: toJsonValue(characterData.backgroundSkills), // ← NUEVO
         classProficiencies: toJsonValue(characterData.classProficiencies),
 
-        // String arrays (estos NO necesitan conversión)
+        // Proficiencies
         proficiencies: characterData.proficiencies ?? [],
         selectedProficiencies: characterData.selectedProficiencies ?? [],
+
+        // ← NUEVOS: Class proficiencies
+        classWeaponProficiencies:
+          characterData.class_weapon_proficiencies ?? [], // ← NUEVO
+        classArmorProficiencies: characterData.class_armor_proficiencies ?? [], // ← NUEVO
+
+        // Languages
         languages: characterData.languages ?? [],
         raceLanguages: characterData.raceLanguages ?? [],
         backgroundLanguages: characterData.backgroundLanguages ?? [],
 
-        // Equipment
+        // Equipment & Gold
         equipment: toJsonValue(characterData.equipment),
         selectedEquipmentOption: characterData.selectedEquipmentOption,
-        gold: characterData.gold ?? 0,
+        gold: toJsonValue(characterData.gold),
 
         // Traits & Features
         raceTraits: toJsonValue(characterData.raceTraits),
@@ -147,11 +165,29 @@ export async function getAllCharacters() {
         race: true,
         level: true,
         createdAt: true,
+        alignment: true,
+        hitPoints: true,
+        armorClass: true,
+        speed: true,
+        background: true,
       },
     });
 
     return characters;
   } catch (error) {
     return [];
+  }
+}
+export async function getFullCharacterById(id: string) {
+  try {
+    const character = await prisma.character.findUnique({
+      where: { id },
+    });
+
+    console.log(character);
+
+    return character;
+  } catch (error) {
+    return null;
   }
 }

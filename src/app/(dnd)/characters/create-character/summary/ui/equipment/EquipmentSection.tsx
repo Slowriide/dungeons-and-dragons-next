@@ -28,7 +28,7 @@ const typeConfig: Record<
 > = {
   weapon: { icon: Sword, color: "text-destructive", label: "Weapons" },
   armor: { icon: Shield, color: "text-gold", label: "Armor" },
-  tool: { icon: Wrench, color: "text-amber-400", label: "Tools" },
+  tool: { icon: Wrench, color: "text-secondary-foreground/80", label: "Tools" },
   item: { icon: Package, color: "text-muted-foreground", label: "Items" },
   consumable: {
     icon: FlaskConical,
@@ -96,13 +96,13 @@ export function EquipmentSection({ equipment, gold }: EquipmentSectionProps) {
         </div>
       </Accordion>
 
-      <div className="mb-4 p-3 bg-amber-50 dark:bg-amber-950/20 rounded-md border border-amber-200 dark:border-amber-800">
+      <div className="mb-4 p-3 bg-secondary-foreground/10 dark:bg-amber-950/20 rounded-md border border-secondary-foreground/40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Coins className="w-4 h-4 text-amber-500" />
+            <Coins className="w-4 h-4 text-secondary-foreground" />
             <span className="font-serif text-sm font-medium">Gold</span>
           </div>
-          <span className="text-md font-bold text-amber-600 dark:text-amber-400">
+          <span className="text-md font-bold text-secondary-foreground ">
             {gold} gp
           </span>
         </div>

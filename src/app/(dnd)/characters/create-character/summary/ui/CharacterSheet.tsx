@@ -16,6 +16,7 @@ import {
   getInitiative,
   getMaxHP,
 } from "@/utils/characterCalculations";
+import { getTotalGold } from "../../../utils/getTotalGold";
 
 interface CharacterSheetProps {
   character: Partial<DNDCharacter>;
@@ -31,28 +32,30 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
   const hasOther = character.selectedTraits?.filter((tr) =>
     tr.name.includes("Tool"),
   );
-
-  console.log(character.selectedTraits);
+  const intrumentProfs = character.classProficiencies
+    ?.filter((prof) => prof.type === "instrument")
+    .map((prof) => prof.index);
 
   toolsProfs = [
     ...(some ?? []),
     ...(selecteds ?? []),
     ...(hasOther?.map((t) => t.id) ?? []),
+    ...(intrumentProfs ?? []),
   ];
 
   // console.log(toolsProfs);
 
   const skills = buildSkillsList(character);
 
-  const savThrowProfs = character.proficiencies?.filter((prof) =>
-    prof.startsWith("saving-throw"),
-  );
-
   const langs = [
     ...(character.languages ?? []),
     ...(character.raceLanguages ?? []),
     ...(character.backgroundLanguages ?? []),
   ];
+
+  const savThrowProfs = character.classProficiencies
+    ?.filter((prof) => prof.type === "saving-throw")
+    .map((prof) => prof.index);
 
   const savingThrows = buildSavingThrows({
     attributes: character.attributes ?? {
@@ -66,6 +69,7 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     savingThrowProficiencies: savThrowProfs ?? [],
     proficiencyBonus: character.proficiencyBonus ?? 0,
   });
+  console.log(savThrowProfs);
 
   const finalAttributes = getFinalAttributes(
     character.attributes ?? {
@@ -93,9 +97,11 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     finalAttributes.constitution,
   );
 
+  const totalGold = getTotalGold(character.gold ?? []);
+
   return (
     <div className="min-h-screen parchment-bg parchment-texture">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto py-8 max-w-4xl">
         {/* Header */}
         <CharacterHeader
           name={character.name ?? ""}
@@ -156,7 +162,7 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
           <div className="space-y-6">
             <EquipmentSection
               equipment={character.equipment ?? []}
-              gold={character.gold || 0}
+              gold={totalGold}
             />
             <PersonalitySection
               personality={
@@ -169,14 +175,6 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
               }
             />
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-8 text-center">
-          <div className="h-0.5 w-64 mx-auto bg-linear-to-r from-transparent via-gold/50 to-transparent mb-4" />
-          <p className="text-xs text-muted-foreground font-serif tracking-wider">
-            D&D 5e Character Sheet
-          </p>
         </div>
       </div>
     </div>

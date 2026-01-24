@@ -23,13 +23,13 @@ export const ItemRow = ({ items }: Props) => {
               : "hover:bg-parchment-dark/50"
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ">
             <Circle
               onClick={() => toggleEquiped(item.index!)}
               className={`h-2 w-2 cursor-pointer ${
                 item.equipped
-                  ? "text-amber-400 fill-amber-400"
-                  : "text-amber-400"
+                  ? "text-secondary-foreground/80 fill-secondary-foreground/80"
+                  : "text-secondary-foreground/80"
               }`}
             />
             <span
@@ -42,7 +42,7 @@ export const ItemRow = ({ items }: Props) => {
             </span>
           </div>
           {item.description && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground ml-2">
               {item.description}
             </span>
           )}

@@ -41,7 +41,7 @@ export function ProficienciesSection({
             {languages.map((lang, index) => (
               <span
                 key={`${lang}-${index}`}
-                className="px-2 py-0.5 text-xs rounded-full bg-yellow-600/15 text-ink border border-amber-600/30 capitalize"
+                className="px-2 py-0.5 text-xs rounded-full bg-yellow-600/15 text-ink border border-secondary-foreground/40 capitalize"
               >
                 {lang}
               </span>

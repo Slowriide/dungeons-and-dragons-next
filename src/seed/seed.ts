@@ -98,7 +98,7 @@ export const seedCharacters = [
     ],
 
     selectedEquipmentOption: "A",
-    gold: 25,
+    gold: [],
 
     raceTraits: [
       {
@@ -164,6 +164,13 @@ export const seedCharacters = [
     level: 3,
     alignment: "neutral-good",
     experiencePoints: 900,
+    classProficiencies: [
+      {
+        index: "saving-throw-dex",
+        type: "saving-throw",
+      },
+      { index: "drum", type: "instrument" },
+    ],
 
     baseAttributes: {
       strength: 8,
@@ -212,8 +219,6 @@ export const seedCharacters = [
       },
     ],
 
-    classProficiencies: [],
-
     proficiencies: [
       "daggers",
       "darts",
@@ -254,7 +259,10 @@ export const seedCharacters = [
     ],
 
     selectedEquipmentOption: "B",
-    gold: 15,
+    gold: [
+      { quantity: 100, source: "class" },
+      { quantity: 1000, source: "background-base" },
+    ],
 
     raceTraits: [
       {
@@ -399,7 +407,10 @@ export const seedCharacters = [
     ],
 
     selectedEquipmentOption: "A",
-    gold: 30,
+    gold: [
+      { quantity: 40, source: "class" },
+      { quantity: 50, source: "background-base" },
+    ],
 
     raceTraits: [
       {
@@ -572,8 +583,10 @@ export const seedCharacters = [
     ],
 
     selectedEquipmentOption: "B",
-    gold: 18,
-
+    gold: [
+      { quantity: 50, source: "class" },
+      { quantity: 120, source: "background-base" },
+    ],
     raceTraits: [],
 
     selectedTraits: [],

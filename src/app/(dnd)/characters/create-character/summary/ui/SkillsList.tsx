@@ -28,13 +28,15 @@ export function SkillsList({ skills }: SkillsListProps) {
           <div
             key={skill.name}
             className={`flex items-center gap-2 py-1 px-2 rounded transition-colors ${
-              skill.proficient ? "bg-amber-400/10" : "hover:bg-amber-600/10"
+              skill.proficient
+                ? "bg-secondary-foreground/10"
+                : "hover:bg-secondary-foreground/10"
             }`}
           >
             {skill.proficient ? (
-              <Circle className="h-2 w-2 text-amber-400 fill-amber-400" />
+              <Circle className="h-2 w-2 text-secondary-foreground/80 fill-secondary-foreground/80" />
             ) : (
-              <Circle className="h-2 w-2 text-amber-400" />
+              <Circle className="h-2 w-2 text-secondary-foreground/80" />
             )}
 
             <span className="font-medium text-sm w-8 font-serif text-ink ">

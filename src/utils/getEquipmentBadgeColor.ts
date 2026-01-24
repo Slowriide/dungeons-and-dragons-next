@@ -9,7 +9,7 @@ export const getEquipmentBadgeColor = (equipment: DNDEquipment) => {
 
   // Tool category
   if (equipment.tool_category) {
-    return "bg-amber-500/20 text-amber-700 border-amber-500";
+    return "bg-secondary-foreground/20 text-amber-700 border-secondary-foreground";
   }
 
   if (equipment.vehicle_category) {

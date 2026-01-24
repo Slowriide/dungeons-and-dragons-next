@@ -29,9 +29,9 @@ export function SavingThrows({ savingThrows }: SavingThrowsProps) {
             className="flex items-center gap-2 py-1 px-2 rounded hover:bg-parchment-dark/50 transition-colors"
           >
             {save.proficient ? (
-              <Circle className="h-2 w-2 text-amber-400 fill-amber-400" />
+              <Circle className="h-2 w-2 text-secondary-foreground/80 fill-secondary-foreground/80" />
             ) : (
-              <Circle className="h-2 w-2 text-amber-400" />
+              <Circle className="h-2 w-2 text-secondary-foreground/80" />
             )}
 
             <span className="font-medium text-sm w-8 font-serif text-ink">

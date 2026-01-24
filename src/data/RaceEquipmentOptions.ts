@@ -66,11 +66,12 @@ export const EQUIPMENT_OPTIONS: SelectEquipmentOptions[] = [
         items: [
           { index: "leather-armor", name: "Leather Armor", quantity: 1 },
           { index: "dagger", name: "Dagger", quantity: 2 },
-          {
-            index: "musical-instrument",
-            name: "Musical Instrument (choice)",
-            quantity: 1,
-          },
+          { index: "lute", name: "Lute", quantity: 1 },
+          // {
+          //   index: "musical-instrument",
+          //   name: "Musical Instrument (choice)",
+          //   quantity: 1,
+          // },
           {
             index: "entertainers-pack",
             name: "Entertainer’s Pack",

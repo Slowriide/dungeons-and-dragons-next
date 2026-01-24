@@ -4,17 +4,22 @@ import { DNDCharacter } from "@/interface/character/DNDCharacter";
 import { Pagination } from "../Pagination";
 import { CharactersCard } from "./CharactersCard";
 
-interface Character {
+export interface CharacterListItem {
   id: string;
   name: string;
   characterClass: string;
   race: string;
   level: number;
+  background: string | null;
+  alignment: string | null;
+  hitPoints: number | null;
+  armorClass: number | null;
+  speed: number | null;
   createdAt: Date;
 }
 
 interface CharactersGridProps {
-  characters: Character[];
+  characters: CharacterListItem[];
 }
 
 export const CharactersGrid = ({ characters }: CharactersGridProps) => {
