@@ -1,7 +1,5 @@
 import { MonstersGrid } from "@/components/monsters/MonstersGrid";
 import { SideMonstersFilters } from "@/components/monsters/SideMonstersFilters";
-import { SideSpellsFilters } from "@/components/spells/SideSpellsFilters";
-import { SpellsGrid } from "@/components/spells/SpellsGrid";
 import { geisCinzel } from "@/config/fonts";
 import { SwordsIcon } from "lucide-react";
 

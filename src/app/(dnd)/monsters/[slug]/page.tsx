@@ -1,6 +1,7 @@
 import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";
 import { MonsterHeader } from "@/components/monsters/MonsterHeader";
 import { MonsterSummary } from "@/components/monsters/MonsterSummary";
+import { notFound } from "next/navigation";
 interface Props {
   params: Promise<{
     slug?: string;
@@ -10,9 +11,8 @@ export default async function MonterPage({ params }: Props) {
   const { slug } = await params;
 
   if (!slug) {
-    return <p>Error</p>;
+    notFound();
   }
-
   const monsterR = await getMonstersDetails({
     monstersIndexes: [slug],
   });

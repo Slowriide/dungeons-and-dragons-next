@@ -1,30 +1,14 @@
 "use client";
 
 import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import { ChevronLeft } from "lucide-react";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";
-import Link from "next/link";
-import { useSpellsDetails } from "@/hooks/spells/useSpellsDetails";
-import { Separator } from "../ui/separator";
+import { DNDSpell } from "@/interface/spells/DndSpell";
 
 interface Props {
-  spellIndex: string;
+  spell: DNDSpell;
 }
-export const SpellCard = ({ spellIndex }: Props) => {
-  const { spells, isLoading, isError } = useSpellsDetails(spellIndex);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError || !spells?.length) {
-    return <p>Error</p>;
-  }
-
-  const spell = spells[0];
-
+export const SpellCard = ({ spell }: Props) => {
   return (
     <div className="flex flex-col mt-10 space-y-6">
       {/* Image and Name */}

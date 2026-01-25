@@ -1,4 +1,3 @@
-import { Spell } from "@/mocks/data/spells";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft } from "lucide-react";

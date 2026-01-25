@@ -1,52 +1,42 @@
 "use client";
-import { Spell, spells } from "@/mocks/data/spells";
 import { SpellsCard } from "./SpellsCard";
 import { useState } from "react";
 import { SelectedSpellCard } from "./SelectedSpellCard";
-import { useSpellsList } from "@/hooks/spells/useSpellsList";
 import { Pagination } from "../Pagination";
-import { useSpellsDetails } from "@/hooks/spells/useSpellsDetails";
 import { DNDSpell } from "@/interface/spells/DndSpell";
 
 interface Props {
-  page: number;
+  spells: DNDSpell[];
+  totalPages: number;
+  currentPage: number;
+  totalCount: number;
 }
 
-export const SpellsGrid = ({ page }: Props) => {
+export const SpellsGrid = ({
+  spells,
+  totalPages,
+  currentPage,
+  totalCount,
+}: Props) => {
   const [selectedSpell, setSelectedSpell] = useState<DNDSpell | null>(null);
-
-  const { data, paginatedResults, totalPages, isError, isLoading } =
-    useSpellsList({
-      take: 12,
-    });
-
-  const spellIndexes = paginatedResults?.map((s) => s.index) || [];
-
-  const {
-    data: detailedSpells,
-    isLoading: isLoadingDetails,
-    isError: isErrorDetails,
-  } = useSpellsDetails(spellIndexes);
-
-  if (isLoading || isLoadingDetails || !detailedSpells) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError || isErrorDetails) {
-    return <p>Error</p>;
-  }
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
+      <p className="text-sm text-muted-foreground">Found {totalCount} spells</p>
+
+      {!spells.length && (
+        <p className="text-muted-foreground">No spells found</p>
+      )}
+
       {selectedSpell ? (
         <SelectedSpellCard
           spell={selectedSpell}
           setSelectedSpell={setSelectedSpell}
         />
       ) : (
-        detailedSpells.spells.map((spell) => (
+        spells?.map((spell) => (
           <SpellsCard
-            key={spell.name}
+            key={spell.index}
             spell={spell}
             setSelectedSpell={setSelectedSpell}
           />

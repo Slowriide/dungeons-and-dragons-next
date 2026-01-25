@@ -1,4 +1,5 @@
 import { EquipmentDetailsView } from "@/components/equipment/EquipmentDetailsView";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: Promise<{

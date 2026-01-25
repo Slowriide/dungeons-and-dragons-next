@@ -2,6 +2,7 @@
 import { useFilteredMagicItems } from "@/hooks/magicItems/useFilteredMagicItems";
 import { EquipmentDetailsView } from "../equipment/EquipmentDetailsView";
 import { MagicItemsDetailsCard } from "./MagicItemsDetailsCard";
+import { notFound } from "next/navigation";
 
 interface Props {
   magicItemIndex: string;
@@ -18,10 +19,9 @@ export const MagicItemsDetailsView = ({ magicItemIndex }: Props) => {
     return <p>Loading...</p>;
   }
 
-  if (isError || !magicItem) {
-    return <p>Error</p>;
+  if (!magicItem) {
+    notFound();
   }
-
   return (
     <div className="flex flex-col mt-10 space-y-6">
       <MagicItemsDetailsCard magicItem={magicItem} categories={categories} />

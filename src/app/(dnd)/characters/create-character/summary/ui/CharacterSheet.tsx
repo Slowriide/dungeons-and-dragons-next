@@ -17,6 +17,7 @@ import {
   getMaxHP,
 } from "@/utils/characterCalculations";
 import { getTotalGold } from "../../../utils/getTotalGold";
+import { getArmorClass } from "../../../utils/getArmorClass";
 
 interface CharacterSheetProps {
   character: Partial<DNDCharacter>;
@@ -43,8 +44,6 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     ...(intrumentProfs ?? []),
   ];
 
-  // console.log(toolsProfs);
-
   const skills = buildSkillsList(character);
 
   const langs = [
@@ -69,7 +68,6 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     savingThrowProficiencies: savThrowProfs ?? [],
     proficiencyBonus: character.proficiencyBonus ?? 0,
   });
-  console.log(savThrowProfs);
 
   const finalAttributes = getFinalAttributes(
     character.attributes ?? {
@@ -98,6 +96,12 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
   );
 
   const totalGold = getTotalGold(character.gold ?? []);
+
+  const equippedArmor = (character.equipment ?? []).find(
+    (eq) => eq.type === "armor" && eq.equipped,
+  );
+
+  const ac = getArmorClass(equippedArmor?.index, finalAttributes.dexterity);
 
   return (
     <div className="min-h-screen parchment-bg parchment-texture">
@@ -134,7 +138,7 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
           {/* Left Column - Combat Stats */}
           <div className="space-y-6">
             <CombatStats
-              armorClass={12}
+              armorClass={ac}
               initiative={initiative}
               speed={character.speed ?? 0}
               hitPoints={maxHP}
