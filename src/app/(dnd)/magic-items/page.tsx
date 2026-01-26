@@ -1,11 +1,39 @@
-import { EquipmentGrid } from "@/components/equipment/EquipmentGrid";
-import { SideEquipmentFilters } from "@/components/equipment/SideEquipmentFilters";
-import { MagicItemsGrid } from "@/components/magic-items/MagicItemsGrid";
 import { SideMagicItemsFilters } from "@/components/magic-items/SideMagicItemsFilters";
 import { geisCinzel } from "@/config/fonts";
 import { Wand2Icon } from "lucide-react";
+import { Suspense } from "react";
+import { MagicItemsGridSkeleton } from "./ui/MagicItemsGridSkeleton";
+import MagicItemsGridWrapper from "./ui/MagicItemsGridWrapper";
+import { SideMagicFilterWrapper } from "./ui/SideMagicFilterWrapper";
 
-export default function MagicItemsPage() {
+interface Props {
+  searchParams: Promise<{
+    slug?: string;
+    page: string;
+    query: string;
+    category: string | string[];
+    rarity: string | string[];
+  }>;
+}
+
+export default async function MagicItemsPage({ searchParams }: Props) {
+  const {
+    slug,
+    page: pageString,
+    query: queryString,
+    category,
+    rarity,
+  } = await searchParams;
+
+  const page = pageString ? parseInt(pageString) : 1;
+  const query = queryString || "";
+  const categories = Array.isArray(category)
+    ? category
+    : category
+      ? [category]
+      : [];
+  const rarities = Array.isArray(rarity) ? rarity : rarity ? [rarity] : [];
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">
@@ -17,10 +45,22 @@ export default function MagicItemsPage() {
             Magic Items
           </h1>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <SideMagicItemsFilters />
-          <MagicItemsGrid />
+          <SideMagicFilterWrapper
+            searchParams={{
+              category: categories,
+              rarity: rarity,
+              query: query,
+            }}
+          />
+          <Suspense fallback={<MagicItemsGridSkeleton />}>
+            <MagicItemsGridWrapper
+              page={page}
+              query={query}
+              categories={categories}
+              rarities={rarities}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

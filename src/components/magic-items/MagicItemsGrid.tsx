@@ -2,18 +2,18 @@
 
 import { useState } from "react";
 import { Pagination } from "../Pagination";
-import { useFilteredMagicItems } from "@/hooks/magicItems/useFilteredMagicItems";
 import { MagicItemsCard } from "./MagicItemCard";
 import { SelectedMagicItemCard } from "./SelectedMagicItemCard";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 
-export const MagicItemsGrid = () => {
+interface Props {
+  magicItems: DNDMagicItem[];
+  totalPages: number;
+}
+
+export const MagicItemsGrid = ({ magicItems, totalPages }: Props) => {
   const [selectedMagicItem, setSelectedMagicItem] =
     useState<DNDMagicItem | null>(null);
-
-  const { isLoading, paginated, totalPages } = useFilteredMagicItems();
-
-  if (isLoading) return <p>Loading...</p>;
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
@@ -23,7 +23,7 @@ export const MagicItemsGrid = () => {
           setSelectedMagicItem={setSelectedMagicItem}
         />
       ) : (
-        paginated.map((magicItems) => (
+        magicItems.map((magicItems) => (
           <MagicItemsCard
             key={magicItems.index}
             magicItem={magicItems}

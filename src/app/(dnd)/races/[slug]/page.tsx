@@ -23,6 +23,10 @@ export default async function RacePage({ params }: Props) {
 
   const race = races.race[0];
 
+  if (!race) {
+    notFound();
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">

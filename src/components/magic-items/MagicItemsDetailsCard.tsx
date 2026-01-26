@@ -9,12 +9,8 @@ import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
 
 interface Props {
   magicItem: DNDMagicItem;
-  categories: {
-    index: string;
-    name: string;
-  }[];
 }
-export const MagicItemsDetailsCard = ({ magicItem, categories }: Props) => {
+export const MagicItemsDetailsCard = ({ magicItem }: Props) => {
   return (
     <div className="flex flex-col mt-10 space-y-6">
       {/* Image and Name */}

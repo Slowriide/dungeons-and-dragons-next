@@ -12,6 +12,10 @@ interface Props {
 export default async function MagicItemsPage({ params }: Props) {
   const { id } = await params;
 
+  if (!id) {
+    notFound();
+  }
+
   const character = await getFullCharacterById(id);
 
   if (!character) {

@@ -14,17 +14,21 @@ import { ResetFiltersButton } from "../ResetFiltersButton";
 import { SearchCard } from "../SearchCard";
 import { MagicItemsRarity } from "@/interface/magicItems/MagicItemsRarity";
 import { useToggleFilters } from "@/hooks/useToggleFilters";
-import { useFilteredMagicItems } from "@/hooks/magicItems/useFilteredMagicItems";
 
-export const SideMagicItemsFilters = () => {
+interface Props {
+  categories: {
+    index: string;
+    name: string;
+  }[];
+}
+
+export const SideMagicItemsFilters = ({ categories }: Props) => {
   const searchParams = useSearchParams();
 
   const selectedCategories = searchParams.getAll("category");
   const selectedRarity = searchParams.getAll("rarity");
 
   const { toggleFilters } = useToggleFilters();
-
-  const { categories } = useFilteredMagicItems();
 
   return (
     <div className=" col-span-1 space-y-4">

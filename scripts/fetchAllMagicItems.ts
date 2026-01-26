@@ -40,7 +40,7 @@ async function main() {
     const chunk = indexes.slice(i, i + CHUNK_SIZE);
 
     const data = await Promise.all(
-      chunk.map((idx: string) => safeFetch(`${BASE}/magic-items/${idx}`))
+      chunk.map((idx: string) => safeFetch(`${BASE}/magic-items/${idx}`)),
     );
 
     results.push(...data);
@@ -49,7 +49,7 @@ async function main() {
       `Fetched ${results.length}/${indexes.length} items (${(
         (results.length / indexes.length) *
         100
-      ).toFixed(1)}%)`
+      ).toFixed(1)}%)`,
     );
 
     await sleep(DELAY);
@@ -58,7 +58,7 @@ async function main() {
   // Guardar archivo
   await fs.writeFile(
     "magic-items-cache.json",
-    JSON.stringify(results, null, 2)
+    JSON.stringify(results, null, 2),
   );
 
   console.log("✔ Saved magic-items-cache.json");

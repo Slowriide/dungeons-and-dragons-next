@@ -1,8 +1,6 @@
-import { dndFetch } from "@/api/DndApi";
-import { DNDMaigicItemstListResponse } from "@/interface/magicItems/EquipmentList";
+import magicItems from "@/data/magic-items/magic-items-cache.json";
+import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 
-export const getMagicItems = (): Promise<DNDMaigicItemstListResponse> => {
-  const data = dndFetch.get<DNDMaigicItemstListResponse>("/magic-items");
-
-  return data;
+export const getMagicItems = async (): Promise<DNDMagicItem[]> => {
+  return magicItems;
 };
