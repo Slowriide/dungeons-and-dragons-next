@@ -1,8 +1,6 @@
-import { dndFetch } from "@/api/DndApi";
-import { DNDEquipmentListResponse } from "@/interface/equipment/EquipmentList";
+import equipment from "@/data/equipment/equipment-cache.json";
+import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 
-export const getEquipment = (): Promise<DNDEquipmentListResponse> => {
-  const data = dndFetch.get<DNDEquipmentListResponse>("/equipment");
-
-  return data;
+export const getEquipment = async (): Promise<DNDEquipment[]> => {
+  return equipment;
 };

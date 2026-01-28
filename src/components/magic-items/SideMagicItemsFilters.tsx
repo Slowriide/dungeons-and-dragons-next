@@ -9,25 +9,26 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useSearchParams } from "next/navigation";
+
 import { ResetFiltersButton } from "../ResetFiltersButton";
 import { SearchCard } from "../SearchCard";
 import { MagicItemsRarity } from "@/interface/magicItems/MagicItemsRarity";
 import { useToggleFilters } from "@/hooks/useToggleFilters";
 
 interface Props {
-  categories: {
+  categories?: string[];
+  rarities?: string[];
+  categoriesAvailables: {
     index: string;
     name: string;
   }[];
 }
 
-export const SideMagicItemsFilters = ({ categories }: Props) => {
-  const searchParams = useSearchParams();
-
-  const selectedCategories = searchParams.getAll("category");
-  const selectedRarity = searchParams.getAll("rarity");
-
+export const SideMagicItemsFilters = ({
+  categories,
+  rarities,
+  categoriesAvailables,
+}: Props) => {
   const { toggleFilters } = useToggleFilters();
 
   return (
@@ -52,12 +53,12 @@ export const SideMagicItemsFilters = ({ categories }: Props) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-full min-w-(--radix-dropdown-menu-trigger-width)">
-              {categories.map((category) => (
+              {categoriesAvailables.map((category) => (
                 <DropdownMenuCheckboxItem
                   key={category.index}
                   onClick={() => toggleFilters("category", category.index)}
                   className="p-2 hover:cursor-pointer pl-8"
-                  checked={selectedCategories?.includes(category.index)}
+                  checked={categories?.includes(category.index)}
                 >
                   {category.name}
                 </DropdownMenuCheckboxItem>
@@ -90,7 +91,7 @@ export const SideMagicItemsFilters = ({ categories }: Props) => {
                   key={rarity.index}
                   onClick={() => toggleFilters("rarity", rarity.index)}
                   className="p-2 hover:cursor-pointer pl-8"
-                  checked={selectedRarity?.includes(rarity.index)}
+                  checked={rarities?.includes(rarity.index)}
                 >
                   {rarity.name}
                 </DropdownMenuCheckboxItem>

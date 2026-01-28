@@ -1,30 +1,36 @@
 "use client";
 
 import { geisCinzel } from "@/config/fonts";
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Card } from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
+import { Input } from "../../../../components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "../../../../components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ResetFiltersButton } from "../ResetFiltersButton";
-import { SearchCard } from "../SearchCard";
+import { ResetFiltersButton } from "../../../../components/ResetFiltersButton";
+import { SearchCard } from "../../../../components/SearchCard";
 import { useToggleFilters } from "@/hooks/useToggleFilters";
-import { EquipmentCategories } from "@/interface/equipment/EquipmentCategory";
 import { useDebouncedFilters } from "@/hooks/useDebounceFilters";
 
-export const SideEquipmentFilters = () => {
+interface Props {
+  categories?: string[];
+  categoriesAvailables: {
+    index: string;
+    name: string;
+  }[];
+}
+export const SideEquipmentFilters = (props: Props) => {
+  const { categories, categoriesAvailables } = props;
+
   const { toggleFilters } = useToggleFilters();
 
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  const selectedCategories = searchParams.getAll("category") ?? [];
 
   const [minCost, setMinCost] = useState(searchParams.get("minCost") ?? "");
   const [maxCost, setMaxCost] = useState(searchParams.get("maxCost") ?? "");
@@ -66,6 +72,16 @@ export const SideEquipmentFilters = () => {
     router.replace(`?${params.toString()}`);
   }, [debouncedFilters]);
 
+  useEffect(() => {
+    setMinCost(searchParams.get("minCost") ?? "");
+    setMaxCost(searchParams.get("maxCost") ?? "");
+    setMinWeight(searchParams.get("minWeight") ?? "");
+    setMaxWeight(searchParams.get("maxWeight") ?? "");
+  }, [searchParams]);
+
+  console.log(categoriesAvailables);
+  console.log(categories?.map((cat) => cat));
+
   return (
     <div className=" col-span-1 space-y-4">
       {/* Search */}
@@ -89,12 +105,12 @@ export const SideEquipmentFilters = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-full min-w-(--radix-dropdown-menu-trigger-width)">
-              {EquipmentCategories?.map((cr) => (
+              {categoriesAvailables?.map((cr) => (
                 <DropdownMenuCheckboxItem
                   key={cr.index}
                   onClick={() => toggleFilters("category", cr.index)}
                   className="p-2 hover:cursor-pointer pl-8"
-                  checked={selectedCategories.includes(cr.index)}
+                  checked={categories?.includes(cr.index)}
                 >
                   {cr.name}
                 </DropdownMenuCheckboxItem>

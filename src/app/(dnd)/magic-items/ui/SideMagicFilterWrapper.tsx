@@ -3,23 +3,32 @@
 import { SideMagicItemsFilters } from "@/components/magic-items/SideMagicItemsFilters";
 import { getMagicItemsDetails } from "@/services/magic-items/getMagicItemsDetails";
 
+interface Props {
+  page: number;
+  query?: string;
+  categories?: string[];
+  rarities?: string[];
+}
+
 export async function SideMagicFilterWrapper({
-  searchParams,
-}: {
-  searchParams: {
-    category?: string | string[];
-    rarity?: string | string[];
-    query?: string;
-  };
-}) {
+  page,
+  query,
+  categories: queryCategories,
+  rarities,
+}: Props) {
   const data = await getMagicItemsDetails({
     // solo para obtener categorías
-    page: 1,
-    take: 1,
-    categories: [],
-    rarities: [],
-    query: "",
+    page,
+    categories: queryCategories,
+    rarities,
+    query,
   });
 
-  return <SideMagicItemsFilters categories={data.categories} />;
+  return (
+    <SideMagicItemsFilters
+      categories={queryCategories}
+      categoriesAvailables={data.categories}
+      rarities={rarities}
+    />
+  );
 }

@@ -2,14 +2,12 @@
 
 import { geisCinzel } from "@/config/fonts";
 import { Card } from "../ui/card";
-import { spells } from "@/mocks/data/spells";
 import { Button } from "../ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ResetFiltersButton } from "../ResetFiltersButton";
 import { SearchCard } from "../SearchCard";
 import { SpellsSchools } from "@/interface/spells/SpellsScholls";
 import { SpellsLevels } from "@/interface/spells/SpellsLevels";
-import { useEquipmentCategories } from "@/hooks/equipment/useEquipmentCategories";
 
 export const SideSpellsFilters = () => {
   const router = useRouter();

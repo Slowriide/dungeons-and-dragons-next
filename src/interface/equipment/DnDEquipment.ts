@@ -8,9 +8,9 @@ export interface DNDEquipment {
   vehicle_category?: string;
   cost: Cost;
   desc: string[];
-  weight: number;
+  weight?: number;
   url: string;
-  updated_at: Date;
+  updated_at: string;
   contents: any[];
   properties: Properties[];
 }

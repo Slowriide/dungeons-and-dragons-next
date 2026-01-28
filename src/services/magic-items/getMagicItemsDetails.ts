@@ -21,12 +21,11 @@ export const getMagicItemsDetails = async ({
   try {
     const allMagicItems = await getMagicItems();
 
-    console.log(categories);
-
     //Filter
     const filtered = allMagicItems.filter((magicItem) => {
       const matchesSearch =
         magicItem.index.includes(query.toLowerCase()) ||
+        magicItem.name.includes(query.toLowerCase()) ||
         magicItem.desc.includes(query.toLowerCase());
 
       const matchesCategory =

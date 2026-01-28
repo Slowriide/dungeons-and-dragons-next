@@ -1,26 +1,15 @@
 "use client";
 
-import { useFilteredEquipment } from "@/hooks/equipment/useFilteredEquipment";
 import { isArmor, isWeapon } from "@/utils/equipment/isWeapon";
 import { ArmorDetailsCard } from "./ArmorDetailsCard";
 import { EquipmentDetailsCard } from "./EquipmentDetailsCard";
 import { WeaponDetailsCard } from "./WeaponDetailsCard";
-import { notFound } from "next/navigation";
+import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 
 interface Props {
-  equipmentIndex: string;
+  equipment: DNDEquipment;
 }
-export const EquipmentDetailsView = ({ equipmentIndex }: Props) => {
-  const {
-    findedItem: equipment,
-    isLoading,
-    isError,
-  } = useFilteredEquipment(1, equipmentIndex);
-
-  if (!equipment) {
-    notFound();
-  }
-
+export const EquipmentDetailsView = ({ equipment }: Props) => {
   return (
     <div className="flex flex-col mt-10 space-y-6">
       {isWeapon(equipment) ? (

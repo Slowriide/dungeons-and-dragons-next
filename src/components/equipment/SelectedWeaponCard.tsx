@@ -3,8 +3,6 @@ import { Button } from "../ui/button";
 import { ChevronLeft } from "lucide-react";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";
-import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
-import { getEquipmentBadgeColor } from "@/utils/getEquipmentBadgeColor";
 import { DNDWeapon } from "@/interface/equipment/DNDWeapon";
 import Link from "next/link";
 

@@ -1,4 +1,3 @@
-import { SideMagicItemsFilters } from "@/components/magic-items/SideMagicItemsFilters";
 import { geisCinzel } from "@/config/fonts";
 import { Wand2Icon } from "lucide-react";
 import { Suspense } from "react";
@@ -8,7 +7,6 @@ import { SideMagicFilterWrapper } from "./ui/SideMagicFilterWrapper";
 
 interface Props {
   searchParams: Promise<{
-    slug?: string;
     page: string;
     query: string;
     category: string | string[];
@@ -18,7 +16,6 @@ interface Props {
 
 export default async function MagicItemsPage({ searchParams }: Props) {
   const {
-    slug,
     page: pageString,
     query: queryString,
     category,
@@ -47,11 +44,10 @@ export default async function MagicItemsPage({ searchParams }: Props) {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <SideMagicFilterWrapper
-            searchParams={{
-              category: categories,
-              rarity: rarity,
-              query: query,
-            }}
+            page={page}
+            categories={categories}
+            query={query}
+            rarities={rarities}
           />
           <Suspense fallback={<MagicItemsGridSkeleton />}>
             <MagicItemsGridWrapper

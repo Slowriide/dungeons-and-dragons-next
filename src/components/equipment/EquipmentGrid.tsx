@@ -5,7 +5,6 @@ import { EquipmentCard } from "./EquipmentCard";
 import { SelectedEquipmentCard } from "./SelectedEquipmentCard";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 import { Pagination } from "../Pagination";
-import { useFilteredEquipment } from "@/hooks/equipment/useFilteredEquipment";
 import { DNDWeapon } from "@/interface/equipment/DNDWeapon";
 import { SelectedWeaponCard } from "./SelectedWeaponCard";
 import { isArmor, isWeapon } from "@/utils/equipment/isWeapon";
@@ -14,14 +13,15 @@ import { SelectedArmorCard } from "./SelectedArmorCard";
 import { DNDArmor } from "@/interface/equipment/DNDArmor";
 import { ArmorCard } from "./ArmorCard";
 
-export const EquipmentGrid = () => {
+interface Props {
+  totalPages: number;
+  paginated: DNDEquipment[];
+}
+
+export const EquipmentGrid = ({ paginated, totalPages }: Props) => {
   const [selectedEquipment, setSelectedEquipment] = useState<
     DNDEquipment | DNDWeapon | DNDArmor | null
   >(null);
-
-  const { isLoading, paginated, totalPages } = useFilteredEquipment();
-
-  if (isLoading) return <p>Loading...</p>;
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
@@ -62,7 +62,7 @@ export const EquipmentGrid = () => {
               equipment={equipment}
               setSelectedEquipment={setSelectedEquipment}
             />
-          )
+          ),
         )
       )}
 
