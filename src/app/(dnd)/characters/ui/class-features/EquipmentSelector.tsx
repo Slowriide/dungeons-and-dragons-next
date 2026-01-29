@@ -1,6 +1,6 @@
 import { Control } from "react-hook-form";
 import { PersonalitySelector } from "../../create-character/background/ui/accordions/PersonalitySelector";
-import { EQUIPMENT_OPTIONS } from "@/data/RaceEquipmentOptions";
+import { EQUIPMENT_OPTIONS } from "@/data/races/RaceEquipmentOptions";
 import { DNDClass } from "@/interface/classes/DnDClass";
 import { EquipmentSelect } from "./EquipmentSelect";
 
@@ -11,7 +11,7 @@ interface Props {
 
 export const EquipmentSelector = ({ selectedClass, control }: Props) => {
   const equipmentOptions = EQUIPMENT_OPTIONS.find(
-    (opt) => opt.dndClass === selectedClass.index
+    (opt) => opt.dndClass === selectedClass.index,
   );
 
   const options = equipmentOptions?.options.map((opt) => ({

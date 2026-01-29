@@ -2,6 +2,7 @@ import { DNDRace } from "@/interface/races/DNDRace";
 import { getRaceImages } from "@/utils/race/getRaceImages";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
+import { raceDescription } from "../../data/races/raceDescription";
 
 interface Props {
   race: DNDRace;
@@ -26,16 +27,7 @@ export const RaceHeaderCard = ({ race }: Props) => {
           {race.name}
         </h1>
         <p className="mb-8 text-xl leading-relaxed text-foreground/80">
-          Culpa excepteur aliqua aute mollit dolor sunt eiusmod laborum elit
-          amet in. Anim irure ipsum eu pariatur quis ut ut ex. Adipisicing
-          officia nisi ad incididunt eiusmod velit laborum minim fugiat laborum.
-          Tempor elit excepteur elit irure dolor labore irure aute et tempor. Ea
-          officia esse est non irure quis sunt ex dolore sunt incididunt ullamco
-          deserunt irure. Laborum ex deserunt anim enim. Sit cillum occaecat ad
-          nulla et consectetur. Deserunt exercitation magna irure laboris labore
-          esse occaecat in irure magna cupidatat in magna. Duis magna
-          reprehenderit enim id aliqua. Occaecat sit laborum magna
-          reprehenderit.
+          {raceDescription[`${race.index}`]}
         </p>
 
         <div className="mb-6 flex flex-wrap gap-x-8 gap-y-4 border-y border-border py-6">

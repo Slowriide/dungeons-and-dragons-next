@@ -36,7 +36,7 @@ import { getProficiencyBonus } from "../utils/getProficiencyBonus";
 import { DND_SKILLS } from "@/data/skills";
 import { BackgroundAccordion } from "../create-character/background/ui/accordions/BackgroundAccordion";
 import { EquipmentSelector } from "./class-features/EquipmentSelector";
-import { EQUIPMENT_OPTIONS } from "@/data/RaceEquipmentOptions";
+import { EQUIPMENT_OPTIONS } from "@/data/races/RaceEquipmentOptions";
 import { useEquipmentLookup } from "@/hooks/equipment/useEquipmentByIndex";
 import { mapDNDEquipmentToEquipment } from "@/utils/equipment/mapDNDequimentToCharacterEquipment";
 import { useClassLevels } from "@/hooks/classes/useClassLevels";
