@@ -2,6 +2,7 @@ import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";
 import { MonsterHeader } from "@/components/monsters/MonsterHeader";
 import { MonsterSummary } from "@/components/monsters/MonsterSummary";
 import { notFound } from "next/navigation";
+import { getMonsterByIndex } from "@/services/monsters/getMonstersByIndex";
 interface Props {
   params: Promise<{
     slug?: string;
@@ -13,11 +14,7 @@ export default async function MonterPage({ params }: Props) {
   if (!slug) {
     notFound();
   }
-  const monsterR = await getMonstersDetails({
-    monstersIndexes: [slug],
-  });
-
-  const monster = monsterR.monsters[0];
+  const monster = await getMonsterByIndex(slug);
 
   if (!monster) {
     notFound();

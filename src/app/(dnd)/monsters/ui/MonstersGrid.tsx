@@ -1,5 +1,3 @@
-"use client";
-
 import { MonsterCard } from "../../../../components/monsters/MonsterCard";
 import { Pagination } from "../../../../components/Pagination";
 import { DNDMonster } from "@/interface/monsters/DnDMonster";

@@ -13,7 +13,7 @@ interface Props {
 export const useRacesDetails = ({ racesIndexes }: Props) => {
   const results = useQuery({
     queryKey: ["races-details", racesIndexes],
-    queryFn: () => getRacesDetails({ racesIndexes }),
+    queryFn: () => getRacesDetails({ racesIndexes, query }),
     enabled: racesIndexes.length > 0,
     staleTime: Infinity,
   });
@@ -22,7 +22,7 @@ export const useRacesDetails = ({ racesIndexes }: Props) => {
 
   const query = search.get("query") ?? "";
 
-  const races = results.data?.race ?? [];
+  const races = results.data?.races ?? [];
 
   const filteredResults = races.filter(
     (race) => race.index.includes(query) || race.name.includes(query),

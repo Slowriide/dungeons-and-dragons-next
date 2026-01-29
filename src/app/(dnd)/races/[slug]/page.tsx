@@ -1,8 +1,8 @@
-import { getRacesDetails } from "@/services/races/getRacesDetails";
 import { RaceHeaderCard } from "@/components/races/RaceHeaderCard";
 import { RaceSummary } from "@/components/races/RaceSummary";
 import { SubraceSummary } from "@/components/races/SubraceSummary";
 import { notFound } from "next/navigation";
+import { getRaceByIndex } from "@/services/races/getRaceByIndex";
 
 interface Props {
   params: Promise<{
@@ -17,11 +17,7 @@ export default async function RacePage({ params }: Props) {
     notFound();
   }
 
-  const races = await getRacesDetails({
-    racesIndexes: [slug],
-  });
-
-  const race = races.race[0];
+  const race = await getRaceByIndex(slug);
 
   if (!race) {
     notFound();
