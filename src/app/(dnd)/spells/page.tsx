@@ -1,11 +1,6 @@
 import { SideSpellsFilters } from "@/components/spells/SideSpellsFilters";
-import { SpellsGrid } from "@/components/spells/SpellsGrid";
 import { geisCinzel } from "@/config/fonts";
-import { getSpellsDetails } from "@/services/spells/getSpellsDetails";
-import { getSpellsList } from "@/services/spells/getSpellsList";
 import { ScrollIcon } from "lucide-react";
-import { Suspense } from "react";
-import { SpellsGridSkeleton } from "./ui/SpellGridSkeleton";
 import SpellsGridWrapper from "./ui/SpellsGridWrapper";
 
 interface Props {
@@ -47,14 +42,12 @@ export default async function SpellsPage({ searchParams }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <SideSpellsFilters />
 
-          <Suspense fallback={<SpellsGridSkeleton />}>
-            <SpellsGridWrapper
-              page={page}
-              levels={levels}
-              schools={schools}
-              query={query}
-            />
-          </Suspense>
+          <SpellsGridWrapper
+            page={page}
+            levels={levels}
+            schools={schools}
+            query={query}
+          />
         </div>
       </div>
     </div>

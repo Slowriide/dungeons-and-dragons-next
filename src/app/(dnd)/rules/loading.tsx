@@ -13,17 +13,15 @@ export default function ClassesGridSkeleton() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="space-y-6">
-            <SearchBoxSkeleton />
-            <SearchBoxSkeleton />
+          <div className="space-y-4">
             <SearchBoxSkeleton />
           </div>
 
           {/* Grid */}
-          <div className="lg:col-span-3 grid grid-cols-3 gap-4">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <Skeleton key={i} className="h-80 rounded-xl" />
-            ))}
+          <div className="space-y-4">
+            <Skeleton className="h-70 w-220 rounded-xl" />
+            <Skeleton className="h-30 w-220 rounded-xl" />
+            <Skeleton className="h-80 w-220 rounded-xl" />
           </div>
         </div>
       </div>

@@ -22,8 +22,6 @@ export const SpellsGrid = ({
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
-      <p className="text-sm text-muted-foreground">Found {totalCount} spells</p>
-
       {!spells.length && (
         <p className="text-muted-foreground">No spells found</p>
       )}

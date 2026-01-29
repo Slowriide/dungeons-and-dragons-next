@@ -1,3 +1,5 @@
+import { ButtonSkeleton } from "@/components/skeletons/ButtonSkeleton";
+import { RangeFilterSkeleton } from "@/components/skeletons/RangeFilterSkeleton";
 import { SearchBoxSkeleton } from "@/components/skeletons/SearchBoxSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -13,10 +15,12 @@ export default function ClassesGridSkeleton() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-10">
             <SearchBoxSkeleton />
             <SearchBoxSkeleton />
-            <SearchBoxSkeleton />
+            <RangeFilterSkeleton />
+            <RangeFilterSkeleton />
+            <ButtonSkeleton />
           </div>
 
           {/* Grid */}

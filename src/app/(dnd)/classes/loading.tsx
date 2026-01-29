@@ -13,9 +13,7 @@ export default function ClassesGridSkeleton() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="space-y-6">
-            <SearchBoxSkeleton />
-            <SearchBoxSkeleton />
+          <div className="space-y-10">
             <SearchBoxSkeleton />
           </div>
 

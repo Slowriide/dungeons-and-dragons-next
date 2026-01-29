@@ -13,10 +13,18 @@ export default function ClassesGridSkeleton() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <SearchBoxSkeleton />
-            <SearchBoxSkeleton />
-            <SearchBoxSkeleton />
+
+            <div className="space-y-4 mt-10">
+              <Skeleton className="h-6 w-36" />
+              <Skeleton className="h-40 w-60" />
+            </div>
+
+            <div className="space-y-4 mt-10">
+              <Skeleton className="h-6 w-36" />
+              <Skeleton className="h-80 w-70" />
+            </div>
           </div>
 
           {/* Grid */}
