@@ -1,6 +1,5 @@
 import { geisCinzel } from "@/config/fonts";
 import { UserPlus2Icon } from "lucide-react";
-import { CharactersView } from "./ui/CharactersView";
 import { CharactersGrid } from "@/components/characters/CharactersGrid";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

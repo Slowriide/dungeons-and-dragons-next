@@ -1,5 +1,4 @@
 import { StepBackground } from "./ui/StepBackground";
-import { StepBasic } from "../../ui/StepBasic";
 
 export default function CreateCharacterBackground() {
   return (

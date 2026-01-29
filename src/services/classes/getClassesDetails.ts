@@ -7,12 +7,12 @@ interface Options {
 
 export const getClassesDetails = async ({
   classIndexes,
-}: Options): Promise<{ dndClass: DNDClass[] }> => {
+}: Options): Promise<{ dndClasses: DNDClass[] }> => {
   const detailPromise = classIndexes.map((dndClass) =>
-    dndFetch.get<DNDClass>(`/classes/${dndClass}`)
+    dndFetch.get<DNDClass>(`/classes/${dndClass}`),
   );
 
-  const dndClass = await Promise.all(detailPromise);
+  const dndClasses = await Promise.all(detailPromise);
 
-  return { dndClass };
+  return { dndClasses };
 };

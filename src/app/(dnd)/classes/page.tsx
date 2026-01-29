@@ -1,9 +1,37 @@
-import { ClassesGrid } from "@/components/classes/ClassesGrid";
 import { SideClassesFilters } from "@/components/classes/SideClassesFilters";
 import { geisCinzel } from "@/config/fonts";
+import { getClasses } from "@/services/classes/getClasses";
+import { getClassesDetails } from "@/services/classes/getClassesDetails";
 import { BowArrowIcon } from "lucide-react";
+import { notFound } from "next/navigation";
+import { ClassesGridWrapper } from "./ui/ClassesGridWrapper";
 
-export default function ClassesPage() {
+interface Props {
+  searchParams: {
+    query?: string;
+  };
+}
+
+export default async function ClassesPage({ searchParams }: Props) {
+  const { query: queryString } = await searchParams;
+  const classesList = await getClasses();
+
+  const query = queryString || "";
+
+  await new Promise((r) => setTimeout(r, 200));
+
+  if (!classesList) {
+    notFound();
+  }
+
+  const classIndexes = classesList.results.map((c) => c.index);
+
+  const { dndClasses } = await getClassesDetails({ classIndexes });
+
+  if (!dndClasses) {
+    notFound();
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">
@@ -18,7 +46,8 @@ export default function ClassesPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <SideClassesFilters />
-          <ClassesGrid />
+
+          <ClassesGridWrapper dndClasses={dndClasses} query={query} />
         </div>
       </div>
     </div>

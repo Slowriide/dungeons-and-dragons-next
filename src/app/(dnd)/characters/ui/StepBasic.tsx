@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DND_CLASSES } from "@/data/dndData";
-import { useClassesDetails } from "@/hooks/classes/useClassesDetails";
 import { ClassFeatures } from "./class-features/ClassFeatures";
 import { useRouter } from "next/navigation";
 import useDNDCharacterStore from "@/store/characte.store";
@@ -33,22 +32,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { findProficiencyName } from "../utils/findItemNamet";
 import { getProficiencyBonus } from "../utils/getProficiencyBonus";
 import { DND_SKILLS } from "@/data/skills";
 import { BackgroundAccordion } from "../create-character/background/ui/accordions/BackgroundAccordion";
 import { EquipmentSelector } from "./class-features/EquipmentSelector";
-import { equipment } from "../../../../mocks/data/equipment";
 import { EQUIPMENT_OPTIONS } from "@/data/RaceEquipmentOptions";
-import { resolveStartingEquipment } from "../utils/getStartingEquipment";
 import { useEquipmentLookup } from "@/hooks/equipment/useEquipmentByIndex";
 import { mapDNDEquipmentToEquipment } from "@/utils/equipment/mapDNDequimentToCharacterEquipment";
-import { it } from "node:test";
 import { useClassLevels } from "@/hooks/classes/useClassLevels";
 import { useFeaturesLevelsDetails } from "@/hooks/classes/useFeaturesLevelsDetails";
-import { ClassFeature } from "@/interface/classes/ClassFeature";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useStoreHydrated } from "@/hooks/useStoreHydrated";
+import { DNDClass } from "@/interface/classes/DnDClass";
 
 //Schema base
 const baseSchema = z.object({
@@ -64,7 +59,11 @@ const baseSchema = z.object({
 
 type FormData = z.infer<typeof baseSchema>;
 
-export const StepBasic = () => {
+interface Props {
+  dndClasses: DNDClass[];
+}
+
+export const StepBasic = ({ dndClasses }: Props) => {
   const router = useRouter();
   const hydrated = useStoreHydrated();
 
@@ -111,6 +110,22 @@ export const StepBasic = () => {
     mode: "onChange",
   });
 
+  // Actualiza URL cuando cambia la clase
+  const handleClassChange = (newClass: string) => {
+    form.setValue("class", newClass);
+    const currentLevel = form.getValues("level");
+    router.push(`?class=${newClass}&level=${currentLevel}`);
+  };
+
+  // Actualiza URL cuando cambia el nivel
+  const handleLevelChange = (newLevel: number) => {
+    form.setValue("level", newLevel);
+    const currentClass = form.getValues("class");
+    if (currentClass) {
+      router.push(`?class=${currentClass}&level=${newLevel}`);
+    }
+  };
+
   useEffect(() => {
     if (hydrated) {
       form.reset({
@@ -148,10 +163,6 @@ export const StepBasic = () => {
     prevClassRef.current = selected;
   }, [selected, hydrated, form]);
 
-  const { data, isError, isLoading } = useClassesDetails({
-    classIndexes: safeIndexes ? safeIndexes : [],
-  });
-
   const {
     data: levelsData,
     isError: isLevelsError,
@@ -173,7 +184,7 @@ export const StepBasic = () => {
   //all equipments map
   const equipmentByIndex = useEquipmentLookup();
 
-  const classDetails = data?.dndClass?.[0];
+  const classDetails = dndClasses.find((c) => c.index === selected);
 
   //equipment options for this class
   const equipmentOptions = EQUIPMENT_OPTIONS.find(
@@ -181,11 +192,11 @@ export const StepBasic = () => {
   );
 
   // errors
-  if (isError || isLevelsError || isFeaturesError) {
+  if (isLevelsError || isFeaturesError) {
     return <div>Error loading class data</div>;
   }
 
-  if (isLoading || isLevelLoading || isFeaturesLoading) {
+  if (isLevelLoading || isFeaturesLoading) {
     return <div>Loading class information...</div>;
   }
 
@@ -417,7 +428,7 @@ export const StepBasic = () => {
             render={({ field }) => (
               <FormItem className="col-span-3">
                 <FormLabel>Class</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={handleClassChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select Class" />
@@ -461,7 +472,7 @@ export const StepBasic = () => {
           />
 
           {/* Proficiencies */}
-          {data && !isError && (
+          {dndClasses && (
             <div className="col-span-5 space-y-6">
               <h1 className="font-serif text-2xl font-semibold">
                 Proficiencies
@@ -476,7 +487,7 @@ export const StepBasic = () => {
               />
               <div className="col-span-2 space-y-6">
                 <ClassFeatures
-                  dndClass={data.dndClass[0]}
+                  dndClass={dndClasses[0]}
                   control={form.control}
                 />
               </div>
@@ -498,7 +509,7 @@ export const StepBasic = () => {
           )}
 
           {/* Equipment */}
-          {data && !isError && (
+          {dndClasses && (
             <div className="col-span-5 space-y-6">
               <h1 className="font-serif text-2xl font-semibold">Equipment</h1>
 
