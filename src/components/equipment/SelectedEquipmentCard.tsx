@@ -53,15 +53,17 @@ export const SelectedEquipmentCard = ({
       </Badge>
 
       <div className="grid grid-cols-2 mt-2 gap-y-2">
-        {/* Cast time*/}
+        {/* Price*/}
         <div className="col-span-1">
           <span className="text-muted-foreground">Cost:</span>
-          <p className="font-medium">{equipment.cost.quantity}</p>
+          <p className="font-medium">
+            {equipment.cost.quantity} {equipment.cost.unit}
+          </p>
         </div>
-        {/* Range */}
+        {/* Weight */}
         <div>
           <span className="text-muted-foreground">Weight:</span>
-          <p className="font-medium">{equipment.weight}</p>
+          <p className="font-medium">{equipment.weight} lbs</p>
         </div>
       </div>
 

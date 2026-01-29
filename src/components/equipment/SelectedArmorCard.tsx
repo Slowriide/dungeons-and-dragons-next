@@ -93,12 +93,14 @@ export const SelectedArmorCard = ({
         {/* Cost*/}
         <div className="col-span-1">
           <span className="text-muted-foreground">Cost:</span>
-          <p className="font-medium">{equipment.cost.quantity}</p>
+          <p className="font-medium">
+            {equipment.cost.quantity} {equipment.cost.unit}
+          </p>
         </div>
         {/* Weight */}
         <div>
           <span className="text-muted-foreground">Weight:</span>
-          <p className="font-medium">{equipment.weight}</p>
+          <p className="font-medium">{equipment.weight} lbs</p>
         </div>
       </div>
 

@@ -24,10 +24,10 @@ export default function ClassesGridSkeleton() {
           </div>
 
           {/* Grid */}
-          <div className="lg:col-span-3 grid grid-cols-3 gap-4">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <Skeleton key={i} className="h-80 rounded-xl" />
-            ))}
+          <div className="space-y-4">
+            <Skeleton className="h-34 w-238 rounded-xl" />
+            <Skeleton className="h-34 w-238 rounded-xl" />
+            <Skeleton className="h-34 w-238 rounded-xl" />
           </div>
         </div>
       </div>

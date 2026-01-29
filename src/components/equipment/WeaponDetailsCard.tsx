@@ -9,6 +9,8 @@ interface Props {
   equipment: DNDWeapon;
 }
 export const WeaponDetailsCard = ({ equipment }: Props) => {
+  const costUnit = equipment.cost.unit ?? "gp";
+
   return (
     <div className="flex flex-col mt-10 space-y-6">
       {/* Image and Name */}
@@ -66,10 +68,11 @@ export const WeaponDetailsCard = ({ equipment }: Props) => {
                 />
               )}
 
-              <SpellItem
-                title={`Cost`}
-                text={`${equipment.cost.quantity} ${equipment.cost.unit}`}
-              />
+              <div className="col-span-1">
+                <span className="font-bold">Cost</span>
+                <p className="">{`${equipment.cost.quantity} ${equipment.cost.unit}`}</p>
+              </div>
+
               <SpellItem title={`Weight`} text={`${equipment.weight} lbs `} />
             </div>
 
