@@ -1,9 +1,18 @@
 import { SideRacesFilters } from "@/components/races/SideRacesFilters";
-import { RulesGrid } from "@/components/rules/RulesGrid";
 import { geisCinzel } from "@/config/fonts";
 import { NotebookTextIcon } from "lucide-react";
+import { RulesGridWrapper } from "./ui/RulesGridWrapper";
 
-export default function RulesPage() {
+interface Props {
+  searchParams: Promise<{
+    query: string;
+  }>;
+}
+
+export default async function RulesPage({ searchParams }: Props) {
+  const { query: queryString } = await searchParams;
+
+  const query = queryString || "";
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">
@@ -18,7 +27,7 @@ export default function RulesPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <SideRacesFilters />
-          <RulesGrid />
+          <RulesGridWrapper query={query} />
         </div>
       </div>
     </div>

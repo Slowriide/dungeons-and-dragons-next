@@ -149,7 +149,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     return <p>loading</p>;
   }
 
-  const race = data?.race[0];
+  const race = data?.races[0];
 
   const hasLangOptions = race?.language_options?.from;
   const hasAbOptions = race?.ability_bonus_options?.from;
