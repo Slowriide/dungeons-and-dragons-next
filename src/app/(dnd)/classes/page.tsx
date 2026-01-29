@@ -14,11 +14,10 @@ interface Props {
 
 export default async function ClassesPage({ searchParams }: Props) {
   const { query: queryString } = await searchParams;
+
   const classesList = await getClasses();
 
   const query = queryString || "";
-
-  await new Promise((r) => setTimeout(r, 200));
 
   if (!classesList) {
     notFound();

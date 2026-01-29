@@ -25,7 +25,7 @@ export default async function RulePage({ params }: Props) {
 
   return (
     <div>
-      <RuleSubsectionCard ruleSubsection={ruleSubsection.rule} />
+      <RuleSubsectionCard ruleSubsection={ruleSubsection} />
     </div>
   );
 }

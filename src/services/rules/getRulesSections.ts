@@ -7,11 +7,14 @@ interface Options {
 
 export const getRuleSubsectionDetails = async ({
   ruleSectionIndex,
-}: Options): Promise<{ rule: RulesSubSection }> => {
-  const rule = await dndFetch.get<RulesSubSection>(
-    `/rule-sections/${ruleSectionIndex}`
-  );
-  console.log(rule);
+}: Options): Promise<RulesSubSection | null> => {
+  try {
+    const rule = await dndFetch.get<RulesSubSection>(
+      `/rule-sections/${ruleSectionIndex}`,
+    );
 
-  return { rule };
+    return rule;
+  } catch (error) {
+    return null;
+  }
 };
