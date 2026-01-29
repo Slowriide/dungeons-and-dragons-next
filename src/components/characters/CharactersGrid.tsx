@@ -1,6 +1,6 @@
 "use client";
 
-import { DNDCharacter } from "@/interface/character/DNDCharacter";
+import { Attributes } from "@/utils/characterCalculations";
 import { Pagination } from "../Pagination";
 import { CharactersCard } from "./CharactersCard";
 
@@ -16,6 +16,7 @@ export interface CharacterListItem {
   armorClass: number | null;
   speed: number | null;
   createdAt: Date;
+  proficiencyBonus: number | null;
 }
 
 interface CharactersGridProps {

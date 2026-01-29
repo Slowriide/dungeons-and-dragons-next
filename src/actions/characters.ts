@@ -170,6 +170,7 @@ export async function getAllCharacters() {
         armorClass: true,
         speed: true,
         background: true,
+        proficiencyBonus: true,
       },
     });
 

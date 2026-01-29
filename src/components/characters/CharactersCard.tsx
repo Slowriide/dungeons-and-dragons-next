@@ -1,13 +1,9 @@
-import { geisCinzel } from "@/config/fonts";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { getDnDImages } from "@/utils/getDnDImages";
 import Link from "next/link";
-import { DNDCharacter } from "../../interface/character/DNDCharacter";
 import { geClassImages } from "@/utils/class/getClassImage";
-import { Eye, Heart, Shield, Zap } from "lucide-react";
-import { Button } from "../ui/button";
+import { ChessQueenIcon, Heart, Shield, Zap } from "lucide-react";
 import { CharacterListItem } from "./CharactersGrid";
 
 interface CharacterCardProps {
@@ -54,33 +50,34 @@ export const CharactersCard = ({ character }: CharacterCardProps) => {
             {/* HP Bar */}
             <div className="space-y-1">
               <div className="flex items-center justify-between text-sm">
-                <span className="flex items-center gap-1 text-muted-foreground">
-                  <Heart className="h-4 w-4 text-destructive" />
-                  HP
-                </span>
-                <span className="font-medium">
-                  {character.hitPoints}/{50}
-                </span>
-              </div>
-              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-destructive transition-all duration-300"
-                  style={{ width: `50%` }}
-                />
+                <div className="flex flex-row space-x-2">
+                  <span className="flex items-center gap-1 text-muted-foreground">
+                    <Heart className="h-4 w-4 text-destructive" />
+                    HP
+                  </span>
+                  <span className="font-medium">{character.hitPoints}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <Shield className="h-4 w-4 text-secondary-foreground/80" />
+                  <span className="text-muted-foreground">AC:</span>
+                  <span className="font-medium">{character.armorClass}</span>
+                </div>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex gap-3 justify-between">
               <div className="flex items-center gap-2 text-sm">
-                <Shield className="h-4 w-4 text-secondary-foreground/80" />
-                <span className="text-muted-foreground">AC:</span>
-                <span className="font-medium">{character.armorClass}</span>
+                <ChessQueenIcon className="h-4 w-4 text-secondary-foreground/80" />
+                <span className="text-muted-foreground">Proficiency:</span>
+                <span className="font-medium">
+                  +{character.proficiencyBonus}
+                </span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Zap className="h-4 w-4 text-secondary-foreground/80" />
                 <span className="text-muted-foreground">Speed:</span>
-                <span className="font-medium">{character.speed} ft</span>
+                <span className="font-medium">{character.speed} </span>
               </div>
             </div>
 
