@@ -1,9 +1,40 @@
-import { MonstersGrid } from "@/components/monsters/MonstersGrid";
+import { MonstersGrid } from "@/app/(dnd)/monsters/ui/MonstersGrid";
 import { SideMonstersFilters } from "@/components/monsters/SideMonstersFilters";
 import { geisCinzel } from "@/config/fonts";
+import { getMonsters } from "@/services/monsters/getMonsters";
 import { SwordsIcon } from "lucide-react";
+import MonstersGridWrapper from "./ui/MonstersGridWrapper";
 
-export default function MonstersPage() {
+interface Props {
+  searchParams: Promise<{
+    page: string;
+    query: string;
+    challenge_rating: string | string[];
+    alignment: string | string[];
+  }>;
+}
+
+export default async function MonstersPage({ searchParams }: Props) {
+  const {
+    page: pageString,
+    query: queryString,
+    challenge_rating,
+    alignment: alignmentString,
+  } = await searchParams;
+
+  const page = pageString ? parseInt(pageString) : 1;
+  const query = queryString || "";
+  const cr = Array.isArray(challenge_rating)
+    ? challenge_rating
+    : challenge_rating
+      ? [challenge_rating]
+      : [];
+  const alignment = Array.isArray(alignmentString)
+    ? alignmentString
+    : alignmentString
+      ? [alignmentString]
+      : [];
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">
@@ -18,7 +49,12 @@ export default function MonstersPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <SideMonstersFilters />
-          <MonstersGrid />
+          <MonstersGridWrapper
+            page={page}
+            challenge_rating={cr}
+            alignment={alignment}
+            query={query}
+          />
         </div>
       </div>
     </div>

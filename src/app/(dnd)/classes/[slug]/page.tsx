@@ -19,7 +19,7 @@ export default async function RacePage({ params }: Props) {
     classIndexes: [slug],
   });
 
-  const classItem = classes.dndClass[0];
+  const classItem = classes.dndClasses[0];
 
   return (
     <div className="min-h-screen bg-background">

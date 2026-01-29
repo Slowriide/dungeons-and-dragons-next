@@ -1,4 +1,3 @@
-import { RacesGrid } from "@/components/races/RacesGrid";
 import { SideRacesFilters } from "@/components/races/SideRacesFilters";
 import { RulesGrid } from "@/components/rules/RulesGrid";
 import { geisCinzel } from "@/config/fonts";

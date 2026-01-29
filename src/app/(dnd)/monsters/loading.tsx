@@ -16,6 +16,12 @@ export default function ClassesGridSkeleton() {
             <Skeleton className="h-6 w-32" />
             <Skeleton className="h-6 w-40" />
             <Skeleton className="h-6 w-28" />
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-6 w-28" />
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-6 w-28" />
           </div>
 
           {/* Grid */}

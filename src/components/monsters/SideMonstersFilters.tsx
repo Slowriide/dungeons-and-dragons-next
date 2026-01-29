@@ -29,7 +29,6 @@ export const SideMonstersFilters = () => {
   const cr = CR_LIST;
   const alignment = Array.from(new Set(monsters.map((s) => s.alignment)));
 
-  //TODO add type filter
   return (
     <div className=" col-span-1 space-y-4">
       {/* Search */}

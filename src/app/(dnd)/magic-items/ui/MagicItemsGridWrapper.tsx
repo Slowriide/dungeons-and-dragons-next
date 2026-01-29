@@ -1,6 +1,4 @@
 import { MagicItemsGrid } from "@/components/magic-items/MagicItemsGrid";
-import { SideMagicItemsFilters } from "@/components/magic-items/SideMagicItemsFilters";
-import { getMagicItems } from "@/services/magic-items/getMagicItems";
 import { getMagicItemsDetails } from "@/services/magic-items/getMagicItemsDetails";
 
 interface Props {
