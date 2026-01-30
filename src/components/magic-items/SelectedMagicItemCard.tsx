@@ -6,6 +6,7 @@ import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 interface Props {
   magicItem: DNDMagicItem;
@@ -62,7 +63,9 @@ export const SelectedMagicItemCard = ({
           >
             Description
           </h3>
-          <div className="flex flex-wrap gap-2 mt-2">{magicItem.desc}</div>
+          <div className="leading-relaxed">
+            <ReactMarkdown>{magicItem.desc.join("\n\n")}</ReactMarkdown>
+          </div>
 
           {/* Higher levels */}
         </div>

@@ -6,6 +6,8 @@ import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 import { getPhotoByCategory } from "@/utils/magicItems/getPhotoByCategory";
 import { Badge } from "../ui/badge";
 import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
+import ReactMarkdown from "react-markdown";
+import Markdown from "react-markdown";
 
 interface Props {
   magicItem: DNDMagicItem;
@@ -56,9 +58,7 @@ export const MagicItemsDetailsCard = ({ magicItem }: Props) => {
                     Description
                   </h3>
 
-                  <p className="text-muted-foreground leading-relaxed">
-                    {magicItem.desc}
-                  </p>
+                  <Markdown>{magicItem.desc.join("\n\n")}</Markdown>
                 </div>
               )}
             </div>
