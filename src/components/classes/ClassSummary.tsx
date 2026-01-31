@@ -7,6 +7,7 @@ import { BardTable } from "./tables/BardTable";
 import { ClassTableSelector } from "./tables/ClassTableSelector";
 import { ClassFeatures } from "./ClassFeatures";
 import { SubclassSumary } from "./SubclassSumary";
+import { EQUIPMENT_OPTIONS } from "@/data/races/RaceEquipmentOptions";
 
 interface Props {
   classItem: DNDClass;
@@ -23,6 +24,14 @@ export const ClassSummary = async ({ classItem }: Props) => {
   const { armors, savingThrows, weapons } = classProficiencies(profs);
 
   const multiclassInfo = multiclassData[index];
+
+  const eqOption = EQUIPMENT_OPTIONS.find(
+    (eq) => eq.dndClass === classItem.index,
+  );
+
+  const equipmentOptionText = eqOption?.options
+    .map((opt) => opt.description)
+    .join(" or ");
 
   return (
     <div className="mb-16">
@@ -67,11 +76,9 @@ export const ClassSummary = async ({ classItem }: Props) => {
             <span className="w-32 shrink-0 font-medium">
               Starting equipment
             </span>
-            {classItem.starting_equipment_options.map((p, i) => (
-              <span className="text-muted-foreground" key={`${p.desc}-${i}`}>
-                {`Choose (${p.choose}) - ${p.desc}`}
-              </span>
-            ))}
+            <span className="text-muted-foreground self-center">
+              {equipmentOptionText}
+            </span>
           </div>
         </div>
       </section>

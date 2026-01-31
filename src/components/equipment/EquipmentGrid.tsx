@@ -22,7 +22,7 @@ export const EquipmentGrid = ({ paginated, totalPages }: Props) => {
   const [selectedEquipment, setSelectedEquipment] = useState<
     DNDEquipment | DNDWeapon | DNDArmor | null
   >(null);
-
+  const selected = selectedEquipment !== null;
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
       {selectedEquipment ? (
@@ -65,8 +65,7 @@ export const EquipmentGrid = ({ paginated, totalPages }: Props) => {
           ),
         )
       )}
-
-      <Pagination totalPages={totalPages} />
+      {!selected && <Pagination totalPages={totalPages} />}
     </main>
   );
 };

@@ -4,6 +4,7 @@ import { Card } from "../ui/card";
 import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../ui/badge";
 import { DNDSpell } from "@/interface/spells/DndSpell";
+import Markdown from "react-markdown";
 
 interface Props {
   spell: DNDSpell;
@@ -96,8 +97,9 @@ export const SpellCard = ({ spell }: Props) => {
           >
             Description
           </h3>
-
-          <p className="text-muted-foreground leading-relaxed">{spell.desc}</p>
+          <div className="leading-relaxed">
+            <Markdown>{spell.desc.join("\n\n")}</Markdown>
+          </div>
         </div>
 
         {/* Mateial */}

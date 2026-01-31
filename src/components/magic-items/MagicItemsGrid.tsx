@@ -15,6 +15,8 @@ export const MagicItemsGrid = ({ magicItems, totalPages }: Props) => {
   const [selectedMagicItem, setSelectedMagicItem] =
     useState<DNDMagicItem | null>(null);
 
+  const selected = selectedMagicItem !== null;
+
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
       {selectedMagicItem ? (
@@ -32,7 +34,7 @@ export const MagicItemsGrid = ({ magicItems, totalPages }: Props) => {
         ))
       )}
 
-      <Pagination totalPages={totalPages} />
+      {!selected && <Pagination totalPages={totalPages} />}
     </main>
   );
 };

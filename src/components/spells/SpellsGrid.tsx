@@ -19,6 +19,7 @@ export const SpellsGrid = ({
   totalCount,
 }: Props) => {
   const [selectedSpell, setSelectedSpell] = useState<DNDSpell | null>(null);
+  const selected = selectedSpell !== null;
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">
@@ -40,7 +41,7 @@ export const SpellsGrid = ({
           />
         ))
       )}
-      <Pagination totalPages={totalPages ?? 1} />
+      {!selected && <Pagination totalPages={totalPages ?? 1} />}
     </main>
   );
 };
