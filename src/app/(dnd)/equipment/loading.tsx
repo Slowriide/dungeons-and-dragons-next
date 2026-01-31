@@ -15,7 +15,7 @@ export default function ClassesGridSkeleton() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="space-y-10">
+          <div className="space-y-8">
             <SearchBoxSkeleton />
             <SearchBoxSkeleton />
             <RangeFilterSkeleton />
@@ -25,6 +25,8 @@ export default function ClassesGridSkeleton() {
 
           {/* Grid */}
           <div className="space-y-4">
+            <Skeleton className="h-34 w-238 rounded-xl" />
+            <Skeleton className="h-34 w-238 rounded-xl" />
             <Skeleton className="h-34 w-238 rounded-xl" />
             <Skeleton className="h-34 w-238 rounded-xl" />
             <Skeleton className="h-34 w-238 rounded-xl" />

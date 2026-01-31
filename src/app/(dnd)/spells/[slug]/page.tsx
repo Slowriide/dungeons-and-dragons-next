@@ -20,7 +20,6 @@ export default async function SpellPage({ params }: Props) {
   if (!spell) {
     notFound();
   }
-
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">

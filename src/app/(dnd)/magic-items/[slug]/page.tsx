@@ -1,4 +1,3 @@
-import { EquipmentDetailsView } from "@/components/equipment/EquipmentDetailsView";
 import { MagicItemsDetailsView } from "@/components/magic-items/MagicItemsDetailsView";
 import { getMagicItemByIndex } from "@/services/magic-items/getMagicItemByIndex";
 import { notFound } from "next/navigation";

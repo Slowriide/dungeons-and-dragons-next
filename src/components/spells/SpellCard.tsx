@@ -12,7 +12,7 @@ interface Props {
 export const SpellCard = ({ spell }: Props) => {
   return (
     <div className="flex flex-col mt-10 space-y-6">
-      {/* Image and Name */}
+      {/* Name */}
       <div className="flex flex-row items-center space-x-5">
         <h1
           className={`${geisCinzel.className}  antialiased font-bold text-4xl sm:text-5xl lg:text-4xl animate-fade-in`}
