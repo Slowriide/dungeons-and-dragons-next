@@ -1,7 +1,7 @@
+"use server";
 import { signIn } from "@/auth.config";
 import { sleep } from "@/utils/sleep";
 import { AuthError } from "next-auth";
-import { sign } from "node:crypto";
 
 export async function authenticate(formData: FormData) {
   try {
@@ -26,7 +26,7 @@ export async function authenticate(formData: FormData) {
 
 export const login = async (email: string, password: string) => {
   try {
-    await signIn("credentials", { email, password });
+    await signIn("credentials", { email, password, redirect: false });
     return { ok: true };
   } catch (error) {
     return {

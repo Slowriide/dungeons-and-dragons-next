@@ -4,9 +4,14 @@ import { CharactersGrid } from "@/components/characters/CharactersGrid";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getAllCharacters } from "@/actions/characters";
+import { notFound } from "next/navigation";
 
 export default async function CharactersPage() {
-  const characters = await getAllCharacters();
+  const result = await getAllCharacters();
+
+  if (!result.ok) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,7 +32,7 @@ export default async function CharactersPage() {
           </Link>
         </div>
       </div>
-      <CharactersGrid characters={characters} />
+      <CharactersGrid characters={result.characters} />
     </div>
   );
 }

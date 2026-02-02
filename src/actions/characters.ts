@@ -5,6 +5,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { mapCharacterToUpdateInput } from "@/app/(dnd)/characters/create-character/background/utils/characterToPrisma";
+import { auth } from "@/auth.config";
 
 // Helper
 const toJsonValue = (value: any): Prisma.InputJsonValue => {
@@ -174,9 +175,60 @@ export async function getAllCharacters() {
       },
     });
 
+    return {
+      ok: true,
+      characters,
+    };
+  } catch (error) {
+    console.error("Error fetching characters:", error);
+    return {
+      ok: false,
+      message: "Failed to fetch characters",
+      characters: [],
+    };
+  }
+}
+export async function getUserCharacters() {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return {
+        ok: false,
+        message: "Unauthorized",
+        characters: [],
+      };
+    }
+
+    const characters = await prisma.character.findMany({
+      where: {
+        userId: session.user.id,
+      },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        characterClass: true,
+        race: true,
+        level: true,
+        createdAt: true,
+        alignment: true,
+        hitPoints: true,
+        armorClass: true,
+        speed: true,
+        background: true,
+        proficiencyBonus: true,
+      },
+    });
+
     return characters;
   } catch (error) {
-    return [];
+    console.error("Error fetching user characters:", error);
+    return {
+      ok: false,
+      message: "Failed to fetch characters",
+      characters: [],
+    };
   }
 }
 export async function getFullCharacterById(id: string) {
@@ -190,5 +242,51 @@ export async function getFullCharacterById(id: string) {
     return character;
   } catch (error) {
     return null;
+  }
+}
+
+export async function deleteCharacter(characterId: string) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return {
+        ok: false,
+        message: "Unauthorized",
+      };
+    }
+
+    const character = await prisma.character.findFirst({
+      where: {
+        id: characterId,
+        userId: session.user.id,
+      },
+    });
+
+    if (!character) {
+      return {
+        ok: false,
+        message: "Character not found",
+      };
+    }
+
+    await prisma.character.delete({
+      where: {
+        id: characterId,
+      },
+    });
+
+    revalidatePath("/characters");
+
+    return {
+      ok: true,
+      message: "Character deleted successfully",
+    };
+  } catch (error) {
+    console.error("Error deleting character:", error);
+    return {
+      ok: false,
+      message: "Failed to delete character",
+    };
   }
 }

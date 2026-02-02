@@ -4,6 +4,8 @@ import prisma from "./lib/prisma";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import bcryptjs from "bcryptjs";
+import z from "zod";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -12,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   pages: {
     signIn: "/auth/login",
-    newUser: "/auth/signin",
+    newUser: "/auth/register",
   },
   providers: [
     Google({
@@ -21,31 +23,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
 
     Credentials({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
       async authorize(credentials) {
-        if (!credentials.email || !credentials.password) {
-          throw new Error("Email and password required");
-        }
+        const parsedCredentials = z
+          .object({ email: z.email(), password: z.string().min(6) })
+          .safeParse(credentials);
+
+        if (!parsedCredentials.success) return null;
+
+        const { email, password } = parsedCredentials.data;
+
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
+          where: { email: email.toLowerCase() },
         });
 
-        if (!user || !user.password) {
-          throw new Error("User not found");
-        }
+        if (!user || !user.password) return null;
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password as string,
-          user.password,
-        );
-
-        if (!isPasswordValid) {
-          throw new Error("Invalid email or password");
-        }
+        if (!bcryptjs.compareSync(password, user.password)) return null;
 
         const { password: _, ...rest } = user;
 
@@ -56,7 +49,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      if ((token.id = user.id)) {
+      if (user) {
+        token.id = user.id;
       }
       return token;
     },

@@ -20,6 +20,8 @@ export const RegisterUser = async (
         email: true,
       },
     });
+
+    // console.log("USER CREATED", email);
     return {
       ok: true,
       user: user,

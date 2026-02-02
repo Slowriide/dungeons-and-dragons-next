@@ -3,13 +3,16 @@ import { titleFont } from "@/config/fonts";
 import Link from "next/link";
 import { SearchBar } from "./SearchBar";
 import { NavButton } from "./NavButton";
-import { LogInIcon } from "lucide-react";
+import { LogInIcon, LogOutIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { HoverDropdrownButton } from "./HoverDropdrownButton";
+import { useSession } from "next-auth/react";
+import { LogoutButton } from "./ui/LogoutButton";
 
 export const TopMenu = () => {
   const pathname = usePathname();
-  const isActive = (path: string) => pathname === path;
+  const { data: session, status } = useSession();
+
   return (
     <header className="flex w-full mx-auto px-10 py-4 border-b">
       <div className="flex flex-row w-full  mx-auto justify-between items-center max-w-7xl">
@@ -20,7 +23,7 @@ export const TopMenu = () => {
           <span> | mini</span>
         </Link>
         <SearchBar />
-        <div className="space-x-2">
+        <div className="flex items-center gap-2">
           <HoverDropdrownButton
             title="Gameplay"
             options={[
@@ -47,13 +50,20 @@ export const TopMenu = () => {
             ]}
           />
 
-          <NavButton
-            to={"/"}
-            icon={<LogInIcon />}
-            label={"Login"}
-            className="bg-red-600 hover:bg-red-700"
-            isActive={true}
-          />
+          {!session?.user ? (
+            <NavButton
+              to={"/auth/login"}
+              icon={<LogInIcon />}
+              label={"Login"}
+              className="bg-red-600 hover:bg-red-700"
+              isActive={true}
+            />
+          ) : (
+            <LogoutButton
+              className="bg-red-600 hover:bg-red-700"
+              isActive={true}
+            />
+          )}
         </div>
       </div>
     </header>
