@@ -1,8 +1,8 @@
 "use client";
 
-import { Attributes } from "@/utils/characterCalculations";
 import { Pagination } from "../Pagination";
-import { CharactersCard } from "./CharactersCard";
+import { CharacterCardWrapper } from "./CharacterCardWrapper";
+import { EmptyCharactersState } from "./EmptyCharacters";
 
 export interface CharacterListItem {
   id: string;
@@ -28,10 +28,11 @@ export const CharactersGrid = ({ characters }: CharactersGridProps) => {
     <main className="lg:col-span-3 space-y-4 mb-10">
       <div className="grid grid-cols-4 gap-2">
         {characters.map((character) => (
-          <CharactersCard key={character.id} character={character} />
+          <CharacterCardWrapper key={character.id} character={character} />
         ))}
       </div>
-      <Pagination totalPages={1} />
+      {characters.length === 0 && <EmptyCharactersState />}
+      {characters.length > 0 && <Pagination totalPages={1} />}
     </main>
   );
 };

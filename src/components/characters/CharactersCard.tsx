@@ -3,7 +3,7 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { geClassImages } from "@/utils/class/getClassImage";
-import { ChessQueenIcon, Heart, Shield, Zap } from "lucide-react";
+import { ChessQueenIcon, Heart, Shield, Trash2Icon, Zap } from "lucide-react";
 import { CharacterListItem } from "./CharactersGrid";
 
 interface CharacterCardProps {
