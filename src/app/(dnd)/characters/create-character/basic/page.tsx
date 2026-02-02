@@ -1,5 +1,4 @@
 import { getClasses } from "@/services/classes/getClasses";
-import { StepBasic } from "../../ui/StepBasic";
 import { notFound } from "next/navigation";
 import { getClassesDetails } from "@/services/classes/getClassesDetails";
 import { StepBasicWrapper } from "./ui/StepBasicWrapper";
@@ -29,8 +28,6 @@ export default async function CreateCharacterPage({ searchParams }: Props) {
   if (!dndClasses) {
     notFound();
   }
-
-  console.log(classIndexes);
 
   return (
     <div className="min-h-screen bg-background">

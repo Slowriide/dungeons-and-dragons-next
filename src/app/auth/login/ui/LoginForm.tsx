@@ -15,13 +15,29 @@ import { Input } from "@/components/ui/input";
 import { LoginFormValues, loginSchema } from "@/schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const LoginForm = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
+
+  //redirect if comes from start-adventure
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next")?.startsWith("/")
+    ? searchParams.get("next")!
+    : "/";
+
+  const error = searchParams.get("error");
+
+  useEffect(() => {
+    if (error === "OAuthAccountNotLinked") {
+      setErrorMessage(
+        "This email is already registered. Please sign in using email and password.",
+      );
+    }
+  }, [error]);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -43,12 +59,12 @@ export const LoginForm = () => {
       setErrorMessage("Invalid email or password");
       return;
     }
-    router.push("/");
+    router.push(next);
     router.refresh();
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: next });
   };
 
   return (

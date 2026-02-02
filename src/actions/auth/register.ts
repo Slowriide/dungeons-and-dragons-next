@@ -21,7 +21,6 @@ export const RegisterUser = async (
       },
     });
 
-    // console.log("USER CREATED", email);
     return {
       ok: true,
       user: user,

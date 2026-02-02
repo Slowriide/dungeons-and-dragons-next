@@ -1,6 +1,7 @@
 // prisma/seed-data.ts
 export const seedCharacters = [
   {
+    userId: "cml4d5j8o0002a0uwko0r6r9m",
     name: "Thorin Blackforge",
     characterClass: "Fighter",
     race: "Dwarf",
@@ -157,6 +158,7 @@ export const seedCharacters = [
     },
   },
   {
+    userId: "cml4d5j8o0002a0uwko0r6r9m",
     name: "Elara Moonwhisper",
     characterClass: "Wizard",
     race: "Elf",
@@ -316,6 +318,7 @@ export const seedCharacters = [
     },
   },
   {
+    userId: "cml475kdm0000sguwao68iel3",
     name: "Grimm Skullcrusher",
     characterClass: "Barbarian",
     race: "Half-Orc",
@@ -473,6 +476,7 @@ export const seedCharacters = [
     },
   },
   {
+    userId: "cml475kdm0000sguwao68iel3",
     name: "Lyra Songweaver",
     characterClass: "Bard",
     race: "Human",

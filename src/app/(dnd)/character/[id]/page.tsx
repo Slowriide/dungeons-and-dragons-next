@@ -1,5 +1,5 @@
 import { getFullCharacterById } from "@/actions/characters";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { CharacterSheet } from "../../characters/create-character/summary/ui/CharacterSheet";
 import { mapPrismaCharacterToDND } from "../../characters/utils/mappers/mapPrismaCharacterToDND";
 
@@ -9,7 +9,7 @@ interface Props {
   }>;
 }
 
-export default async function MagicItemsPage({ params }: Props) {
+export default async function CharacterPage({ params }: Props) {
   const { id } = await params;
 
   if (!id) {

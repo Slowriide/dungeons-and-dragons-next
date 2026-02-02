@@ -293,8 +293,6 @@ export const StepBackground = () => {
         eq.index.toLowerCase() === "gold" ||
         eq.index.toLowerCase() === "pouch"
       ) {
-        console.log(`${eq.index} - ${eq.quantity}`);
-
         addGold(eq.quantity || 1, "background-base");
         return;
       }

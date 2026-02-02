@@ -49,8 +49,19 @@ export async function saveCharacter(
       };
     }
 
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        error: "Unauthorized",
+      };
+    }
+
     const character = await prisma.character.create({
       data: {
+        //User id
+        userId: session.user.id,
         // Required fields
         name: characterData.name,
         characterClass: characterData.characterClass!,
@@ -221,7 +232,10 @@ export async function getUserCharacters() {
       },
     });
 
-    return characters;
+    return {
+      ok: true,
+      characters,
+    };
   } catch (error) {
     console.error("Error fetching user characters:", error);
     return {
@@ -236,8 +250,6 @@ export async function getFullCharacterById(id: string) {
     const character = await prisma.character.findUnique({
       where: { id },
     });
-
-    console.log(character);
 
     return character;
   } catch (error) {

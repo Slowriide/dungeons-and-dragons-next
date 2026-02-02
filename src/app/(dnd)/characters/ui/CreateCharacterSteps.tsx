@@ -13,7 +13,7 @@ export const CreateCharacterSteps = () => {
   const pathname = usePathname();
 
   const currentStepIndex = STEPS.findIndex((step) =>
-    pathname.includes(step.path)
+    pathname.includes(step.path),
   ); //si no encuentra devuelve -1
 
   const currentStep = currentStepIndex === -1 ? 0 : currentStepIndex + 1;

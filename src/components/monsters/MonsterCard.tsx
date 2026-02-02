@@ -11,8 +11,6 @@ interface Props {
 }
 
 export const MonsterCard = ({ monster }: Props) => {
-  console.log(monster.index);
-
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
       <Link href={`/monsters/${monster.index}`}>

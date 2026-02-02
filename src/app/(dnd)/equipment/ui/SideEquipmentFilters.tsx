@@ -79,9 +79,6 @@ export const SideEquipmentFilters = (props: Props) => {
     setMaxWeight(searchParams.get("maxWeight") ?? "");
   }, [searchParams]);
 
-  console.log(categoriesAvailables);
-  console.log(categories?.map((cat) => cat));
-
   return (
     <div className=" col-span-1 space-y-4">
       {/* Search */}

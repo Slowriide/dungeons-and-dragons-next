@@ -10,16 +10,15 @@ export const getSubclassLevels = async ({
   subclassIndex,
 }: Options): Promise<{ subclassLevelFeatures: SubclassFeature[] }> => {
   const subclassLevels = await dndFetch.get<SubclassLevels[]>(
-    `/subclasses/${subclassIndex}/levels`
+    `/subclasses/${subclassIndex}/levels`,
   );
 
   const levelsIndexes = subclassLevels.flatMap((lvl) =>
-    lvl.features.map((ft) => ft.index)
+    lvl.features.map((ft) => ft.index),
   );
-  console.log(levelsIndexes);
 
   const levelsFeatures = levelsIndexes.map((index) =>
-    dndFetch.get<SubclassFeature>(`/features/${index}`)
+    dndFetch.get<SubclassFeature>(`/features/${index}`),
   );
 
   const subclassLevelFeatures = await Promise.all(levelsFeatures);

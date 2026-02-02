@@ -3,11 +3,18 @@ import { UserPlus2Icon } from "lucide-react";
 import { CharactersGrid } from "@/components/characters/CharactersGrid";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getAllCharacters } from "@/actions/characters";
-import { notFound } from "next/navigation";
+import { getAllCharacters, getUserCharacters } from "@/actions/characters";
+import { notFound, redirect } from "next/navigation";
+import { auth } from "@/auth.config";
 
 export default async function CharactersPage() {
-  const result = await getAllCharacters();
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect("/start-adventure?next=/characters");
+  }
+
+  const result = await getUserCharacters();
 
   if (!result.ok) {
     notFound();

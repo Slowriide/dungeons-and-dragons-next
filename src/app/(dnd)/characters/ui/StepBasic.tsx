@@ -325,8 +325,6 @@ export const StepBasic = ({ dndClasses }: Props) => {
       });
     });
 
-    console.log(Profs);
-
     setClassProficiencies(Profs);
 
     //class equipment

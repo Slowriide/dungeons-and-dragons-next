@@ -17,13 +17,17 @@ import { RegisterFormValues, registerSchema } from "@/schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const RegisterForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") ?? "/";
+
   const [errorMessage, setErrorMessage] = useState("");
+
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -35,6 +39,7 @@ export const RegisterForm = () => {
 
   const onSubmit = async (data: RegisterFormValues) => {
     setErrorMessage("");
+    //redirect if comes from start-adventure
 
     const { email, name, password } = data;
 
@@ -55,11 +60,11 @@ export const RegisterForm = () => {
       return;
     }
 
-    router.replace("/");
+    router.replace(next);
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: next });
   };
 
   return (
