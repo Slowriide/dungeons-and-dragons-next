@@ -152,51 +152,51 @@ export const TraitsAccordion = ({
 
                         return (
                           <FormItem>
-                            <FormControl>
-                              {trait.proficiency_choices?.from && (
-                                <Select
-                                  value={currentSelection?.id || ""}
-                                  onValueChange={(selectedIndex) => {
-                                    const selectedOption =
-                                      trait.proficiency_choices?.from.options.find(
-                                        (opt) =>
-                                          opt.item.index === selectedIndex,
-                                      );
+                            {trait.proficiency_choices?.from && (
+                              <Select
+                                value={currentSelection?.id || ""}
+                                onValueChange={(selectedIndex) => {
+                                  const selectedOption =
+                                    trait.proficiency_choices?.from.options.find(
+                                      (opt) => opt.item.index === selectedIndex,
+                                    );
 
-                                    if (selectedOption) {
-                                      field.onChange([
-                                        {
-                                          id: selectedIndex,
-                                          name: trait.name,
-                                          description: `${trait.name}: ${selectedOption.item.name}`,
-                                        },
-                                      ]);
-                                    }
-                                  }}
-                                >
+                                  if (selectedOption) {
+                                    field.onChange([
+                                      {
+                                        id: selectedIndex,
+                                        name: trait.name,
+                                        description: `${trait.name}: ${selectedOption.item.name}`,
+                                      },
+                                    ]);
+                                  }
+                                }}
+                              >
+                                <FormControl>
                                   <SelectTrigger className="w-full border-gray-200 mt-2">
                                     <SelectValue
                                       placeholder={`Select ${trait.name}`}
                                     />
                                   </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectGroup>
-                                      <SelectLabel>{trait.name}</SelectLabel>
-                                      {trait.proficiency_choices.from.options.map(
-                                        (r) => (
-                                          <SelectItem
-                                            key={r.item.index}
-                                            value={r.item.index}
-                                          >
-                                            {r.item.name}
-                                          </SelectItem>
-                                        ),
-                                      )}
-                                    </SelectGroup>
-                                  </SelectContent>
-                                </Select>
-                              )}
-                            </FormControl>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    <SelectLabel>{trait.name}</SelectLabel>
+                                    {trait.proficiency_choices.from.options.map(
+                                      (r) => (
+                                        <SelectItem
+                                          key={r.item.index}
+                                          value={r.item.index}
+                                        >
+                                          {r.item.name}
+                                        </SelectItem>
+                                      ),
+                                    )}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            )}
+
                             <FormMessage />
                           </FormItem>
                         );

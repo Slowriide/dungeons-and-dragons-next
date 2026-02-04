@@ -61,7 +61,7 @@ export interface DNDCharacter {
   raceTraits: Trait[];
   selectedTraits: Trait[];
 
-  backgroundTrait: Trait;
+  backgroundTraits: Trait;
 
   equipment: Equipment[];
   selectedEquipmentOption: string;

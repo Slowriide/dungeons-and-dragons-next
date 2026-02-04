@@ -5,7 +5,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -47,24 +52,25 @@ export const BackgroundSimpleOptionAccordion = ({
             control={control}
             render={({ field }) => (
               <FormItem>
-                <FormControl>
-                  <Select
-                    value={field.value || ""}
-                    onValueChange={field.onChange}
-                  >
+                <Select
+                  value={field.value || ""}
+                  onValueChange={field.onChange}
+                >
+                  <FormControl>
                     <SelectTrigger className="mt-2">
                       <SelectValue placeholder="Select proficiency" />
                     </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {options.map((opt) => (
+                      <SelectItem key={opt.index} value={opt.index}>
+                        {opt.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-                    <SelectContent>
-                      {options.map((opt) => (
-                        <SelectItem key={opt.index} value={opt.index}>
-                          {opt.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />

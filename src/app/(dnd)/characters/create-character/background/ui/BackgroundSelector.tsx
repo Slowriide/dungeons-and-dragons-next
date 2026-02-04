@@ -1,6 +1,11 @@
 "use client";
 
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -23,20 +28,21 @@ export const BackgroundSelector = ({ value, control }: Props) => {
       name="backgroundId"
       render={({ field }) => (
         <FormItem>
-          <FormControl>
-            <Select value={field.value} onValueChange={field.onChange}>
+          <Select value={field.value} onValueChange={field.onChange}>
+            <FormControl>
               <SelectTrigger className="w-full ">
                 <SelectValue placeholder="Select background" />
               </SelectTrigger>
-              <SelectContent>
-                {BACKGROUNDS.map((bg) => (
-                  <SelectItem key={bg.id} value={bg.id}>
-                    {bg.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormControl>
+            </FormControl>
+            <SelectContent>
+              {BACKGROUNDS.map((bg) => (
+                <SelectItem key={bg.id} value={bg.id}>
+                  {bg.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <FormMessage />
         </FormItem>
       )}
     />

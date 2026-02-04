@@ -206,12 +206,17 @@ export const StepBasic = ({ dndClasses }: Props) => {
 
   const validateDynamicRules = () => {
     if (!classDetails) return true;
+    form.clearErrors();
 
     const skillChoices = classDetails.proficiency_choices?.[0]?.choose ?? 0;
 
-    if (form.getValues("skills").length !== skillChoices) {
+    const selectedSkills = form
+      .getValues("skills")
+      .filter((skill) => skill !== "").length;
+
+    if (selectedSkills !== skillChoices) {
       form.setError("skills", {
-        message: `Debes seleccionar exactamente ${skillChoices} habilidades`,
+        message: `Select ${skillChoices} skills`,
       });
       return false;
     }
@@ -220,9 +225,15 @@ export const StepBasic = ({ dndClasses }: Props) => {
       const instrumentChoices =
         classDetails.proficiency_choices?.[1]?.choose ?? 0;
 
-      if (form.getValues("instruments").length !== instrumentChoices) {
+      const selectedInstruments = form
+        .getValues("instruments")
+        .filter((skill) => skill !== "").length;
+
+      console.log(form.getValues("instruments").length);
+
+      if (selectedInstruments !== instrumentChoices) {
         form.setError("instruments", {
-          message: "Selecciona los instrumentos requeridos",
+          message: "Select instrument proficiencies",
         });
         return false;
       }
@@ -231,7 +242,7 @@ export const StepBasic = ({ dndClasses }: Props) => {
     if (classDetails.name === "Monk") {
       if (form.getValues("tools").length !== 1) {
         form.setError("tools", {
-          message: "Debes seleccionar 1 herramienta o instrumento",
+          message: "Select 1 tool",
         });
         return false;
       }
@@ -239,7 +250,7 @@ export const StepBasic = ({ dndClasses }: Props) => {
 
     if (form.getValues("selectedEquipmentOption").length !== 1) {
       form.setError("selectedEquipmentOption", {
-        message: `Debes seleccionar tu equipo`,
+        message: `Select your equipment`,
       });
       return false;
     }
@@ -470,7 +481,7 @@ export const StepBasic = ({ dndClasses }: Props) => {
           />
 
           {/* Proficiencies */}
-          {dndClasses && (
+          {classDetails && (
             <div className="col-span-5 space-y-6">
               <h1 className="font-serif text-2xl font-semibold">
                 Proficiencies
@@ -484,10 +495,7 @@ export const StepBasic = ({ dndClasses }: Props) => {
                 }
               />
               <div className="col-span-2 space-y-6">
-                <ClassFeatures
-                  dndClass={dndClasses[0]}
-                  control={form.control}
-                />
+                <ClassFeatures dndClass={classDetails} control={form.control} />
               </div>
             </div>
           )}
@@ -507,7 +515,8 @@ export const StepBasic = ({ dndClasses }: Props) => {
           )}
 
           {/* Equipment */}
-          {dndClasses && (
+
+          {classDetails && (
             <div className="col-span-5 space-y-6">
               <h1 className="font-serif text-2xl font-semibold">Equipment</h1>
 

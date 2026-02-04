@@ -43,11 +43,12 @@ export function buildCharacterTraits(
   }
 
   // 📜 Background feature (UNO SOLO)
-  if (character.backgroundTrait) {
+
+  if (character.backgroundTraits) {
     traits.push({
-      id: character.backgroundTrait.id,
-      name: character.backgroundTrait.name,
-      description: character.backgroundTrait.description,
+      id: character.backgroundTraits.id,
+      name: character.backgroundTraits.name,
+      description: character.backgroundTraits.description,
       source: "background",
     });
   }

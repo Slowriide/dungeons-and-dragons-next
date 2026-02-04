@@ -5,7 +5,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -105,9 +111,11 @@ export const AbBonusAccordionOptions = ({
                           }}
                           value={currentValue}
                         >
-                          <SelectTrigger className="w-full border-gray-200 mt-2">
-                            <SelectValue placeholder="Select Ability Bonus" />
-                          </SelectTrigger>
+                          <FormControl>
+                            <SelectTrigger className="w-full border-gray-200 mt-2">
+                              <SelectValue placeholder="Select Ability Bonus" />
+                            </SelectTrigger>
+                          </FormControl>
 
                           <SelectContent>
                             {availableOptions.map((opt) => (
@@ -123,6 +131,7 @@ export const AbBonusAccordionOptions = ({
                       );
                     })}
                   </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />

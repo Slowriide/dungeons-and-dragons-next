@@ -53,33 +53,33 @@ export const AttributeCard = ({
             </span>
 
             <div className="flex flex-1 items-center ">
-              <FormControl>
-                <Select
-                  value={String(field.value)}
-                  onValueChange={(v) => field.onChange(Number(v))}
-                >
+              <Select
+                value={String(field.value)}
+                onValueChange={(v) => field.onChange(Number(v))}
+              >
+                <FormControl>
                   <SelectTrigger className="text-center">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="-">-</SelectItem>
-                    {SCORES.map((score) => {
-                      const isUsed =
-                        usedScores.includes(score) && score !== field.value;
-                      return (
-                        <SelectItem
-                          key={score}
-                          value={String(score)}
-                          disabled={isUsed}
-                          className={isUsed ? "opacity-50" : ""}
-                        >
-                          {score}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="-">-</SelectItem>
+                  {SCORES.map((score) => {
+                    const isUsed =
+                      usedScores.includes(score) && score !== field.value;
+                    return (
+                      <SelectItem
+                        key={score}
+                        value={String(score)}
+                        disabled={isUsed}
+                        className={isUsed ? "opacity-50" : ""}
+                      >
+                        {score}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Modifier flotante */}

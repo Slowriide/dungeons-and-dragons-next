@@ -146,6 +146,15 @@ export const StepBackground = () => {
   const validateDynamicRules = (data: FormData) => {
     if (!selectedBackground) return true;
 
+    if (selectedBackground.specialty) {
+      if (!form.getValues("specialty")) {
+        form.setError("specialty", {
+          message: "Select a specialty",
+        });
+        return false;
+      }
+    }
+
     //prof
     if (selectedBackground.proficienciesOptions) {
       if (!data.selectedProficiency) {
@@ -458,11 +467,7 @@ export const StepBackground = () => {
             >
               Previous
             </Button>
-            <Button
-              variant={"outline"}
-              type="submit"
-              disabled={!selectedBackground}
-            >
+            <Button variant={"outline"} type="submit">
               Continue
             </Button>
           </div>

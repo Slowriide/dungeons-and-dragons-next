@@ -1,5 +1,4 @@
 import { Control } from "react-hook-form";
-import { PersonalitySelector } from "../../create-character/background/ui/accordions/PersonalitySelector";
 import { EQUIPMENT_OPTIONS } from "@/data/races/RaceEquipmentOptions";
 import { DNDClass } from "@/interface/classes/DnDClass";
 import { EquipmentSelect } from "./EquipmentSelect";

@@ -6,18 +6,29 @@ import { CharacterSheet } from "./CharacterSheet";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { is } from "zod/v4/locales";
 
 // This page exists to separate concerns.
 
 export default function SummaryClient() {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
-  const { character, saveCharacter, resetCharacter } = useDNDCharacterStore();
+  const { character, saveCharacter, resetCharacter, isCharacterComplete } =
+    useDNDCharacterStore();
 
   const handleSave = async () => {
     setIsSaving(true);
 
     try {
+      const isComplete = isCharacterComplete();
+
+      console.log(isComplete);
+
+      if (!isComplete) {
+        alert("Must complete the character before save");
+        return;
+      }
+
       saveCharacter();
 
       resetCharacter();

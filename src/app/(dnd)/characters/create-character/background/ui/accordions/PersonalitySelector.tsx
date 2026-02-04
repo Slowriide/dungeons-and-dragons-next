@@ -5,7 +5,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -48,24 +53,25 @@ export const PersonalitySelector = ({
               name={fieldName}
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Select
-                      value={field.value || ""}
-                      onValueChange={field.onChange}
-                    >
+                  <Select
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
                       <SelectTrigger className="w-full border-gray-200 mt-2">
                         <SelectValue placeholder={title} />
                       </SelectTrigger>
+                    </FormControl>
 
-                      <SelectContent>
-                        {group.map((opt, index) => (
-                          <SelectItem key={index} value={opt}>
-                            {opt}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    <SelectContent>
+                      {group.map((opt, index) => (
+                        <SelectItem key={index} value={opt}>
+                          {opt}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
                 </FormItem>
               )}
             />

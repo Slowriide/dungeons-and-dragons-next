@@ -5,7 +5,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -46,31 +52,31 @@ export const EquipmentSelect = ({
         <AccordionTrigger> {title}</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <div>
-            <p>{description}</p>
-
             <FormField
               control={control}
               name={fieldName}
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Select
-                      value={field.value || ""}
-                      onValueChange={field.onChange}
-                    >
-                      <SelectTrigger className="w-full border-gray-200 mt-2">
+                  <FormLabel> {description}</FormLabel>
+                  <Select
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder={title} />
                       </SelectTrigger>
+                    </FormControl>
 
-                      <SelectContent>
-                        {options.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    <SelectContent>
+                      {options.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
                 </FormItem>
               )}
             />

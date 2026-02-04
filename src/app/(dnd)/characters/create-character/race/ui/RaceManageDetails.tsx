@@ -17,6 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { CharacterRace, Trait } from "@/interface/character/DNDCharacter";
 import { PersonalitySelector } from "../../background/ui/accordions/PersonalitySelector";
@@ -58,7 +59,7 @@ const baseSchema = z.object({
   abilityBonus: z.array(z.string()), //half-elf
   language: z.array(z.string()), //half-elf human
   tools: z.array(z.string()), //dwarf
-  alignment: z.string().min(1, "Debes seleccionar un alignment"),
+  alignment: z.string(),
 });
 
 type FormData = z.infer<typeof baseSchema>;
@@ -96,7 +97,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
       abilityBonus: character.selectedAbilityBonuses || [],
       language: character.raceLanguages || [],
       tools: [],
-      alignment: character.alignment,
+      alignment: character.alignment || "",
     }),
     [hydrated, raceIndex],
   );
@@ -117,7 +118,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
       abilityBonus: character.selectedAbilityBonuses || [],
       language: character.raceLanguages || [],
       tools: [],
-      alignment: character.alignment,
+      alignment: character.alignment || "",
     });
   }, [hydrated]);
 
@@ -160,12 +161,16 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
 
   const raceTraits = race.traits.map((trait) => trait.index);
 
-  const validateDynamicRules = (data: FormData) => {
+  const validateDynamicRules = () => {
     if (!race) return true;
+    form.clearErrors();
 
-    if (data.alignment === "") {
+    const alignment = form.getValues("alignment");
+    console.log(alignment);
+
+    if (!alignment) {
       form.setError("alignment", {
-        message: `Debes seleccionar un alignment`,
+        message: `Select alignment`,
       });
       return false;
     }
@@ -174,7 +179,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
       const langOptions = race.language_options?.choose ?? 0;
       if (form.getValues("language").length !== langOptions) {
         form.setError("language", {
-          message: `Debes seleccionar Lenguajes`,
+          message: `Select languages`,
         });
         return false;
       }
@@ -183,14 +188,14 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
 
       if (form.getValues("abilityBonus").length !== abBonusChoices) {
         form.setError("abilityBonus", {
-          message: "Selecciona los bonos requeridos",
+          message: "Select ability bonus",
         });
         return false;
       }
 
       if (form.getValues("selectedTraits").length !== 1) {
         form.setError("selectedTraits", {
-          message: "Selecciona los traits requeridos",
+          message: "Select traits",
         });
         return false;
       }
@@ -199,7 +204,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     if (race.name === "Dragonborn") {
       if (form.getValues("selectedTraits").length !== 1) {
         form.setError("selectedTraits", {
-          message: "Debes seleccionar 1 trait",
+          message: "Select 1 trait",
         });
         return false;
       }
@@ -208,7 +213,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     if (race.name === "Dwarf") {
       if (form.getValues("selectedTraits").length !== 1) {
         form.setError("tools", {
-          message: "Debes seleccionar 1 herramienta",
+          message: "Select 1 tool",
         });
         return false;
       }
@@ -216,7 +221,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     if (race.name === "human") {
       if (form.getValues("language").length !== 1) {
         form.setError("language", {
-          message: "Debes seleccionar 1 lenguaje",
+          message: "Select 1 lenguage",
         });
         return false;
       }
@@ -231,7 +236,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
 
   const onSubmit = (data: FormData) => {
     if (!race) return true;
-    if (!validateDynamicRules(data)) return;
+    if (!validateDynamicRules()) return;
 
     const raceName = race.name as CharacterRace;
     const autoLanguages = race.languages.map((lang) => lang.index);

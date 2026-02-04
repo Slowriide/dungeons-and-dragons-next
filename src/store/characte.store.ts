@@ -700,6 +700,7 @@ const useDNDCharacterStore = create<CharacterState>()(
 
       isCharacterComplete: () => {
         const char = get().character;
+
         return !!(
           char.name &&
           char.race &&

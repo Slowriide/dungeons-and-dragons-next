@@ -5,7 +5,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -61,26 +66,27 @@ export const FetcheableChoiceAccordion = ({
               name={fieldName}
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value || ""}
-                    >
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                  >
+                    <FormControl>
                       <SelectTrigger className="w-full border-gray-200 mt-2">
                         <SelectValue placeholder="Select Proficiency" />
                       </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {data.equipmentCategories.flatMap((opt) =>
+                        opt.equipment.map((e) => (
+                          <SelectItem key={e.index} value={e.index}>
+                            {e.name}
+                          </SelectItem>
+                        )),
+                      )}
+                    </SelectContent>
+                  </Select>
 
-                      <SelectContent>
-                        {data.equipmentCategories.flatMap((opt) =>
-                          opt.equipment.map((e) => (
-                            <SelectItem key={e.index} value={e.index}>
-                              {e.name}
-                            </SelectItem>
-                          )),
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

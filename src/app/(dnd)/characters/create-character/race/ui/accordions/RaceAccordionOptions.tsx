@@ -55,26 +55,26 @@ export const RaceAccordionOptions = ({
               name="language"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Select
-                      onValueChange={(value) => field.onChange([value])}
-                      value={field.value?.[0] || ""}
-                    >
+                  <Select
+                    onValueChange={(value) => field.onChange([value])}
+                    value={field.value?.[0] || ""}
+                  >
+                    <FormControl>
                       <SelectTrigger className="w-full border-gray-200 mt-2">
                         <SelectValue placeholder="Select language" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Languages</SelectLabel>
-                          {options.map((r) => (
-                            <SelectItem key={r.item.index} value={r.item.index}>
-                              {r.item.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Languages</SelectLabel>
+                        {options.map((r) => (
+                          <SelectItem key={r.item.index} value={r.item.index}>
+                            {r.item.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
