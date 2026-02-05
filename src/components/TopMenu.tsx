@@ -1,13 +1,15 @@
 "use client";
 import { titleFont } from "@/config/fonts";
 import Link from "next/link";
-import { SearchBar } from "./SearchBar";
+
 import { NavButton } from "./NavButton";
 import { LogInIcon, LogOutIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { HoverDropdrownButton } from "./HoverDropdrownButton";
 import { useSession } from "next-auth/react";
 import { LogoutButton } from "./ui/LogoutButton";
+import { HoverDropdrownButtonExternal } from "./HoverDropdrownButtonExternal.";
+import { SearchBar } from "./SearchBar";
 
 export const TopMenu = () => {
   const pathname = usePathname();
@@ -35,12 +37,13 @@ export const TopMenu = () => {
               { name: "Magic Items", path: "/magic-items" },
             ]}
           />
-          <HoverDropdrownButton
-            title="Sources"
-            options={[
-              { name: "Rules", path: "/rules" },
-              { name: "Stories", path: "/" },
-            ]}
+
+          <HoverDropdrownButtonExternal
+            title={"Sources"}
+            internalButton={{
+              name: "Rules",
+              path: "/rules",
+            }}
           />
           <HoverDropdrownButton
             title="Tools"
