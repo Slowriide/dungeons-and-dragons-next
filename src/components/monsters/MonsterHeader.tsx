@@ -19,7 +19,7 @@ export const MonsterHeader = ({ monster }: Props) => {
   return (
     <div className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10 ">
       {/* Left: Image */}
-      <div className="relative w-full max-w-md mx-auto my-auto">
+      <section className="relative w-full max-w-md mx-auto my-auto">
         <Image
           src={getDnDImages(monster.image)}
           alt={monster.name}
@@ -30,64 +30,60 @@ export const MonsterHeader = ({ monster }: Props) => {
           placeholder="blur"
           blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2UwZTBlMCIvPjwvc3ZnPg=="
         />
-      </div>
+      </section>
 
-      {/* Right: Title and Quick Stats */}
+      {/* Title and Quick Stats */}
       <div className="flex flex-col justify-center">
         <h1 className="mb-6 font-serif text-5xl font-bold text-balance leading-tight">
           {monster.name}
         </h1>
         {/* Quick Stats Grid */}
-        <div className="grid gap-4 sm:grid-cols-2">
+        <dl className="grid gap-4 sm:grid-cols-2">
           {/* Armor Class */}
           <div>
-            <span className="text-sm font-medium text-[#E63946]">
-              Armor Class
-            </span>
-            <div className="mt-1 font-mono text-xl font-semibold">
+            <dt className="text-sm font-medium text-[#E63946]">Armor Class</dt>
+            <dd className="mt-1 font-mono text-xl font-semibold">
               {monster.armor_class.map((ac) => (
                 <p key={ac.type}>
                   {ac.value} {ac.type}
                 </p>
               ))}
-            </div>
+            </dd>
           </div>
           {/* Hit Points */}
           <div>
-            <span className="text-sm font-medium text-[#E63946]">
-              Hit Points
-            </span>
-            <div className="mt-1 text-xl font-semibold">
+            <dt className="text-sm font-medium text-[#E63946]">Hit Points</dt>
+            <dd className="mt-1 text-xl font-semibold">
               <p>
                 {monster.hit_points} ({monster.hit_points_roll})
               </p>
-            </div>
+            </dd>
           </div>
           {/* Speed */}
 
           <div>
-            <div className="text-sm font-medium text-[#E63946]">Speed</div>
-            <div className="mt-1 text-xl font-semibold flex flex-row">
+            <dt className="text-sm font-medium text-[#E63946]">Speed</dt>
+            <dd className="mt-1 text-xl font-semibold flex flex-row">
               <p>{monster.speed.walk ?? ""}</p>
               {monster.speed.swim && <p>, swim {monster.speed.swim}</p>}
               {monster.speed.fly && <p>, fly {monster.speed.fly}</p>}
-            </div>
+            </dd>
           </div>
           {/* Challenge rating */}
           <div>
-            <div className="text-sm font-medium text-[#E63946]">
+            <dt className="text-sm font-medium text-[#E63946]">
               Challenge Rating
-            </div>
-            <p className="mt-1 text-xl font-semibold">
+            </dt>
+            <dd className="mt-1 text-xl font-semibold">
               {monster.challenge_rating} (XP {monster.xp})
-            </p>
+            </dd>
           </div>
           <MonsterStatsTable monster={monster} />
 
           {/* Senses */}
           <div>
-            <span className="text-sm font-medium text-[#E63946]">Senses</span>
-            <div className="mt-1 text-xl font-semibold ">
+            <dt className="text-sm font-medium text-[#E63946]">Senses</dt>
+            <dd className="mt-1 text-xl font-semibold ">
               {monster.senses.darkvision && (
                 <p>Darkvision: {monster.senses.darkvision}</p>
               )}
@@ -97,28 +93,26 @@ export const MonsterHeader = ({ monster }: Props) => {
               {monster.senses.blindsight && (
                 <p>Blindsight: {monster.senses.blindsight}</p>
               )}
-            </div>
+            </dd>
           </div>
 
           {/* Languages */}
           {monster.languages && (
             <div>
-              <span className="text-sm font-medium text-[#E63946]">
-                Languages
-              </span>
-              <div className="mt-1 text-xl font-semibold ">
+              <dt className="text-sm font-medium text-[#E63946]">Languages</dt>
+              <dd className="mt-1 text-xl font-semibold ">
                 {monster.languages}
-              </div>
+              </dd>
             </div>
           )}
-        </div>
+        </dl>
 
         {skills.length > 0 && (
           <div className="pt-4">
-            <span className="text-sm font-medium text-[#E63946]">Skills</span>
-            <div className="mt-1 text-xl font-semibold flex flex-row ">
+            <dt className="text-sm font-medium text-[#E63946]">Skills</dt>
+            <dd className="mt-1 text-xl font-semibold flex flex-row ">
               {skillsText}
-            </div>
+            </dd>
           </div>
         )}
       </div>

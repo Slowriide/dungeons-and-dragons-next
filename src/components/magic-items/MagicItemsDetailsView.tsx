@@ -1,5 +1,3 @@
-"use client";
-
 import { MagicItemsDetailsCard } from "./MagicItemsDetailsCard";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 

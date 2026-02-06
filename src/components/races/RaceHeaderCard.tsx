@@ -10,19 +10,21 @@ interface Props {
 export const RaceHeaderCard = ({ race }: Props) => {
   const img = getRaceImages(race.index);
   return (
-    <div className="mb-16 grid gap-8 lg:grid-cols-2 lg:gap-12 mt-10">
-      <div className="relative aspect-4/5 w-full overflow-hidden rounded-lg">
+    <div className="mb-8 lg:mb-16 grid gap-8 lg:grid-cols-2 lg:gap-12 mt-10">
+      {/* Image */}
+      <section className="relative aspect-4/5 w-full overflow-hidden rounded-lg">
         <Image
           src={img}
-          alt={race.name}
+          alt={`${race.name} race illustration for Dungeons & Dragons 5e`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover fill h-mas w-max"
           priority
         />
-      </div>
+      </section>
 
-      <div className="flex flex-col justify-center">
+      {/* Info */}
+      <section className="flex flex-col justify-center">
         <h1 className="mb-4 font-serif text-5xl font-bold text-balance">
           {race.name}
         </h1>
@@ -30,38 +32,36 @@ export const RaceHeaderCard = ({ race }: Props) => {
           {raceDescription[`${race.index}`]}
         </p>
 
-        <div className="mb-6 flex flex-wrap gap-x-8 gap-y-4 border-y border-border py-6">
+        <dl className="mb-6 flex flex-wrap gap-x-8 gap-y-4 border-y border-border py-6">
           <div>
-            <div className="text-sm text-muted-foreground">Speed</div>
-            <div className="font-medium text-lg">{race.speed} ft.</div>
+            <dt className="text-sm text-muted-foreground">Speed</dt>
+            <dd className="font-medium text-lg">{race.speed} ft.</dd>
           </div>
           <div>
-            <div className="text-sm text-muted-foreground">Size</div>
-            <div className="font-medium text-lg">{race.size}</div>
+            <dt className="text-sm text-muted-foreground">Size</dt>
+            <dd className="font-medium text-lg">{race.size}</dd>
           </div>
           <div>
-            <div className="text-sm text-muted-foreground">Lifespan</div>
-            <div className="font-medium text-lg">{race.age}</div>
+            <dt className="text-sm text-muted-foreground">Lifespan</dt>
+            <dd className="font-medium text-lg">{race.age}</dd>
           </div>
-        </div>
+        </dl>
 
         <div>
-          <h3 className="mb-3 font-serif text-sm uppercase tracking-wide text-muted-foreground">
+          <h2 className="mb-3 font-serif text-sm uppercase tracking-wide text-muted-foreground">
             Ability Score Increase
-          </h3>
-          <div className="flex flex-wrap gap-3">
+          </h2>
+          <ul className="flex flex-wrap gap-3">
             {race.ability_bonuses.map((bonus, idx) => (
-              <Badge
-                key={idx}
-                variant="secondary"
-                className="text-base px-4 py-2"
-              >
-                {bonus.ability_score.name} +{bonus.bonus}
-              </Badge>
+              <li key={idx}>
+                <Badge variant="secondary" className="text-base px-4 py-2">
+                  {bonus.ability_score.name} +{bonus.bonus}
+                </Badge>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

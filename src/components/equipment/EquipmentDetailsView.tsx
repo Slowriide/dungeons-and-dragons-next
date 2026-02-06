@@ -1,5 +1,3 @@
-"use client";
-
 import { isArmor, isWeapon } from "@/utils/equipment/isWeapon";
 import { ArmorDetailsCard } from "./ArmorDetailsCard";
 import { EquipmentDetailsCard } from "./EquipmentDetailsCard";

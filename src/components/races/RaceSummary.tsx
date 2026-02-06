@@ -7,6 +7,7 @@ interface Props {
 export const RaceSummary = ({ race }: Props) => {
   return (
     <div className="space-y-8 mb-10">
+      {/* Alignment */}
       <section>
         <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">
           Alignment
@@ -16,35 +17,39 @@ export const RaceSummary = ({ race }: Props) => {
         </p>
       </section>
 
-      <section className="grid gap-8 md:grid-cols-2">
-        <div>
+      {/* Age & Size */}
+      <div className="grid gap-8 md:grid-cols-2">
+        <section>
           <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">
             Age
           </h2>
           <p className="leading-relaxed text-foreground/90">{race.age}</p>
-        </div>
+        </section>
 
-        <div>
+        <section>
           <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">
             Size
           </h2>
           <p className="leading-relaxed text-foreground/90">
             {race.size_description}
           </p>
-        </div>
-      </section>
+        </section>
+      </div>
 
+      {/* Languages */}
       <section>
         <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">
           Languages
         </h2>
-        <div className="mb-3 flex flex-wrap gap-2">
+        <ul className="mb-3 flex flex-wrap gap-2">
           {race.languages.map((lang) => (
-            <Badge key={lang.index} variant="outline" className="text-sm">
-              {lang.name}
-            </Badge>
+            <li key={lang.index}>
+              <Badge variant="outline" className="text-sm">
+                {lang.name}
+              </Badge>
+            </li>
           ))}
-        </div>
+        </ul>
         <p className="leading-relaxed text-muted-foreground">
           {race.language_desc}
         </p>
@@ -55,13 +60,13 @@ export const RaceSummary = ({ race }: Props) => {
           <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">
             Racial Traits
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <ul className="flex flex-wrap gap-2">
             {race.traits.map((trait) => (
-              <Badge key={trait.index} className="bg-red-600  text-sm">
-                {trait.name}
-              </Badge>
+              <li key={trait.index}>
+                <Badge className="bg-red-600  text-sm">{trait.name}</Badge>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
       )}
     </div>

@@ -18,7 +18,7 @@ export const MagicItemsGrid = ({ magicItems, totalPages }: Props) => {
   const selected = selectedMagicItem !== null;
 
   return (
-    <main className="lg:col-span-3 space-y-4 mb-10">
+    <main className="lg:col-span-3 space-y-4">
       {selectedMagicItem ? (
         <SelectedMagicItemCard
           magicItem={selectedMagicItem}

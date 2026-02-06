@@ -14,7 +14,7 @@ export const CharactersCard = ({ character }: CharacterCardProps) => {
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
       <div className="relative overflow-hidden">
-        <Link href={`/character/${character.id}`}>
+        <Link href={`/characters/${character.id}`}>
           {/* Image */}
           <div className="relative w-full aspect-3/3 overflow-hidden">
             <Image

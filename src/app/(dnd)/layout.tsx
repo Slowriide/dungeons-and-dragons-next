@@ -1,10 +1,23 @@
+import { auth } from "@/auth.config";
+import { MobileMenu } from "@/components/MobileMenu";
 import { TopMenu } from "@/components/TopMenu";
+import { useSession } from "next-auth/react";
 
-export default function DndLayout({ children }: { children: React.ReactNode }) {
+export default async function DndLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
   return (
-    <main className="min-h-screen mx-auto mb-10">
-      <TopMenu />
-      <div className="mx-auto max-w-7xl">
+    <main className="min-h-screen mb-10">
+      <div className="hidden lg:flex items-center gap-2">
+        <TopMenu />
+      </div>
+      <div className="flex lg:hidden">
+        <MobileMenu session={session} />
+      </div>
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10">
         <div className="px-0">{children}</div>
       </div>
     </main>

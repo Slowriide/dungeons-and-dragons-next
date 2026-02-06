@@ -1,8 +1,6 @@
 import { geisCinzel } from "@/config/fonts";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
-import { DNDWeapon } from "@/interface/equipment/DNDWeapon";
 import { DNDArmor } from "@/interface/equipment/DNDArmor";
 
 interface Props {

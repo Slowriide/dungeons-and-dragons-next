@@ -1,5 +1,3 @@
-import { MagicItemsGrid } from "@/components/magic-items/MagicItemsGrid";
-import { getMagicItemsDetails } from "@/services/magic-items/getMagicItemsDetails";
 import { getMonsters } from "@/services/monsters/getMonsters";
 import { MonstersGrid } from "./MonstersGrid";
 import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";

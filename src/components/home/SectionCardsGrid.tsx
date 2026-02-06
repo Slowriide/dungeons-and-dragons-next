@@ -53,28 +53,21 @@ const cardList: sectionsCardProps[] = [
     to: "/equipment",
   },
   {
-    description: "Learn about playeable races and traits",
+    description: "Playable D&D 5e races, traits and racial abilities",
     icon: <Users2 className="text-red-500 size-8" />,
     title: "Races",
     color: "red",
     to: "/races",
   },
   {
-    description: "Learn about playeable races and traits",
+    description: "Explore all D&D 5e character classes and their features",
     icon: <BowArrowIcon className="text-gray-500 size-8" />,
     title: "Classes",
     color: "gray",
     to: "/classes",
   },
-  // {
-  //   description: "Learn about playeable races and traits",
-  //   icon: <BicepsFlexedIcon className="text-green-800 size-8" />,
-  //   title: "Feats",
-  //   color: "green",
-  //   to: "/feats",
-  // },
   {
-    description: "Learn about playeable races and traits",
+    description: "Legendary and common D&D 5e magic items",
     icon: <Wand2Icon className="text-fuchsia-600 size-8" />,
     title: "Magic items",
     color: "fuchsia",
@@ -91,17 +84,20 @@ const cardList: sectionsCardProps[] = [
 
 export const SectionCardsGrid = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-20">
-      {cardList.map((card) => (
-        <SectionCard
-          key={card.title}
-          title={card.title}
-          icon={card.icon}
-          description={card.description}
-          color={card.color}
-          to={card.to}
-        />
-      ))}
-    </div>
+    <section aria-labelledby="main-sections" className="my-20">
+      <h2 id="main-sections" className="sr-only"></h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {cardList.map((card) => (
+          <SectionCard
+            key={card.title}
+            title={card.title}
+            icon={card.icon}
+            description={card.description}
+            color={card.color}
+            to={card.to}
+          />
+        ))}
+      </div>
+    </section>
   );
 };

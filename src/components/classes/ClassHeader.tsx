@@ -2,6 +2,7 @@ import { DNDClass } from "@/interface/classes/DnDClass";
 import { geClassImages } from "@/utils/class/getClassImage";
 
 import Image from "next/image";
+import { classDescription } from "@/data/classes/classDescriptionñ";
 
 interface Props {
   classItem: DNDClass;
@@ -13,56 +14,55 @@ export const ClassHeader = ({ classItem }: Props) => {
   const img = geClassImages(classItem.index);
 
   return (
-    <div className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10">
-      {/* Left: Image */}
-      <div className="relative w-full max-w-md mx-auto my-auto">
+    <div className="mb-8 lg:mb-16 grid gap-8 lg:grid-cols-2 lg:gap-12 mt-10">
+      {/* Image */}
+      <section className="relative w-full max-w-md mx-auto my-auto">
         <Image
           src={img}
           alt={classItem.name}
           width={500}
           height={500}
           className="w-full h-auto rounded-lg"
+          loading="eager"
         />
-      </div>
+      </section>
 
-      {/* Right: Title and Quick Stats */}
+      {/* Title and Quick Stats */}
       <div className="flex flex-col justify-center">
         <h1 className="mb-6 font-serif text-5xl font-bold text-balance leading-tight">
           {classItem.name}
         </h1>
         <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-          Aliqua tempor id adipisicing sit qui consequat. Et consequat cupidatat
-          excepteur velit cillum ipsum deserunt deserunt. Aliquip cillum anim
-          laboris cillum veniam.
+          {classDescription[classItem.index]}
         </p>
 
         {/* Quick Stats Grid */}
-        <div className="grid gap-4 sm:grid-cols-2">
+        <dl className="grid gap-4 grid-cols-2">
           <div>
-            <div className="text-sm font-medium text-[#E63946]">Hit Die</div>
-            <div className="mt-1 font-medium text-xl">{classItem.hit_die}</div>
+            <dt className="text-sm font-medium text-[#E63946]">Hit Die</dt>
+            <dd className="mt-1 font-medium text-xl">{classItem.hit_die}</dd>
           </div>
           <div>
-            <div className="text-sm font-medium text-[#E63946]">
+            <dt className="text-sm font-medium text-[#E63946]">
               Primary Ability
-            </div>
-            <div className="mt-1 text-xl font-medium">{primary}</div>
+            </dt>
+            <dd className="mt-1 text-xl font-medium">{primary}</dd>
           </div>
           <div>
-            <div className="text-sm font-medium text-[#E63946]">
+            <dt className="text-sm font-medium text-[#E63946]">
               Saving Throws
-            </div>
-            <div className="mt-1 text-xl font-medium flex flex-row">
+            </dt>
+            <dd className="mt-1 text-xl font-medium flex flex-row">
               {classItem.saving_throws.map((st) => st.name).join(", ")}
-            </div>
+            </dd>
           </div>
           <div>
-            <div className="text-sm font-medium text-[#E63946]">Subclasses</div>
-            <div className="mt-1 text-xl font-medium">
+            <dt className="text-sm font-medium text-[#E63946]">Subclasses</dt>
+            <dd className="mt-1 text-xl font-medium">
               {classItem.subclasses?.length || 0}
-            </div>
+            </dd>
           </div>
-        </div>
+        </dl>
       </div>
     </div>
   );

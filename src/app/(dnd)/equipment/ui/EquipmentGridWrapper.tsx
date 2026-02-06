@@ -23,7 +23,7 @@ export const EquipmentGridWrapper = async (props: Props) => {
     take = 12,
   } = props;
 
-  const { items, totalCount, totalPages } = await getEquipmentDetails({
+  const { items, totalPages } = await getEquipmentDetails({
     maxCost,
     maxWeight,
     minCost,

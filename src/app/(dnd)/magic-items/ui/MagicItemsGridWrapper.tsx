@@ -17,7 +17,6 @@ export default async function MagicItemsGridWrapper({
   const {
     items,
     totalPages,
-    totalCount,
     categories: filterCategories,
   } = await getMagicItemsDetails({
     page,

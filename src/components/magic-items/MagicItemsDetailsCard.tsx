@@ -1,35 +1,43 @@
-"use client";
-
 import { Card } from "../ui/card";
 import { geisCinzel } from "@/config/fonts";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 import { getPhotoByCategory } from "@/utils/magicItems/getPhotoByCategory";
 import { Badge } from "../ui/badge";
 import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
-import ReactMarkdown from "react-markdown";
 import Markdown from "react-markdown";
+import Image from "next/image";
 
 interface Props {
   magicItem: DNDMagicItem;
 }
 export const MagicItemsDetailsCard = ({ magicItem }: Props) => {
   return (
-    <div className="flex flex-col mt-10 space-y-6">
+    <article className="flex flex-col lg:mt-10 space-y-6">
       {/* Image and Name */}
-      <div className="flex flex-row items-center space-x-5">
+      <header className="flex flex-row items-center space-x-5">
         <h1
           className={`${geisCinzel.className}  antialiased font-bold text-4xl sm:text-5xl lg:text-4xl animate-fade-in`}
         >
           {magicItem.name}
         </h1>
-      </div>
+      </header>
 
-      <Card className=" glass-card animate-fade-in p-6 gap-y-2">
-        <div className="grid grid-cols-5 ">
-          {/* LEFT SIDE — Items + Descriptions */}
-          <div className="col-span-3 space-y-6 mr-2">
+      <Card className="glass-card p-4 sm:p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <section className="lg:col-span-2 order-1 lg:order-2">
+            <Image
+              src={getPhotoByCategory(magicItem.equipment_category.name) ?? ""}
+              alt={`${magicItem.name} magic-item illustration`}
+              width={400}
+              height={400}
+              className="rounded-lg col-span-2 w-full h-auto object-contain"
+            />
+          </section>
+
+          {/* Items + Descriptions */}
+          <section className="lg:col-span-3 order-2 lg:order-1">
             {/* Items grid */}
-            <div className="grid grid-cols-4 gap-4 items-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {/* Equipment category */}
               <SpellItem
                 title={`Equipment category`}
@@ -62,17 +70,10 @@ export const MagicItemsDetailsCard = ({ magicItem }: Props) => {
                 </div>
               )}
             </div>
-          </div>
-          {/* RIGHT SIDE — Image */}
-
-          <img
-            src={getPhotoByCategory(magicItem.equipment_category.name)}
-            alt={magicItem.name}
-            className="rounded-lg col-span-2 w-full h-auto object-contain"
-          />
+          </section>
         </div>
       </Card>
-    </div>
+    </article>
   );
 };
 

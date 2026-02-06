@@ -25,8 +25,8 @@ interface CharactersGridProps {
 
 export const CharactersGrid = ({ characters }: CharactersGridProps) => {
   return (
-    <main className="lg:col-span-3 space-y-4 mb-10">
-      <div className="grid grid-cols-4 gap-2">
+    <main className="lg:col-span-4 space-y-4">
+      <div className="grid lg:grid-cols-4 gap-2">
         {characters.map((character) => (
           <CharacterCardWrapper key={character.id} character={character} />
         ))}

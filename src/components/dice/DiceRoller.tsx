@@ -68,11 +68,11 @@ export const DiceRoller = () => {
   return (
     <>
       {/* Dice selecor */}
-      <Card className=" glass-card animate-fade-in p-6 gap-y-2 col-span-3">
+      <Card className=" glass-card animate-fade-in p-6 gap-y-2 lg:col-span-4 xl:col-span-3">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Select dice
         </h2>
-        <div className="flex flex-row mb-6 gap-x-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:flex lg:flex-row mb-6 gap-x-4">
           {diceTypes.map((sides: DiceSides) => {
             const DiceIcon = getDiceIcon(sides);
             return (
@@ -80,7 +80,7 @@ export const DiceRoller = () => {
                 <button onClick={() => addDie(sides)} className={""}>
                   <DiceIcon
                     className={`${getDiceTextColor(
-                      sides
+                      sides,
                     )} w-20 h-20 cursor-pointer transition-all transform hover:scale-105 disabled:scale-100`}
                   />
                   <span className="text-sm">d{sides}</span>
@@ -93,9 +93,9 @@ export const DiceRoller = () => {
         {/* Selected Dices */}
         {Object.keys(selectedDice).length > 0 && (
           <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-3 text-gray-800">
+            <h2 className="text-lg font-semibold mb-3 text-gray-800">
               Selected dice
-            </h3>
+            </h2>
             <div className="flex flex-wrap gap-2">
               {Object.entries(selectedDice).map(
                 ([sides, count]: [string, number]) => (
@@ -113,7 +113,7 @@ export const DiceRoller = () => {
                       <XIcon height={15} width={15} />
                     </button>
                   </div>
-                )
+                ),
               )}
             </div>
           </div>
@@ -148,7 +148,7 @@ export const DiceRoller = () => {
 
       {/* Results */}
       {results.length > 0 && !isRolling && (
-        <Card className=" glass-card animate-fade-in p-4 gap-y-2">
+        <Card className="glass-card animate-fade-in p-4 gap-y-2 lg:col-span-4 xl:col-span-1">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Results</h2>
           <div className="flex flex-wrap gap-3 mb-4">
             {results.map((result: DiceResult, index: number) => {
@@ -157,7 +157,7 @@ export const DiceRoller = () => {
                 <div key={index} className={"flex-col justify-items-center"}>
                   <DiceIcon
                     className={`${getDiceTextColor(
-                      result.sides
+                      result.sides,
                     )} w-20 h-20 cursor-pointer transition-all transform hover:scale-105 disabled:scale-100 dice-appear`}
                   />
                   <div className="text-2xl">{result.value}</div>

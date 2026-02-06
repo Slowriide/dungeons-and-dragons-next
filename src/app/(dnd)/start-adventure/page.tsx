@@ -13,8 +13,8 @@ export default async function StartAdventurePage({ searchParams }: Props) {
   const next = nextString ?? "/";
 
   return (
-    <div className="flex h-screen items-center justify-center -m-14">
-      <div className="text-center space-y-6 max-w-md">
+    <main className="flex h-screen items-center justify-center -m-14">
+      <section className="text-center space-y-6 max-w-md">
         <h1 className="text-3xl font-bold">Start your adventure</h1>
         <p className="text-muted-foreground">
           Log in or create an account to start creating your character.
@@ -29,7 +29,7 @@ export default async function StartAdventurePage({ searchParams }: Props) {
             <Link href={`/auth/register?next=${next}`}>Sign up</Link>
           </Button>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

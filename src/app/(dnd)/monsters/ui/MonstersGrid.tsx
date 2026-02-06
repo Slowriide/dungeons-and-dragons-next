@@ -9,8 +9,8 @@ interface Props {
 
 export const MonstersGrid = ({ monsters, totalPages }: Props) => {
   return (
-    <main className="lg:col-span-3 space-y-4 mb-10">
-      <div className="grid grid-cols-4 gap-2">
+    <main className="lg:col-span-3 space-y-4">
+      <div className="grid lg:grid-cols-4 gap-4">
         {monsters.map((monster) => (
           <MonsterCard key={monster.name} monster={monster} />
         ))}
