@@ -1,4 +1,4 @@
-import { MagicItemsDetailsView } from "@/components/magic-items/MagicItemsDetailsView";
+import { MagicItemsDetailsView } from "@/app/(dnd)/magic-items/[slug]/ui/MagicItemsDetailsView";
 import { getMagicItemByIndex } from "@/services/magic-items/getMagicItemByIndex";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";

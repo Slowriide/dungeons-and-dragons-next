@@ -1,6 +1,5 @@
-import { getMonstersDetails } from "@/services/monsters/getMonstersDetails";
-import { MonsterHeader } from "@/components/monsters/MonsterHeader";
-import { MonsterSummary } from "@/components/monsters/MonsterSummary";
+import { MonsterHeader } from "./ui/MonsterHeader";
+import { MonsterSummary } from "@/app/(dnd)/monsters/[slug]/ui/MonsterSummary";
 import { notFound } from "next/navigation";
 import { getMonsterByIndex } from "@/services/monsters/getMonstersByIndex";
 import { Metadata } from "next";

@@ -1,4 +1,4 @@
-import { RacesCard } from "../../../../components/races/RacesCard";
+import { RacesCard } from "./RacesCard";
 import { DNDRace } from "@/interface/races/DNDRace";
 
 interface Props {

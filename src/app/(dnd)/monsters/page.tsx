@@ -1,4 +1,4 @@
-import { SideMonstersFilters } from "@/components/monsters/SideMonstersFilters";
+import { SideMonstersFilters } from "./ui/SideMonstersFilters";
 import { geisCinzel } from "@/config/fonts";
 import { SwordsIcon } from "lucide-react";
 import MonstersGridWrapper from "./ui/MonstersGridWrapper";

@@ -1,6 +1,6 @@
 import { auth } from "@/auth.config";
-import { MobileMenu } from "@/components/MobileMenu";
-import { TopMenu } from "@/components/TopMenu";
+import { MobileMenu } from "@/components/top-menu/MobileMenu";
+import { TopMenu } from "@/components/top-menu/TopMenu";
 import { useSession } from "next-auth/react";
 
 export default async function DndLayout({

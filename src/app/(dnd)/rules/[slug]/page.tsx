@@ -1,5 +1,5 @@
 import { getRuleSubsectionDetails } from "@/services/rules/getRulesSections";
-import { RuleSubsectionCard } from "@/components/rules/RuleSubsectionCard";
+import { RuleSubsectionCard } from "@/app/(dnd)/rules/[slug]/ui/RuleSubsectionCard";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 

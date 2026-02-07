@@ -1,11 +1,12 @@
-import { RaceHeaderCard } from "@/components/races/RaceHeaderCard";
-import { RaceSummary } from "@/components/races/RaceSummary";
-import { SubraceSummary } from "@/components/races/SubraceSummary";
+import { RaceHeaderCard } from "@/app/(dnd)/races/[slug]/ui/RaceHeaderCard";
+
 import { notFound } from "next/navigation";
 import { getRaceByIndex } from "@/services/races/getRaceByIndex";
 import { Metadata } from "next";
 import { raceDescription } from "../../../../data/races/raceDescription";
 import { getRaceImages } from "@/utils/race/getRaceImages";
+import { RaceSummary } from "./ui/RaceSummary";
+import { SubraceSummary } from "./ui/SubraceSummary";
 
 interface Props {
   params: Promise<{

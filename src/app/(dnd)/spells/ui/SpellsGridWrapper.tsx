@@ -1,6 +1,6 @@
 import { getSpellsList } from "@/services/spells/getSpellsList";
 import { getSpellsDetails } from "@/services/spells/getSpellsDetails";
-import { SpellsGrid } from "@/components/spells/SpellsGrid";
+import { SpellsGrid } from "@/app/(dnd)/spells/ui/SpellsGrid";
 
 interface Props {
   page: number;

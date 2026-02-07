@@ -1,4 +1,4 @@
-import { RulesCard } from "../../../../components/rules/RulesCard";
+import { RulesCard } from "./RulesCard";
 import { DNDRule } from "@/interface/rules/DNDRule";
 
 interface Props {

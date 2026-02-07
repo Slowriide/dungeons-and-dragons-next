@@ -1,4 +1,4 @@
-import { EquipmentDetailsView } from "@/components/equipment/EquipmentDetailsView";
+import { EquipmentDetailsView } from "@/app/(dnd)/equipment/[slug]/ui/EquipmentDetailsView";
 import { notFound } from "next/navigation";
 
 import { getEquipmentByIndex } from "../../../../services/equipment/getEquipmentByIndex";

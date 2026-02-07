@@ -1,4 +1,4 @@
-import { EquipmentGrid } from "@/components/equipment/EquipmentGrid";
+import { EquipmentGrid } from "@/app/(dnd)/equipment/ui/EquipmentGrid";
 import { getEquipmentDetails } from "@/services/equipment/getEquipmentDetails";
 
 interface Props {

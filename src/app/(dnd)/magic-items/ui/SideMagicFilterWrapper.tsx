@@ -1,6 +1,6 @@
 // components/magic-items/SideMagicItemsFiltersWrapper.tsx
 
-import { SideMagicItemsFilters } from "@/components/magic-items/SideMagicItemsFilters";
+import { SideMagicItemsFilters } from "@/app/(dnd)/magic-items/ui/SideMagicItemsFilters";
 import { getMagicItemsDetails } from "@/services/magic-items/getMagicItemsDetails";
 
 interface Props {

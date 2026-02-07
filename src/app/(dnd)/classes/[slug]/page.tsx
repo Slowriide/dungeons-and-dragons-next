@@ -1,5 +1,5 @@
-import { ClassHeader } from "@/components/classes/ClassHeader";
-import { ClassSummary } from "@/components/classes/ClassSummary";
+import { ClassHeader } from "@/app/(dnd)/classes/[slug]/ui/ClassHeader";
+import { ClassSummary } from "@/app/(dnd)/classes/[slug]/ui/ClassSummary";
 import { notFound } from "next/navigation";
 import { getClassByIndex } from "@/services/classes/getClassByIndex";
 import { geClassImages } from "@/utils/class/getClassImage";

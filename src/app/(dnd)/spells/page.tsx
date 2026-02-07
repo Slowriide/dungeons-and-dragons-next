@@ -1,4 +1,4 @@
-import { SideSpellsFilters } from "@/components/spells/SideSpellsFilters";
+import { SideSpellsFilters } from "@/app/(dnd)/spells/ui/SideSpellsFilters";
 import { geisCinzel } from "@/config/fonts";
 import { ScrollIcon } from "lucide-react";
 import SpellsGridWrapper from "./ui/SpellsGridWrapper";

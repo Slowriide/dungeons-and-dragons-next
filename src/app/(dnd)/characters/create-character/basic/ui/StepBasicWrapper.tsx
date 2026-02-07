@@ -1,5 +1,5 @@
 import { DNDClass } from "@/interface/classes/DnDClass";
-import { StepBasic } from "../../../ui/StepBasic";
+import { StepBasic } from "../../../ui/steps/StepBasic";
 
 interface Props {
   dndClasses: DNDClass[];

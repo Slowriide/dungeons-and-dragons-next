@@ -1,12 +1,13 @@
 import { geisCinzel } from "@/config/fonts";
 import { UserPlus2Icon } from "lucide-react";
-import { CharactersGrid } from "@/components/characters/CharactersGrid";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getUserCharacters } from "@/actions/characters";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth.config";
 import { Metadata } from "next";
+import { CharactersGrid } from "./ui/CharactersGrid";
 
 export const metadata: Metadata = {
   title: "Characters | D&D Mini Beyond",

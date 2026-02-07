@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { SpellCard } from "../../../../components/spells/SpellCard";
+import { SpellCard } from "./ui/SpellCard";
 import { getSpell } from "@/services/spells/getSpellsDetails";
 import { Metadata } from "next";
 

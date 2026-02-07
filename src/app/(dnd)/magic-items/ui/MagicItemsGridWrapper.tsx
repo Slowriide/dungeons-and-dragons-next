@@ -1,4 +1,4 @@
-import { MagicItemsGrid } from "@/components/magic-items/MagicItemsGrid";
+import { MagicItemsGrid } from "@/app/(dnd)/magic-items/ui/MagicItemsGrid";
 import { getMagicItemsDetails } from "@/services/magic-items/getMagicItemsDetails";
 
 interface Props {

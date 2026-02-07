@@ -1,5 +1,5 @@
 import { auth } from "@/auth.config";
-import { CreateCharacterSteps } from "../ui/CreateCharacterSteps";
+import { CreateCharacterSteps } from "../ui/steps/CreateCharacterSteps";
 import { redirect } from "next/navigation";
 
 export default async function CreateCharacterLayout({

@@ -1,4 +1,4 @@
-import { StepRace } from "../../ui/StepRace";
+import { StepRace } from "../../ui/steps/StepRace";
 
 export default function CreateCharacterRace() {
   return (

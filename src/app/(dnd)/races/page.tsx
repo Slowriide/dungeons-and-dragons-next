@@ -1,4 +1,4 @@
-import { SideRacesFilters } from "@/components/races/SideRacesFilters";
+import { SideRacesFilters } from "@/app/(dnd)/races/ui/SideRacesFilters";
 import { geisCinzel } from "@/config/fonts";
 import { Users2 } from "lucide-react";
 import { RacesGridWrapper } from "./ui/RacesGridWrapper";

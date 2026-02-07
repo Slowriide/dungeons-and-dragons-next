@@ -1,7 +1,7 @@
-import { DiceRoller } from "@/components/dice/DiceRoller";
 import { geisCinzel } from "@/config/fonts";
 import { DicesIcon } from "lucide-react";
 import { Metadata } from "next";
+import { DiceRoller } from "./ui/DiceRoller";
 
 export const metadata: Metadata = {
   title: "Dices | D&D Mini Beyond",

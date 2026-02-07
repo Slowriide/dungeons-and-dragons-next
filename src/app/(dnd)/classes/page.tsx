@@ -1,4 +1,4 @@
-import { SideClassesFilters } from "@/components/classes/SideClassesFilters";
+import { SideClassesFilters } from "@/app/(dnd)/classes/ui/SideClassesFilters";
 import { geisCinzel } from "@/config/fonts";
 import { getClasses } from "@/services/classes/getClasses";
 import { getClassesDetails } from "@/services/classes/getClassesDetails";

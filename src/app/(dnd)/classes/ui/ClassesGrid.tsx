@@ -1,4 +1,4 @@
-import { ClassesCard } from "../../../../components/classes/ClassesCard";
+import { ClassesCard } from "./ClassesCard";
 import { DNDClass } from "@/interface/classes/DnDClass";
 
 interface Props {
