@@ -1,8 +1,8 @@
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import { geisCinzel } from "@/config/fonts";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
 import { getPhotoByCategory } from "@/utils/magicItems/getPhotoByCategory";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
 import Markdown from "react-markdown";
 import Image from "next/image";

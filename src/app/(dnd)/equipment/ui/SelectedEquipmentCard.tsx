@@ -1,8 +1,8 @@
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { geisCinzel } from "@/config/fonts";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 import { getEquipmentBadgeColor } from "@/utils/getEquipmentBadgeColor";
 import Link from "next/link";

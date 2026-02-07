@@ -1,6 +1,6 @@
 import { geisCinzel } from "@/config/fonts";
-import { Card } from "../ui/card";
-import { Badge } from "../ui/badge";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { DNDEquipment } from "@/interface/equipment/DnDEquipment";
 
 interface Props {

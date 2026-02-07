@@ -3,7 +3,7 @@
 import type { DiceResult, DiceSelection, DiceSides } from "@/interface/Die";
 import { getDiceTextColor } from "@/utils/dice/getDiceColor";
 import { useState } from "react";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import { getDiceIcon } from "./DiceSvg";
 import { XIcon } from "lucide-react";
 

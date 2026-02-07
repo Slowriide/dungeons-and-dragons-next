@@ -1,22 +1,23 @@
 "use client";
 
 import { geisCinzel } from "@/config/fonts";
-import { SearchBar } from "../SearchBar";
-import { Card } from "../ui/card";
-import { environments, monsters } from "@/mocks/data/monsters";
-import { Button } from "../ui/button";
-import { useState } from "react";
+
+import { monsters } from "@/mocks/data/monsters";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { useSearchParams } from "next/navigation";
-import { ResetFiltersButton } from "../ResetFiltersButton";
-import { SearchCard } from "../SearchCard";
+
 import { useToggleFilters } from "@/hooks/useToggleFilters";
 import { CR_LIST, parseCR } from "@/interface/monsters/ChallengeRating";
+import { Card } from "@/components/ui/card";
+import { SearchCard } from "@/components/SearchCard";
+import { Button } from "@/components/ui/button";
+import { ResetFiltersButton } from "@/components/ResetFiltersButton";
 
 export const SideMonstersFilters = () => {
   const { toggleFilters } = useToggleFilters();

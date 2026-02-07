@@ -1,9 +1,7 @@
 import { EquipmentDetailsView } from "@/app/(dnd)/equipment/[slug]/ui/EquipmentDetailsView";
 import { notFound } from "next/navigation";
-
 import { getEquipmentByIndex } from "../../../../services/equipment/getEquipmentByIndex";
 import { Metadata } from "next";
-import { equipment } from "../../../../mocks/data/equipment";
 
 interface Props {
   params: Promise<{

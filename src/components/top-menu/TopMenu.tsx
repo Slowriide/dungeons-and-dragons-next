@@ -1,7 +1,6 @@
 "use client";
 import { titleFont } from "@/config/fonts";
 import Link from "next/link";
-
 import { NavButton } from "./NavButton";
 import { LogInIcon, LogOutIcon } from "lucide-react";
 import { usePathname } from "next/navigation";

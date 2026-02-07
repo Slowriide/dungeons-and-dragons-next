@@ -1,6 +1,6 @@
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import { geisCinzel } from "@/config/fonts";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { DNDArmor } from "@/interface/equipment/DNDArmor";
 import Image from "next/image";
 
