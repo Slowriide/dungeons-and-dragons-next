@@ -20,7 +20,7 @@ const createClassSchema = (classDetails: DNDClass | null) => {
       .array(z.string())
       .length(
         requiredSkills,
-        `Debes seleccionar exactamente ${requiredSkills} habilidades`
+        `Debes seleccionar exactamente ${requiredSkills} habilidades`,
       ),
     instruments:
       classDetails.name === "Bard"

@@ -61,7 +61,9 @@ export function mapCharacterToUpdateInput(
     ...(characterData.equipment && {
       equipment: toJsonValue(characterData.equipment),
     }),
-    ...(characterData.gold !== undefined && { gold: characterData.gold }),
+    ...(characterData.gold && {
+      gold: characterData.gold as unknown as Prisma.InputJsonValue,
+    }),
 
     ...(characterData.raceTraits && {
       raceTraits: toJsonValue(characterData.raceTraits),

@@ -1,13 +1,16 @@
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
+/* ---------------- GET ---------------- */
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await context.params;
+
   try {
     const character = await prisma.character.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!character) {
@@ -16,10 +19,10 @@ export async function GET(
         { status: 404 },
       );
     }
+
     return NextResponse.json({ character });
   } catch (error) {
     console.error("❌ Error fetching character:", error);
-
     return NextResponse.json(
       { error: "Error fetching character" },
       { status: 500 },
@@ -27,14 +30,18 @@ export async function GET(
   }
 }
 
+/* ---------------- PUT ---------------- */
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await context.params;
+
   try {
-    const body = await req.json();
+    const body = await request.json();
+
     const character = await prisma.character.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name: body.name,
         characterClass: body.characterClass,
@@ -67,28 +74,31 @@ export async function PUT(
         backgroundSelections: body.backgroundSelections,
       },
     });
+
+    return NextResponse.json({ character });
   } catch (error) {
     console.error("❌ Error updating character", error);
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { error: "Error updating character", details: error.message },
-        { status: 500 },
-      );
-    }
+
     return NextResponse.json(
-      { error: "Unknown error updating character" },
+      {
+        error: "Error updating character",
+        details: error instanceof Error ? error.message : undefined,
+      },
       { status: 500 },
     );
   }
 }
 
-export async function Delete(
-  req: Request,
-  { params }: { params: { id: string } },
+/* ---------------- DELETE ---------------- */
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await context.params;
+
   try {
     await prisma.character.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json(

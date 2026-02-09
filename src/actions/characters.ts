@@ -115,7 +115,7 @@ export async function saveCharacter(
         // Traits & Features
         raceTraits: toJsonValue(characterData.raceTraits),
         selectedTraits: toJsonValue(characterData.selectedTraits),
-        backgroundTrait: toJsonValue(characterData.backgroundTraits),
+        backgroundTrait: toJsonValue(characterData.backgroundTrait),
         classFeatures: toJsonValue(characterData.classFeatures),
         backgroundSelections: toJsonValue(characterData.backgroundSelections),
       },
