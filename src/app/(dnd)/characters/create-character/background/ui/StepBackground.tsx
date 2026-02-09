@@ -151,10 +151,6 @@ export const StepBackground = () => {
     prevBackgroundRef.current = selected;
   }, [selected, hydrated, form]);
 
-  if (!hydrated) {
-    return <div>Loading...</div>;
-  }
-
   // Validates rules that depend on selected background configuration
   const validateDynamicRules = (data: FormData) => {
     if (!selectedBackground) return true;
@@ -365,7 +361,9 @@ export const StepBackground = () => {
         });
     }
 
-    console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    if (process.env.NODE_ENV === "development") {
+      console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    }
 
     nextStep();
     router.push("/characters/create-character/summary");

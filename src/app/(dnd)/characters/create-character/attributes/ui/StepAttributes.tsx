@@ -149,7 +149,7 @@ export const StepAttributes = () => {
             )}
         </div>
         {/* Attributes grid */}
-        <div className="grid grid-cols-6">
+        <div className="grid grid-cols-1 lg:grid-cols-6 space-y-8 lg:space-y-0 justify-items-center lg:justify-items-normal">
           {(Object.keys(ATTRIBUTE_KEYS) as Array<keyof FormData>).map((key) => (
             <AttributeCard
               key={key}
@@ -163,7 +163,7 @@ export const StepAttributes = () => {
         </div>
 
         {/* Navigation buttons */}
-        <div className="flex justify-between mb-20">
+        <div className="flex justify-between mb-20 mt-10 lg:mt-0">
           <Button
             variant={"outline"}
             type="button"
