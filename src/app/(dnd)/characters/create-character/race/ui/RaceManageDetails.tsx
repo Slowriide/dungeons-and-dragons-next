@@ -173,10 +173,6 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     prevRaceRef.current = raceIndex;
   }, [raceIndex, hydrated]);
 
-  if (!data || isLoading) {
-    return <p>loading</p>;
-  }
-
   const race = data?.races[0];
 
   const hasLangOptions = race?.language_options?.from;
@@ -186,7 +182,7 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     .map((ab) => `${ab.ability_score.name} +${ab.bonus}`)
     .join(", ");
 
-  const raceTraits = race.traits.map((trait) => trait.index);
+  const raceTraits = race?.traits.map((trait) => trait.index) ?? [];
 
   /**
    * Validates race-specific rules that cannot be expressed
@@ -406,16 +402,19 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
           <h1 className="font-serif text-xl font-semibold mb-2">
             Characteristics
           </h1>
-          <RaceAccordion title={"Size"} description={race.size_description} />
+          <RaceAccordion
+            title={"Size"}
+            description={race?.size_description ?? ""}
+          />
           <RaceAccordion
             title={"Speed"}
-            description={`Your speed is ${race.speed.toString()} fts.`}
+            description={`Your speed is ${race?.speed.toString()} fts.`}
           />
 
           <PersonalitySelector
             title="Alignment"
             control={form.control}
-            description={race.alignment}
+            description={race?.alignment ?? ""}
             fieldName="alignment"
             group={alignments}
           />
@@ -430,24 +429,24 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
           ) : (
             <RaceAccordion
               title={"Languages"}
-              description={race.language_desc}
+              description={race?.language_desc ?? ""}
             />
           )}
           <h1 className="font-serif text-xl font-semibold mb-2">Bonuses</h1>
           {hasAbOptions ? (
             <AbBonusAccordionOptions
               title={"Ability bonuses"}
-              description={abilityBonucesList}
+              description={abilityBonucesList ?? ""}
               options={race.ability_bonus_options?.from.options ?? []}
               control={form.control}
             />
           ) : (
             <RaceAccordion
               title={"Ability bonuses"}
-              description={abilityBonucesList}
+              description={abilityBonucesList ?? ""}
             />
           )}
-          {race.name !== "Human" && (
+          {race?.name !== "Human" && (
             <div>
               <h1 className="font-serif text-xl font-semibold mb-2">Traits</h1>
               <TraitsAccordion

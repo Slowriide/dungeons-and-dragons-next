@@ -213,19 +213,6 @@ export const StepBasic = ({ dndClasses }: Props) => {
     (opt) => opt.dndClass === classDetails?.index,
   );
 
-  // errors
-  if (isLevelsError || isFeaturesError) {
-    return <div>Error loading class data</div>;
-  }
-
-  if (isLevelLoading || isFeaturesLoading) {
-    return <div>Loading class information...</div>;
-  }
-
-  if (!hydrated) {
-    return <div>Loading...</div>;
-  }
-
   /**
    * Validates dynamic rules that depend on the selected class.
    * These rules cannot be enforced via Zod schema alone.

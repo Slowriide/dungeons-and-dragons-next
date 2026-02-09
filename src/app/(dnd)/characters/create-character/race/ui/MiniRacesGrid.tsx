@@ -22,24 +22,16 @@ export const MiniRacesGrid = () => {
   /**
    * Fetch base races list (only indexes + names)
    */
-  const { data: racesList, isLoading: loadingList } = useRacesList();
+  const { data: racesList } = useRacesList();
 
   const racesIndexes = racesList?.results?.map((race) => race.index) || [];
 
   /**
    * Fetch full race details using the indexes
    */
-  const { isLoading, isError, filteredResults } = useRacesDetails({
+  const { filteredResults } = useRacesDetails({
     racesIndexes,
   });
-
-  if (isLoading || !filteredResults) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error...</p>;
-  }
 
   return (
     <main className="lg:col-span-3 space-y-4 mb-10">

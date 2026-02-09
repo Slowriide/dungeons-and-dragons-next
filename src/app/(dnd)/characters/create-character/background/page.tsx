@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 
 // Page for creating a character's background
 // Wraps the StepBackground component in a full-page layout
-export default function CreateCharacterBackgroundPage() {
+export default async function CreateCharacterBackgroundPage() {
+  await new Promise((r) => setTimeout(r, 2000));
   return (
     <div className="min-h-screen bg-background">
       <StepBackground />

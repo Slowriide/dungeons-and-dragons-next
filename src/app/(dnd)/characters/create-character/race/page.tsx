@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Select your character’s race and racial traits for D&D 5e.",
 };
 
-export default function CreateCharacterRace() {
+export default async function CreateCharacterRace() {
   return (
     <div className="min-h-screen bg-background">
       <StepRace />

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
  * This page is intentionally thin and delegates all
  * logic and state handling to the StepAttributes component.
  */
-export default function CreateCharacterAttributesPage() {
+export default async function CreateCharacterAttributesPage() {
   return (
     <div className="min-h-screen bg-background">
       <StepAttributes />
