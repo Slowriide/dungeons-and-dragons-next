@@ -8,17 +8,19 @@ interface Props {
   rarities?: string[];
 }
 
+/**
+ * MagicItemsGridWrapper
+ *
+ * Server component that fetches paginated magic items and passes
+ * them to the client-side MagicItemsGrid component.
+ */
 export default async function MagicItemsGridWrapper({
   page,
   query,
   categories,
   rarities,
 }: Props) {
-  const {
-    items,
-    totalPages,
-    categories: filterCategories,
-  } = await getMagicItemsDetails({
+  const { items, totalPages } = await getMagicItemsDetails({
     page,
     take: 12,
     query,

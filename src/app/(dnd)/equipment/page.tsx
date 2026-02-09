@@ -16,6 +16,14 @@ interface Props {
   }>;
 }
 
+/**
+ * Metadata for Equipment page
+ *
+ * SEO & Social Sharing:
+ * - Title and description optimized for search engines
+ * - Open Graph tags for social media sharing
+ * - Keywords for improved discoverability
+ */
 export const metadata: Metadata = {
   title: "Equipment | D&D Mini Beyond",
   description:
@@ -39,6 +47,15 @@ export const metadata: Metadata = {
   keywords: ["D&D equipment", "5e equipment", "equipment"],
 };
 
+/**
+ * Equipment main page.
+ *
+ * Responsible for:
+ * - Parsing and normalizing URL search params
+ * - Rendering filters and equipment grid
+ * - Keeping layout responsive and scalable
+ */
+
 export default async function EquipmentPage({ searchParams }: Props) {
   const {
     page: pageString,
@@ -50,6 +67,9 @@ export default async function EquipmentPage({ searchParams }: Props) {
     maxWeight,
   } = await searchParams;
 
+  /**
+   * Normalize searchParams.
+   */
   const page = pageString ? parseInt(pageString) : 1;
   const query = queryString || "";
   const categories = Array.isArray(category)

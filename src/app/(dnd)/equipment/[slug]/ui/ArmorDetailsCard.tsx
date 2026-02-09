@@ -7,6 +7,16 @@ import Image from "next/image";
 interface Props {
   equipment: DNDArmor;
 }
+/**
+ * ArmorDetailsCard
+ *
+ * Detailed view of a single armor item.
+ * Displays:
+ * - Name and optional illustration
+ * - Equipment category, armor category, armor class
+ * - Cost, weight
+ * - Description, properties, and special features
+ */
 export const ArmorDetailsCard = ({ equipment }: Props) => {
   return (
     <article className="flex flex-col lg:mt-10 space-y-6">
@@ -35,14 +45,14 @@ export const ArmorDetailsCard = ({ equipment }: Props) => {
           <section className="lg:col-span-3 order-2 lg:order-1">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {/* Equipment category */}
-              <SpellItem
+              <DefinitionItem
                 title={`Equipment category`}
                 text={equipment.equipment_category.name}
               />
 
               {/* Armor category */}
 
-              <SpellItem
+              <DefinitionItem
                 title={`Armor category`}
                 text={equipment.armor_category}
               />
@@ -63,11 +73,14 @@ export const ArmorDetailsCard = ({ equipment }: Props) => {
                 </div>
               </div>
 
-              <SpellItem
+              <DefinitionItem
                 title={`Cost`}
                 text={`${equipment.cost.quantity} ${equipment.cost.unit}`}
               />
-              <SpellItem title={`Weight`} text={`${equipment.weight} lbs `} />
+              <DefinitionItem
+                title={`Weight`}
+                text={`${equipment.weight} lbs `}
+              />
 
               {/* Description */}
 
@@ -126,7 +139,12 @@ export const ArmorDetailsCard = ({ equipment }: Props) => {
   );
 };
 
-const SpellItem = ({ title, text }: { title: string; text: string }) => {
+/**
+ * DefinitionItem
+ *
+ * Displays a title-value pair using <dl> semantics for accessibility.
+ */
+const DefinitionItem = ({ title, text }: { title: string; text: string }) => {
   return (
     <dl className="col-span-1">
       <dt className="font-bold">{title}</dt>

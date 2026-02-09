@@ -10,14 +10,24 @@ interface Props {
   rarities?: string[];
 }
 
+/**
+ * SideMagicFilterWrapper
+ *
+ * Fetches available categories and passes props to the client-side
+ * SideMagicItemsFilters component.
+ *
+ */
 export async function SideMagicFilterWrapper({
   page,
   query,
   categories: queryCategories,
   rarities,
 }: Props) {
+  /**
+   * only use this request to retrieve available categories.
+   * Filters are intentionally kept broad to avoid limiting results.
+   */
   const data = await getMagicItemsDetails({
-    // solo para obtener categorías
     page,
     categories: queryCategories,
     rarities,

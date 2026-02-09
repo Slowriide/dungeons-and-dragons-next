@@ -7,6 +7,16 @@ import Image from "next/image";
 interface Props {
   equipment: DNDWeapon;
 }
+
+/**
+ * WeaponDetailsCard
+ *
+ * Detailed view of a weapon.
+ * Displays:
+ * - Name and optional illustration
+ * - Equipment category, weapon type, damage, range
+ * - Cost, weight, description, properties, and special features
+ */
 export const WeaponDetailsCard = ({ equipment }: Props) => {
   return (
     <article className="flex flex-col lg:mt-10 space-y-6">
@@ -36,40 +46,40 @@ export const WeaponDetailsCard = ({ equipment }: Props) => {
           <section className="lg:col-span-3 order-2 lg:order-1">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {/* Equipment category */}
-              <SpellItem
+              <DefinitionItem
                 title={`Equipment category`}
                 text={equipment.equipment_category.name}
               />
 
               {/* Weapon category */}
-              <SpellItem
+              <DefinitionItem
                 title={`Weapon category`}
                 text={equipment.category_range}
               />
 
               {/* Weapon Damage */}
-              <SpellItem
+              <DefinitionItem
                 title={`Damage`}
                 text={`${equipment.damage.damage_dice} ${equipment.damage.damage_type.name}`}
               />
 
               {/* Weapon Two handed Damage */}
               {equipment.two_handed_damage && (
-                <SpellItem
+                <DefinitionItem
                   title={`Two handed damage`}
                   text={`${equipment.two_handed_damage.damage_dice} ${equipment.two_handed_damage.damage_type.name}`}
                 />
               )}
 
               {/* Weapon Range */}
-              <SpellItem
+              <DefinitionItem
                 title={`Normal range`}
                 text={`${equipment.range.normal.toString()} fts.`}
               />
 
               {/* Weapon Range */}
               {equipment.range.long && (
-                <SpellItem
+                <DefinitionItem
                   title={`Long range`}
                   text={`${equipment.range.long.toString()} fts.`}
                 />
@@ -80,7 +90,10 @@ export const WeaponDetailsCard = ({ equipment }: Props) => {
                 <p className="">{`${equipment.cost.quantity} ${equipment.cost.unit}`}</p>
               </div>
 
-              <SpellItem title={`Weight`} text={`${equipment.weight} lbs `} />
+              <DefinitionItem
+                title={`Weight`}
+                text={`${equipment.weight} lbs `}
+              />
 
               {/* Description */}
 
@@ -139,7 +152,12 @@ export const WeaponDetailsCard = ({ equipment }: Props) => {
   );
 };
 
-const SpellItem = ({ title, text }: { title: string; text: string }) => {
+/**
+ * DefinitionItem
+ *
+ * Displays a title-value pair using <dl> semantics for accessibility.
+ */
+const DefinitionItem = ({ title, text }: { title: string; text: string }) => {
   return (
     <dl className="col-span-1">
       <dt className="font-bold">{title}</dt>

@@ -10,6 +10,10 @@ interface Props {
   }>;
 }
 
+/**
+ * Generates dynamic metadata for each character page.
+ * This improves SEO, social sharing (Open Graph), and page discoverability.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
@@ -19,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  // Fetch the full character from the database
   const character = await getFullCharacterById(id);
 
   if (!character) {
@@ -29,9 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${character.name} (${character.characterClass}) | D&D Mini Beyond`,
-    description:
-      character.name?.[0] ??
-      `Detailed information about the D&D 5e character ${character.name}.`,
+    description: `View the full D&D 5e character sheet for ${character.name}, a level ${character.level} ${character.race} ${character.characterClass}.`,
     openGraph: {
       title: `${character.name} – D&D 5e Character`,
       description: character.name,
@@ -55,12 +58,14 @@ export default async function CharacterPage({ params }: Props) {
     notFound();
   }
 
+  // Fetch character data
   const character = await getFullCharacterById(id);
 
   if (!character) {
     notFound();
   }
 
+  // Map Prisma character model to D&D 5e-compatible structure
   const characterDND = mapPrismaCharacterToDND(character);
 
   return (

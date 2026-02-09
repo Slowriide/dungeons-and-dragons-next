@@ -7,6 +7,18 @@ import { raceDescription } from "../../../../../data/races/raceDescription";
 interface Props {
   race: DNDRace;
 }
+
+/**
+ * RaceHeaderCard
+ *
+ * Hero section for a D&D 5e race detail page.
+ * Responsibilities:
+ * - Display the race name (H1)
+ * - Show a representative image
+ * - Provide a short lore/description
+ * - Highlight core stats (speed, size, lifespan)
+ * - List ability score bonuses
+ */
 export const RaceHeaderCard = ({ race }: Props) => {
   const img = getRaceImages(race.index);
   return (
@@ -28,10 +40,13 @@ export const RaceHeaderCard = ({ race }: Props) => {
         <h1 className="mb-4 font-serif text-5xl font-bold text-balance">
           {race.name}
         </h1>
+
+        {/* Short description / lore */}
         <p className="mb-8 text-xl leading-relaxed text-foreground/80">
           {raceDescription[`${race.index}`]}
         </p>
 
+        {/* Core race attributes */}
         <dl className="mb-6 flex flex-wrap gap-x-8 gap-y-4 border-y border-border py-6">
           <div>
             <dt className="text-sm text-muted-foreground">Speed</dt>
@@ -47,6 +62,7 @@ export const RaceHeaderCard = ({ race }: Props) => {
           </div>
         </dl>
 
+        {/* Ability score bonuses */}
         <div>
           <h2 className="mb-3 font-serif text-sm uppercase tracking-wide text-muted-foreground">
             Ability Score Increase

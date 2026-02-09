@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { Control } from "react-hook-form";
 
 interface Props {
@@ -24,8 +23,15 @@ interface Props {
   name: string;
 }
 
+/**
+ * Standard Array values (D&D 5e)
+ */
 const SCORES = [8, 10, 12, 13, 14, 15];
 
+/**
+ * Calculates the D&D ability modifier
+ * Formula: floor((score - 10) / 2)
+ */
 function getModifier(score: number) {
   return Math.floor((score - 10) / 2);
 }
@@ -37,6 +43,7 @@ export const AttributeCard = ({
   control,
   name,
 }: Props) => {
+  // Calculate and format the modifier (+2, -1, etc.)
   const modifier = getModifier(value);
   const formattedModifier = modifier >= 0 ? `+${modifier}` : `${modifier}`;
 
@@ -63,7 +70,10 @@ export const AttributeCard = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
+                  {/* Empty option (useful for validation resets) */}
                   <SelectItem value="-">-</SelectItem>
+
+                  {/* Available standard scores */}
                   {SCORES.map((score) => {
                     const isUsed =
                       usedScores.includes(score) && score !== field.value;
@@ -82,11 +92,13 @@ export const AttributeCard = ({
               </Select>
             </div>
 
-            {/* Modifier flotante */}
+            {/* Floating modifier badge */}
             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full border bg-white px-3 py-1 text-sm font-semibold text-red-500 ">
               {formattedModifier}
             </div>
           </div>
+
+          {/* Validation message */}
           <FormMessage className="text-center mt-6" />
         </FormItem>
       )}

@@ -14,16 +14,31 @@ interface Props {
 
 export const ClassSummary = async ({ classItem }: Props) => {
   const index = classItem.index;
+
+  /**
+   * Fetch full class progression data (levels, features, etc).
+   * This is required for tables and feature breakdowns.
+   */
   const { classLevels } = await getClassesLevelsDetails({
     classIndex: index,
   });
 
+  /**
+   * Normalize proficiencies into categories (armor, weapons, saves).
+   */
   const profs = classItem.proficiencies.map((p) => p.name);
-
   const { armors, savingThrows, weapons } = classProficiencies(profs);
 
+  /**
+   * Multiclassing requirements and benefits are defined statically
+   * since they are rules-based and do not change dynamically.
+   */
   const multiclassInfo = multiclassData[index];
 
+  /**
+   * Starting equipment options are mapped per class and flattened
+   * into a readable sentence for display.
+   */
   const eqOption = EQUIPMENT_OPTIONS.find(
     (eq) => eq.dndClass === classItem.index,
   );
@@ -34,7 +49,7 @@ export const ClassSummary = async ({ classItem }: Props) => {
 
   return (
     <div className="10">
-      {/* Proficencies */}
+      {/* ===================== Proficiencies ===================== */}
       <section className="mb-10 ">
         <h2 className="mb-6 font-serif text-3xl font-semibold text-[#E63946]">
           Proficiencies
@@ -104,7 +119,7 @@ export const ClassSummary = async ({ classItem }: Props) => {
           <li className="mt-4">{`- Gain the ${classItem.name} level 1 features, which are listed in the ${classItem.name} Features table. .`}</li>
         </ul>
 
-        {/* Multiclass */}
+        {/* ===================== Multiclassing ===================== */}
         <ul className="text-muted-foreground flex flex-col">
           <h3 className=" font-serif text-xl font-semibold mb-4">
             As a Multiclass Character
@@ -118,15 +133,15 @@ export const ClassSummary = async ({ classItem }: Props) => {
 
         {/* Features Table */}
 
-        {ClassTableSelector({ classIndex: index, levels: classLevels })}
+        <ClassTableSelector classIndex={classItem.index} levels={classLevels} />
       </section>
 
-      {/* Features */}
+      {/* ===================== Class Features ===================== */}
       <section className="mt-8 border-b border-red-500 pb-6">
         <ClassFeatures classIndex={classItem.index} />
       </section>
 
-      {/* Subclass */}
+      {/* ===================== Subclasses ===================== */}
       {classItem.subclasses && classItem.subclasses.length > 0 && (
         <section className="mt-8">
           <SubclassSumary classItem={classItem} />

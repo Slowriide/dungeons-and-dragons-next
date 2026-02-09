@@ -8,6 +8,12 @@ import { globalSearch } from "@/actions/search/global-search";
 import { Command, CommandGroup, CommandItem, CommandList } from "./ui/command";
 import { cn } from "@/lib/utils";
 
+/**
+ * Shape of a global search result.
+ * Each item knows its type and destination URL,
+ * allowing the search bar to act as a global navigator.
+ */
+
 interface SearchResult {
   type:
     | "class"
@@ -27,6 +33,16 @@ interface Props {
   placeholder?: string;
 }
 
+/**
+ * Global search bar used across the application.
+ *
+ * Features:
+ * - Debounced search to avoid unnecessary requests
+ * - Grouped results by content type
+ * - Keyboard-friendly command list
+ * - Click outside handling
+ */
+
 export const SearchBar = ({ placeholder }: Props) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -35,7 +51,11 @@ export const SearchBar = ({ placeholder }: Props) => {
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
 
-  //Search Debounce
+  /**
+   * Debounced search effect.
+   * Starts searching only when the query has at least 2 characters,
+   * reducing noise and unnecessary backend calls.
+   */
   useEffect(() => {
     if (query.length < 2) {
       setResults([]);
@@ -53,7 +73,10 @@ export const SearchBar = ({ placeholder }: Props) => {
     return () => clearTimeout(timeoutId);
   }, [query]);
 
-  //close click outside
+  /**
+   * Closes the dropdown when clicking outside the search container.
+   * This keeps the UI clean and predictable.
+   */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -67,12 +90,20 @@ export const SearchBar = ({ placeholder }: Props) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  /**
+   * Handles navigation when a search result is selected.
+   * Resets the input state before routing.
+   */
   const handleSelect = (url: string) => {
     setQuery("");
     setIsOpen(false);
     router.push(url);
   };
 
+  /**
+   * Maps content types to color styles
+   * for quick visual identification.
+   */
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
       class: "text-blue-600 bg-blue-50",
@@ -86,6 +117,9 @@ export const SearchBar = ({ placeholder }: Props) => {
     return colors[type] || "text-gray-600 bg-gray-50";
   };
 
+  /**
+   * Human-readable labels for each content type.
+   */
   const getTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
       class: "Class",
@@ -99,6 +133,10 @@ export const SearchBar = ({ placeholder }: Props) => {
     return labels[type] || type;
   };
 
+  /**
+   * Groups results by type to render them
+   * in separate command groups.
+   */
   const groupedResults = results.reduce(
     (acc, result) => {
       if (!acc[result.type]) {
@@ -115,6 +153,7 @@ export const SearchBar = ({ placeholder }: Props) => {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
+          aria-label="Search D&D content"
           type="text"
           placeholder="Search classes, races, monsters..."
           value={query}
@@ -127,7 +166,7 @@ export const SearchBar = ({ placeholder }: Props) => {
         )}
       </div>
 
-      {/* Resultados */}
+      {/* Results */}
       {isOpen && results.length > 0 && (
         <div className="absolute top-full mt-2 w-full rounded-md border bg-popover shadow-lg z-50 max-h-[400px] overflow-y-auto">
           <Command>
@@ -160,7 +199,7 @@ export const SearchBar = ({ placeholder }: Props) => {
         </div>
       )}
 
-      {/* Sin resultados */}
+      {/* Empty states */}
       {isOpen && query.length >= 2 && results.length === 0 && !isLoading && (
         <div className="absolute top-full mt-2 w-full rounded-md border bg-popover p-4 shadow-lg z-50">
           <p className="text-sm text-muted-foreground text-center">

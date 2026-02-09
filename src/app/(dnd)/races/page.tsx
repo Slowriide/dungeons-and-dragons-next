@@ -9,6 +9,13 @@ interface Props {
   }>;
 }
 
+/**
+ * Metadata for Races listing page
+ *
+ * Optimized for:
+ * - SEO (search engines)
+ * - Social sharing (Open Graph)
+ */
 export const metadata: Metadata = {
   title: "Races | D&D Mini Beyond",
   description:
@@ -32,6 +39,16 @@ export const metadata: Metadata = {
   keywords: ["D&D races", "5e races", "races"],
 };
 
+/**
+ * RacesPage
+ *
+ * Displays a searchable and filterable list of races.
+ *
+ *  Responsible for:
+ * - Parsing and normalizing URL search params
+ * - Rendering filters and races grid
+ * - Keeping layout responsive and scalable
+ */
 export default async function RacesPage({ searchParams }: Props) {
   const { query: queryString } = await searchParams;
 

@@ -10,6 +10,9 @@ interface Props {
   }>;
 }
 
+/**
+ * Generates dynamic metadata for the magic item page
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
@@ -53,6 +56,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * EquipmentPage
+ *
+ * Displays the detailed view for a single MagicItem item.
+ */
 export default async function MagicItemsPage({ params }: Props) {
   const { slug } = await params;
 

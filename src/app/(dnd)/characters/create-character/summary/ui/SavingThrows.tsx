@@ -10,7 +10,10 @@ interface SavingThrowsProps {
   savingThrows: SavingThrow[];
 }
 
+// Saving throws section
+// Displays each ability saving throw with proficiency indicator and modifier
 export function SavingThrows({ savingThrows }: SavingThrowsProps) {
+  // Formats numeric modifiers using D&D notation
   const formatModifier = (mod: number) => {
     return mod >= 0 ? `+${mod}` : `${mod}`;
   };

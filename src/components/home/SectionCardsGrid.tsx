@@ -1,8 +1,5 @@
 import {
-  BicepsFlexed,
-  BicepsFlexedIcon,
   BowArrowIcon,
-  NotebookIcon,
   NotebookTextIcon,
   ScrollIcon,
   ShieldIcon,
@@ -12,6 +9,8 @@ import {
 } from "lucide-react";
 import { SectionCard } from "./SectionCard";
 
+// Shared type for section navigation cards on the homepage.
+// Keeping this typed helps ensure consistency across cards.
 export interface sectionsCardProps {
   title: string;
   icon: React.ReactElement;
@@ -30,6 +29,8 @@ export interface sectionsCardProps {
   to: string;
 }
 
+// Static configuration for main navigation sections.
+// This makes the grid data-driven and easy to reorder or extend.
 const cardList: sectionsCardProps[] = [
   {
     description: "Browse spells",
@@ -82,10 +83,16 @@ const cardList: sectionsCardProps[] = [
   },
 ];
 
+// Landmark section for main homepage navigation
+// Improves accessibility and groups primary site entry points
 export const SectionCardsGrid = () => {
   return (
     <section aria-labelledby="main-sections" className="my-20">
-      <h2 id="main-sections" className="sr-only"></h2>
+      <h2 id="main-sections" className="sr-only">
+        Main sections
+      </h2>
+
+      {/* Responsive grid for homepage navigation cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {cardList.map((card) => (
           <SectionCard

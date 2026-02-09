@@ -9,6 +9,9 @@ interface Props {
   }>;
 }
 
+/**
+ * Generates dynamic metadata for the equipment page
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
@@ -48,6 +51,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * EquipmentPage
+ *
+ * Displays the detailed view for a single equipment item.
+ */
 export default async function EquipmentPage({ params }: Props) {
   const { slug } = await params;
 
@@ -55,6 +63,9 @@ export default async function EquipmentPage({ params }: Props) {
     notFound();
   }
 
+  /**
+   * Fetch full equipment data from the API.
+   */
   const { findedEquipment } = await getEquipmentByIndex(slug);
 
   if (!findedEquipment) {

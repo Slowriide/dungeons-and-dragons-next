@@ -10,6 +10,14 @@ interface Props {
   }>;
 }
 
+/**
+ * Metadata for Rules page
+ *
+ * SEO & Social Sharing:
+ * - Title and description optimized for search engines
+ * - Open Graph tags for social media sharing
+ * - Keywords for improved discoverability
+ */
 export const metadata: Metadata = {
   title: "Rules | D&D Mini Beyond",
   description:
@@ -33,6 +41,14 @@ export const metadata: Metadata = {
   keywords: ["D&D rules", "5e rules", "rules"],
 };
 
+/**
+ * RulesPage
+ *
+ * Displays the D&D 5e rules page with:
+ * - Parsing and normalizing URL search params
+ * - Rendering filters and rules grid
+ * - Keeping layout responsive and scalable
+ */
 export default async function RulesPage({ searchParams }: Props) {
   const { query: queryString } = await searchParams;
 

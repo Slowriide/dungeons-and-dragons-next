@@ -17,7 +17,13 @@ interface Props {
     path: string;
   }[];
 }
-
+/**
+ * Dropdown button that opens on hover.
+ * Used in the top navigation for internal links.
+ *
+ * Uses controlled state to synchronize hover behavior
+ * with the shadcn DropdownMenu component.
+ */
 export const HoverDropdrownButton = ({ title, options }: Props) => {
   const [open, setOpen] = useState(false);
 
@@ -32,9 +38,14 @@ export const HoverDropdrownButton = ({ title, options }: Props) => {
           <span>{title}</span>
           <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
+
         <DropdownMenuContent sideOffset={0}>
           {options.map((option) => (
-            <DropdownMenuItem key={option.name}>
+            <DropdownMenuItem
+              key={option.name}
+              asChild
+              className="cursor-pointer"
+            >
               <Link href={option.path}>{option.name}</Link>
             </DropdownMenuItem>
           ))}

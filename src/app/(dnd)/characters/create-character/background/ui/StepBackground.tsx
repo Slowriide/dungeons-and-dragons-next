@@ -19,8 +19,12 @@ import { DND_SKILLS } from "@/data/skills";
 import { CharacterSkill } from "@/interface/character/DNDCharacter";
 import { useStoreHydrated } from "@/hooks/useStoreHydrated";
 
+// Schema for background step validation
+// Includes dynamic fields depending on the selected background
 const backgroundSchema = z.object({
   backgroundId: z.string().min(1, "Debes seleccionar un background"),
+
+  // Optional dynamic selections
   selectedProficiency: z.string().optional(),
   selectedEquipment: z.array(z.string()).optional(),
   selectedLanguages: z.array(z.string()).optional(),
@@ -37,6 +41,8 @@ type FormData = z.infer<typeof backgroundSchema>;
 
 export const StepBackground = () => {
   const router = useRouter();
+
+  // Ensures Zustand store is fully hydrated before reading from it
   const hydrated = useStoreHydrated();
 
   const {
@@ -57,6 +63,10 @@ export const StepBackground = () => {
     nextStep,
   } = useDNDCharacterStore();
 
+  /**
+   * Initialize form with previously selected values
+   * Falls back to standard array defaults
+   */
   const form = useForm<FormData>({
     resolver: zodResolver(backgroundSchema),
     defaultValues: {
@@ -76,14 +86,16 @@ export const StepBackground = () => {
     mode: "onChange",
   });
 
+  // Watch selected background
   const selectedBackgroundId = form.watch("backgroundId");
   const selectedProf = form.watch("selectedProficiency");
 
+  // Get full background definition
   const selectedBackground = BACKGROUNDS.find(
     (b) => b.id === selectedBackgroundId,
   );
 
-  /// load data from store when hydrate
+  // Load persisted store data once hydration completes
   useEffect(() => {
     if (!hydrated) return;
 
@@ -119,7 +131,7 @@ export const StepBackground = () => {
   const selected = form.watch("backgroundId");
   const prevBackgroundRef = useRef(selected);
 
-  // only if user changes backfround mannualy
+  // Reset dynamic fields only if user manually changes background
   useEffect(() => {
     if (
       hydrated &&
@@ -143,6 +155,7 @@ export const StepBackground = () => {
     return <div>Loading...</div>;
   }
 
+  // Validates rules that depend on selected background configuration
   const validateDynamicRules = (data: FormData) => {
     if (!selectedBackground) return true;
 
@@ -205,6 +218,12 @@ export const StepBackground = () => {
     return true;
   };
 
+  /**
+   * Finalizes the Basic step:
+   * - Saves backgound
+   * - Cleans previous class-dependent data
+   * - Moves the user to the summary step
+   */
   const onSubmit = (data: FormData) => {
     if (!selectedBackground) return;
     if (!validateDynamicRules(data)) return;

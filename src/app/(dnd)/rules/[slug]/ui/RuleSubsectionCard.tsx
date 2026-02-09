@@ -5,6 +5,15 @@ import { MarkdownText } from "../../../../../components/MarkdownText";
 interface Props {
   ruleSubsection: RulesSubSection;
 }
+
+/**
+ * RuleSubsectionCard
+ *
+ * Displays a single rule subsection in detail.
+ * Features:
+ * - Title as H1
+ * - Full description rendered via Markdown
+ */
 export const RuleSubsectionCard = ({ ruleSubsection }: Props) => {
   return (
     <article className="flex flex-col mt-4 lg:mt-10 space-y-6">

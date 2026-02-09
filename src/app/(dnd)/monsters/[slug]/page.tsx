@@ -9,6 +9,14 @@ interface Props {
   }>;
 }
 
+/**
+ * Dynamic metadata for monster detail pages
+ *
+ * SEO goals:
+ * - Unique title per monster
+ * - Descriptive meta description using monster data
+ * - OpenGraph support for social sharing
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
@@ -29,9 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${monster.name} | D&D Mini Beyond`,
-    description:
-      monster.alignment ??
-      `Detailed information about the D&D 5e monsters ${monster.name}.`,
+    description: `Complete D&D 5e stat block and lore for ${monster.name}.`,
     openGraph: {
       title: `${monster.name} – D&D 5e Monsters`,
       description:
@@ -40,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       images: [
         {
-          url: monster.image ?? "Class image placeholder",
+          url: monster.image ?? "/og/monsters.jpg",
           width: 1200,
           height: 630,
           alt: monster.name,
@@ -49,6 +55,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
+
+/**
+ * Monster detail page
+ *
+ * Displays full information for a single D&D 5e monster.
+ */
 export default async function MonterPage({ params }: Props) {
   const { slug } = await params;
 

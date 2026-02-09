@@ -14,6 +14,9 @@ interface Props {
   }>;
 }
 
+/**
+ * Generates dynamic metadata for the race page
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
@@ -53,6 +56,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * Race detail page.
+ *
+ * Structure:
+ * - Header (name + visual identity)
+ * - Core race features
+ * - Subraces (if available)
+ */
 export default async function RacePage({ params }: Props) {
   const { slug } = await params;
 

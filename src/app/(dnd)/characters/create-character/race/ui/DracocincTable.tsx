@@ -16,11 +16,11 @@ interface Props {
 
 export const DraconicTable = ({ traits }: Props) => {
   const draconic = traits.filter(
-    (trait) => trait.index === "draconic-ancestry"
+    (trait) => trait.index === "draconic-ancestry",
   );
 
   const indexes = draconic.flatMap((d) =>
-    d.trait_specific!.subtrait_options.from.options.map((i) => i.item.index)
+    d.trait_specific!.subtrait_options.from.options.map((i) => i.item.index),
   );
 
   const { data, isLoading } = useRaceTraits({ traitsIndexes: indexes });

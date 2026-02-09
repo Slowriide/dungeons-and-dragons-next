@@ -13,6 +13,14 @@ interface Props {
   }>;
 }
 
+/**
+ * Metadata for Magic Items page
+ *
+ * SEO & Social Sharing:
+ * - Title and description optimized for search engines
+ * - Open Graph tags for social media sharing
+ * - Keywords for improved discoverability
+ */
 export const metadata: Metadata = {
   title: "Magic Items | D&D Mini Beyond",
   description:
@@ -36,6 +44,16 @@ export const metadata: Metadata = {
   keywords: ["D&D magic items", "5e magic items", "magic items"],
 };
 
+/**
+ * MagicItemsPage
+ *
+ * Displays a searchable and filterable list of magic items.
+ *
+ *  Responsible for:
+ * - Parsing and normalizing URL search params
+ * - Rendering filters and magic item grid
+ * - Keeping layout responsive and scalable
+ */
 export default async function MagicItemsPage({ searchParams }: Props) {
   const {
     page: pageString,
@@ -44,6 +62,9 @@ export default async function MagicItemsPage({ searchParams }: Props) {
     rarity,
   } = await searchParams;
 
+  /**
+   * Normalize searchParams.
+   */
   const page = pageString ? parseInt(pageString) : 1;
   const query = queryString || "";
   const categories = Array.isArray(category)
@@ -64,6 +85,8 @@ export default async function MagicItemsPage({ searchParams }: Props) {
             Magic Items
           </h1>
         </header>
+
+        {/* Main layout: sidebar + content */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <aside>
             <SideMagicFilterWrapper
@@ -73,6 +96,8 @@ export default async function MagicItemsPage({ searchParams }: Props) {
               rarities={rarities}
             />
           </aside>
+
+          {/* Magic items grid */}
           <section className="lg:col-span-3">
             <MagicItemsGridWrapper
               page={page}

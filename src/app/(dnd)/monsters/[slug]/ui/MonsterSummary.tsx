@@ -4,9 +4,16 @@ interface Props {
   monster: DNDMonster;
 }
 
+/**
+ * MonsterSummary
+ *
+ * Purpose:
+ * - Display the monster's core abilities and combat options
+ * - Structure content for readability and SEO
+ */
 export const MonsterSummary = ({ monster }: Props) => {
   return (
-    <div className="mb-10">
+    <article className="mb-10">
       {/* Traits */}
       {monster.special_abilities && monster.special_abilities.length > 0 && (
         <section className="mb-10">
@@ -67,6 +74,6 @@ export const MonsterSummary = ({ monster }: Props) => {
           </ul>
         </section>
       )}
-    </div>
+    </article>
   );
 };

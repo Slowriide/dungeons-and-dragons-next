@@ -1,4 +1,10 @@
-import { StepRace } from "../../ui/steps/StepRace";
+import { Metadata } from "next";
+import { StepRace } from "./ui/StepRace";
+
+export const metadata: Metadata = {
+  title: "Choose Race | Create Character – D&D Mini Beyond",
+  description: "Select your character’s race and racial traits for D&D 5e.",
+};
 
 export default function CreateCharacterRace() {
   return (

@@ -13,6 +13,14 @@ interface Props {
   }>;
 }
 
+/**
+ * Metadata for the Monsters index page
+ *
+ * SEO:
+ * - Optimized title & description for D&D 5e monster searches
+ * - OpenGraph configured for social previews
+ * - Keywords focused on monster-related queries
+ */
 export const metadata: Metadata = {
   title: "Monsters | D&D Mini Beyond",
   description:
@@ -36,6 +44,16 @@ export const metadata: Metadata = {
   keywords: ["D&D monsters", "5e monsters", "monsters"],
 };
 
+/**
+ * MonstersPage
+ *
+ * Displays a searchable and filterable list of monsters.
+ *
+ *  Responsible for:
+ * - Parsing and normalizing URL search params
+ * - Rendering filters and monsters grid
+ * - Keeping layout responsive and scalable
+ */
 export default async function MonstersPage({ searchParams }: Props) {
   const {
     page: pageString,
@@ -44,6 +62,9 @@ export default async function MonstersPage({ searchParams }: Props) {
     alignment: alignmentString,
   } = await searchParams;
 
+  /**
+   * Normalize query params
+   */
   const page = pageString ? parseInt(pageString) : 1;
   const query = queryString || "";
   const cr = Array.isArray(challenge_rating)
@@ -68,11 +89,14 @@ export default async function MonstersPage({ searchParams }: Props) {
             Monsters
           </h1>
         </header>
-
+        {/* Main content */}
         <section className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Filters */}
           <aside>
             <SideMonstersFilters />
           </aside>
+
+          {/* Monsters list */}
           <article className="col-span-1 lg:col-span-3">
             <MonstersGridWrapper
               page={page}

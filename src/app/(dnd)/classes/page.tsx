@@ -13,10 +13,15 @@ interface Props {
   };
 }
 
+/**
+ * Static metadata for the Classes listing page.
+ * This page targets broad SEO keywords like "D&D 5e classes"
+ * and does not depend on filters or query params.
+ */
 export const metadata: Metadata = {
   title: "Classes | D&D Mini Beyond",
   description:
-    "Browse and search all D&D 5e classes. Filter by level, school, and more.",
+    "Browse and explore all D&D 5e character classes and their core features.",
   openGraph: {
     title: "D&D 5e Classes",
     description:
@@ -37,18 +42,28 @@ export const metadata: Metadata = {
 };
 
 export default async function ClassesPage({ searchParams }: Props) {
-  const { query: queryString } = await searchParams;
-
-  const classesList = await getClasses();
-
+  const { query: queryString } = searchParams;
   const query = queryString || "";
+
+  /**
+   * Fetch the base list of available classes.
+   * This endpoint only returns indexes and basic references.
+   */
+  const classesList = await getClasses();
 
   if (!classesList) {
     notFound();
   }
 
+  /**
+   * Extract class indexes to request full class details
+   * in a single batched request.
+   */
   const classIndexes = classesList.results.map((c) => c.index);
 
+  /**
+   * Fetch full class data (hit dice, proficiencies, features, etc).
+   */
   const { dndClasses } = await getClassesDetails({ classIndexes });
 
   if (!dndClasses) {
@@ -68,10 +83,13 @@ export default async function ClassesPage({ searchParams }: Props) {
         </header>
 
         <section className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <aside>
+          <aside aria-label="Class filters">
             <SideClassesFilters />
           </aside>
-          <article className="col-span-1 lg:col-span-3">
+          <article
+            aria-labelledby="classes-results"
+            className="col-span-1 lg:col-span-3"
+          >
             <ClassesGridWrapper dndClasses={dndClasses} query={query} />
           </article>
         </section>

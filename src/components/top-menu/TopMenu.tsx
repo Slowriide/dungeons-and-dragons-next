@@ -2,16 +2,23 @@
 import { titleFont } from "@/config/fonts";
 import Link from "next/link";
 import { NavButton } from "./NavButton";
-import { LogInIcon, LogOutIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { LogInIcon } from "lucide-react";
 import { HoverDropdrownButton } from "./HoverDropdrownButton";
 import { useSession } from "next-auth/react";
 import { LogoutButton } from "../ui/LogoutButton";
 import { HoverDropdrownButtonExternal } from "./HoverDropdrownButtonExternal.";
 import { SearchBar } from "../SearchBar";
 
+/**
+ * Top navigation bar for desktop devices.
+ *
+ * This component is client-side because it relies on:
+ * - next-auth session state
+ * - current pathname
+ * - interactive dropdown menus
+ */
+
 export const TopMenu = () => {
-  const pathname = usePathname();
   const { data: session, status } = useSession();
 
   return (
@@ -24,7 +31,7 @@ export const TopMenu = () => {
           <span> | mini</span>
         </Link>
         <SearchBar />
-        <div className="flex items-center gap-2">
+        <nav className="flex items-center gap-2" aria-label="Main navigation">
           <HoverDropdrownButton
             title="Gameplay"
             options={[
@@ -52,6 +59,10 @@ export const TopMenu = () => {
             ]}
           />
 
+          {/* 
+            Authentication actions.
+            Login is shown for guests, logout for authenticated users.
+          */}
           {!session?.user ? (
             <NavButton
               to={"/auth/login"}
@@ -66,7 +77,7 @@ export const TopMenu = () => {
               isActive={true}
             />
           )}
-        </div>
+        </nav>
       </div>
     </header>
   );

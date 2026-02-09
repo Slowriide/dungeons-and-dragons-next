@@ -8,6 +8,13 @@ interface Props {
     slug?: string;
   }>;
 }
+
+/**
+ * generateMetadata
+ *
+ * Generates dynamic metadata for SEO based on the rule subsection.
+ * Fallbacks to "Rule not found" if the slug is missing or invalid.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
@@ -48,6 +55,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * RulePage
+ *
+ * Server component that renders a single rule subsection.
+ * Fetches the subsection by slug and displays it in a RuleSubsectionCard.
+ */
 export default async function RulePage({ params }: Props) {
   const { slug } = await params;
 
@@ -55,6 +68,7 @@ export default async function RulePage({ params }: Props) {
     notFound();
   }
 
+  // Get all rule subsections
   const ruleSubsection = await getRuleSubsectionDetails({
     ruleSectionIndex: slug,
   });

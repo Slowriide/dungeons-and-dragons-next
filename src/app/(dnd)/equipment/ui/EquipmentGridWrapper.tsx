@@ -11,6 +11,15 @@ interface Props {
   minWeight: number;
   maxWeight: number;
 }
+
+/**
+ * Server-side wrapper for the Equipment grid.
+ *
+ * Responsibilities:
+ * - Fetch paginated & filtered equipment data
+ * - Keep data fetching out of the client component
+ * - Pass clean, ready-to-render props to the UI grid
+ */
 export const EquipmentGridWrapper = async (props: Props) => {
   const {
     maxCost,
@@ -23,6 +32,10 @@ export const EquipmentGridWrapper = async (props: Props) => {
     take = 12,
   } = props;
 
+  /**
+   * Fetch equipment list using current filters.
+   * Pagination and filtering are fully server-driven.
+   */
   const { items, totalPages } = await getEquipmentDetails({
     maxCost,
     maxWeight,

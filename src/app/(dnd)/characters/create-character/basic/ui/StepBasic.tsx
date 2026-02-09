@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DND_CLASSES } from "@/data/dndData";
-import { ClassFeatures } from "../class-features/ClassFeatures";
+import { ClassFeatures } from "./class-features/ClassFeatures";
 import { useRouter } from "next/navigation";
 import useDNDCharacterStore from "@/store/characte.store";
 import {
@@ -32,10 +32,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { getProficiencyBonus } from "../../utils/getProficiencyBonus";
+
 import { DND_SKILLS } from "@/data/skills";
-import { BackgroundAccordion } from "../../create-character/background/ui/accordions/BackgroundAccordion";
-import { EquipmentSelector } from "../class-features/EquipmentSelector";
+
 import { EQUIPMENT_OPTIONS } from "@/data/races/RaceEquipmentOptions";
 import { useEquipmentLookup } from "@/hooks/equipment/useEquipmentByIndex";
 import { mapDNDEquipmentToEquipment } from "@/utils/equipment/mapDNDequimentToCharacterEquipment";
@@ -44,8 +43,15 @@ import { useFeaturesLevelsDetails } from "@/hooks/classes/useFeaturesLevelsDetai
 import { useEffect, useRef } from "react";
 import { useStoreHydrated } from "@/hooks/useStoreHydrated";
 import { DNDClass } from "@/interface/classes/DnDClass";
+import { getProficiencyBonus } from "../../../utils/getProficiencyBonus";
+import { BackgroundAccordion } from "../../background/ui/accordions/BackgroundAccordion";
+import { EquipmentSelector } from "./class-features/EquipmentSelector";
 
-//Schema base
+/**
+ * Base form schema for the "Basic" character creation step.
+ * This schema validates only static fields.
+ * Dynamic rules (skills, equipment choices, etc.) are validated manually.
+ */
 const baseSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
   class: z.string().min(1, "Debes seleccionar una clase"),
@@ -84,10 +90,13 @@ export const StepBasic = ({ dndClasses }: Props) => {
     removeGoldBySource,
     setProficiencyBonus,
     setClassFeatures,
-    addLanguage,
     addGold,
   } = useDNDCharacterStore();
 
+  /**
+   * React Hook Form setup.
+   * Default values are hydrated from the global character store.
+   */
   const form = useForm<FormData>({
     resolver: zodResolver(baseSchema),
     defaultValues: {
@@ -110,14 +119,19 @@ export const StepBasic = ({ dndClasses }: Props) => {
     mode: "onChange",
   });
 
-  // Actualiza URL cuando cambia la clase
+  /**
+   * Sync class selection with the URL.
+   * This allows deep-linking and refresh persistence.
+   */
   const handleClassChange = (newClass: string) => {
     form.setValue("class", newClass);
     const currentLevel = form.getValues("level");
     router.push(`?class=${newClass}&level=${currentLevel}`);
   };
 
-  // Actualiza URL cuando cambia el nivel
+  /**
+   * Sync level selection with the URL.
+   */
   const handleLevelChange = (newLevel: number) => {
     form.setValue("level", newLevel);
     const currentClass = form.getValues("class");
@@ -126,6 +140,10 @@ export const StepBasic = ({ dndClasses }: Props) => {
     }
   };
 
+  /**
+   * Reset form values once the Zustand store is hydrated.
+   * Prevents mismatches between server and client state.
+   */
   useEffect(() => {
     if (hydrated) {
       form.reset({
@@ -152,6 +170,10 @@ export const StepBasic = ({ dndClasses }: Props) => {
 
   const prevClassRef = useRef(selected);
 
+  /**
+   * When the selected class changes, reset all class-dependent fields.
+   * This prevents invalid state from a previous class selection.
+   */
   useEffect(() => {
     // Solo limpiar si la clase cambió Y no es la carga inicial
     if (hydrated && prevClassRef.current && prevClassRef.current !== selected) {
@@ -204,6 +226,10 @@ export const StepBasic = ({ dndClasses }: Props) => {
     return <div>Loading...</div>;
   }
 
+  /**
+   * Validates dynamic rules that depend on the selected class.
+   * These rules cannot be enforced via Zod schema alone.
+   */
   const validateDynamicRules = () => {
     if (!classDetails) return true;
     form.clearErrors();
@@ -228,8 +254,6 @@ export const StepBasic = ({ dndClasses }: Props) => {
       const selectedInstruments = form
         .getValues("instruments")
         .filter((skill) => skill !== "").length;
-
-      console.log(form.getValues("instruments").length);
 
       if (selectedInstruments !== instrumentChoices) {
         form.setError("instruments", {
@@ -258,6 +282,12 @@ export const StepBasic = ({ dndClasses }: Props) => {
     return true;
   };
 
+  /**
+   * Finalizes the Basic step:
+   * - Saves class, level, proficiencies, features and equipment
+   * - Cleans previous class-dependent data
+   * - Moves the user to the Race step
+   */
   const onSubmit = (data: FormData) => {
     if (!classDetails) return;
     if (!validateDynamicRules()) return;
@@ -402,7 +432,9 @@ export const StepBasic = ({ dndClasses }: Props) => {
 
     setClassArmorProficiencies(armorsProfs);
 
-    console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    if (process.env.NODE_ENV === "development") {
+      console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    }
     nextStep();
 
     router.push("/characters/create-character/race");
@@ -411,7 +443,7 @@ export const StepBasic = ({ dndClasses }: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Name */}
+        {/* Character name */}
         <div className="grid grid-cols-5 gap-x-2 gap-y-6">
           <div className="col-span-5">
             <FormField

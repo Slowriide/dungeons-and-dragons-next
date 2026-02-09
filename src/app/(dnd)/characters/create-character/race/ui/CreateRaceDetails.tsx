@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MiniRacesGrid } from "@/components/races/MiniRacesGrid";
+import { MiniRacesGrid } from "@/app/(dnd)/characters/create-character/race/ui/MiniRacesGrid";
 
 export const StepRace = ({
   onNext,

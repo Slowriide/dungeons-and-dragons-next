@@ -9,6 +9,12 @@ interface Props {
   alignment: string[];
 }
 
+/**
+ * MonstersGridWrapper
+ *
+ * Server component that fetches paginated magic items and passes
+ * them to the client-side MonstersGrid component.
+ */
 export default async function MonstersGridWrapper({
   page,
   query,

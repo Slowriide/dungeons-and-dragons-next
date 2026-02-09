@@ -7,6 +7,8 @@ interface AbilityScoreCardProps {
   };
 }
 
+// Single ability display card
+// Shows abbreviation, modifier and final score in a compact D&D-style layout
 export function AbilityScoreCard({ ability }: AbilityScoreCardProps) {
   const formatModifier = (mod: number) => {
     return mod >= 0 ? `+${mod}` : `${mod}`;

@@ -8,19 +8,27 @@ interface Props {
   setSelectedEquipment: (equipment: DNDArmor) => void;
 }
 
+/**
+ * Displays a summarized view of an armor item.
+ * Used inside the equipment grid and acts as a clickable entry
+ * to reveal full armor details.
+ */
 export const ArmorCard = ({ equipment, setSelectedEquipment }: Props) => {
   return (
     <Card
       className="glass-card cursor-pointer p-4 gap-y-0"
       onClick={() => setSelectedEquipment(equipment)}
+      role="button"
+      aria-label={`View details for ${equipment.name} armor`}
     >
       <div className="flex flex-row justify-between mb-1">
-        <p
+        <h3
           className={`${geisCinzel.className} antialiased font-semibold text-lg`}
         >
           {equipment.name}
-        </p>
+        </h3>
 
+        {/* Equipment category (Armor) */}
         <Badge
           variant={"outline"}
           className="text-muted-foreground h-5 font-bold"
@@ -29,13 +37,12 @@ export const ArmorCard = ({ equipment, setSelectedEquipment }: Props) => {
         </Badge>
       </div>
 
-      {/* Range */}
+      {/* Armor type (Light, Medium, Heavy, Shield) */}
       <div className="flex gap-2 mb-3 text-sm text-muted-foreground italic">
         <p className="font-medium">{equipment.armor_category}</p>
       </div>
 
-      {/* Damage */}
-
+      {/* Armor Class calculation breakdown */}
       <div className="flex gap-2 mb-3 text-sm text-muted-foreground">
         <p className="font-medium">{`Armor Class:`}</p>
         <p className="font-medium">{`${equipment.armor_class.base} `}</p>
@@ -49,6 +56,7 @@ export const ArmorCard = ({ equipment, setSelectedEquipment }: Props) => {
         </p>
       </div>
 
+      {/* Armor properties such as Stealth Disadvantage, Heavy, etc. */}
       <p className="text-muted-foreground leading-relaxed space-x-2">
         {equipment.properties?.map((prop) => (
           <Badge key={`${prop.index}`} variant={"outline"}>
@@ -57,6 +65,7 @@ export const ArmorCard = ({ equipment, setSelectedEquipment }: Props) => {
         ))}
       </p>
 
+      {/* Cost and weight information */}
       <div className="flex flex-row space-x-2 items-center">
         <p className="text-sm text-yellow-400 mt-2">
           {equipment.cost.quantity} {equipment.cost.unit}

@@ -11,6 +11,8 @@ interface CharacterHeaderProps {
   experiencePoints: number;
 }
 
+// Header section of the character sheet
+// Displays core identity information in a decorative D&D-style layout
 export function CharacterHeader({
   name,
   class: characterClass,
@@ -49,6 +51,7 @@ export function CharacterHeader({
             </p>
           </div>
 
+          {/* Race */}
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif  uppercase tracking-wider text-muted-foreground mb-1">
               <User className="w-3 h-3 text-secondary-foreground/80" />
@@ -57,6 +60,7 @@ export function CharacterHeader({
             <p className="text-lg font-semibold">{race}</p>
           </div>
 
+          {/* Background */}
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif  uppercase tracking-wider text-muted-foreground mb-1">
               <Scroll className="w-3 h-3 text-secondary-foreground/80" />
@@ -67,6 +71,7 @@ export function CharacterHeader({
             </p>
           </div>
 
+          {/* Alignment */}
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-xs font-serif  uppercase tracking-wider text-muted-foreground mb-1">
               <Compass className="w-3 h-3 text-secondary-foreground/80" />
@@ -77,6 +82,7 @@ export function CharacterHeader({
             </p>
           </div>
 
+          {/* Experience points */}
           <div className="text-center col-span-2 md:col-span-1 lg:col-span-2">
             <div className="text-xs font-serif uppercase tracking-wider text-muted-foreground mb-1">
               Experience Points

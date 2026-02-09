@@ -6,6 +6,8 @@ interface Props {
   abilityBonuses?: DNDCharacter["abilityBonuses"];
 }
 
+// Centralized ability metadata
+// Keeps labels and abbreviations consistent across the app
 const ABILITY_CONFIG = {
   strength: { abbreviation: "STR", name: "Strength" },
   dexterity: { abbreviation: "DEX", name: "Dexterity" },
@@ -15,11 +17,13 @@ const ABILITY_CONFIG = {
   charisma: { abbreviation: "CHA", name: "Charisma" },
 } as const;
 
+// Calculates the D&D ability modifier from a total score
 function getModifier(score: number): number {
   return Math.floor((score - 10) / 2);
 }
-//todo fix display + race
 
+// Ability scores section of the character sheet
+// Computes final scores and modifiers, then renders each ability card
 export const AbilitySection = ({ attributes, abilityBonuses }: Props) => {
   const abilities = Object.entries(ABILITY_CONFIG).map(([key, config]) => {
     const attrKey = key as keyof typeof attributes;

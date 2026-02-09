@@ -1,4 +1,5 @@
 import { DNDClassLevels } from "@/interface/classes/ClassLevels";
+
 import { BarbarianTable } from "./BarbarianTable";
 import { BardTable } from "./BardTable";
 import { FighterTable } from "./FighterTable";
@@ -17,38 +18,36 @@ interface Props {
   levels: DNDClassLevels[];
 }
 
+/**
+ * Maps each D&D class index to its corresponding
+ * level progression table component.
+ *
+ * This allows easy extension and avoids large switch statements.
+ */
+const CLASS_TABLES: Record<
+  string,
+  React.ComponentType<{ levels: DNDClassLevels[] }>
+> = {
+  barbarian: BarbarianTable,
+  bard: BardTable,
+  fighter: FighterTable,
+  cleric: ClericTable,
+  druid: DruidTable,
+  monk: MonkTable,
+  paladin: PaladinTable,
+  ranger: RangerTable,
+  rogue: RogueTable,
+  sorcerer: SorcererTable,
+  warlock: WarlockTable,
+  wizard: WizardTable,
+};
+
 export const ClassTableSelector = ({ classIndex, levels }: Props) => {
-  switch (classIndex) {
-    case "barbarian":
-      return <BarbarianTable levels={levels} />;
+  /**
+   * Resolve the table component based on class index.
+   * Falls back to Bard table as a safe default.
+   */
+  const TableComponent = CLASS_TABLES[classIndex] ?? CLASS_TABLES["bard"];
 
-    case "bard":
-      return <BardTable levels={levels} />;
-
-    case "fighter":
-      return <FighterTable levels={levels} />;
-
-    // cleric, druid, sorcerer, wizard usan la misma tabla
-    case "cleric":
-      return <ClericTable levels={levels} />;
-    case "druid":
-      return <DruidTable levels={levels} />;
-    case "monk":
-      return <MonkTable levels={levels} />;
-    case "paladin":
-      return <PaladinTable levels={levels} />;
-    case "ranger":
-      return <RangerTable levels={levels} />;
-    case "rogue":
-      return <RogueTable levels={levels} />;
-    case "sorcerer":
-      return <SorcererTable levels={levels} />;
-    case "warlock":
-      return <WarlockTable levels={levels} />;
-    case "wizard":
-      return <WizardTable levels={levels} />;
-
-    default:
-      return <BardTable levels={levels} />;
-  }
+  return <TableComponent levels={levels} />;
 };

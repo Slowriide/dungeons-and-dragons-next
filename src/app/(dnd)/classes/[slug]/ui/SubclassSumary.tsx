@@ -7,49 +7,65 @@ interface Props {
 }
 
 export const SubclassSumary = async ({ classItem }: Props) => {
-  const subclassesIndexes = classItem.subclasses.map((sub) => sub.index);
+  /**
+   * Extracts all subclass indexes from the parent class.
+   * These are used to fetch subclass metadata and features.
+   */
+  const subclassIndexes = classItem.subclasses.map((sub) => sub.index);
 
-  const subclassResponse = await getSubclassDetails({
-    subclassIndexes: subclassesIndexes,
+  /**
+   * Fetches general subclass information
+   * (name, flavor text, descriptions).
+   */
+  const { dndSubclass: subclasses } = await getSubclassDetails({
+    subclassIndexes,
   });
 
-  const subclassLevelsResponse = await getSubclassLevels({
-    subclassIndex: subclassesIndexes[0],
+  /**
+   * Fetch subclass feature progression.
+   * NOTE: For now, progression is shown using the first subclass only.
+   * This can later be extended to support subclass selection.
+   */
+  const { subclassLevelFeatures } = await getSubclassLevels({
+    subclassIndex: subclassIndexes[0],
   });
-
-  const subclasses = subclassResponse.dndSubclass;
-  const subclassLevels = subclassLevelsResponse.subclassLevelFeatures;
-
   return (
-    <div className="space-y-6">
+    <section className="space-y-6">
       <h2 className="mb-6 font-serif text-3xl font-semibold text-[#E63946] ">
         Subclasses
       </h2>
+      {/* Subclass descriptions */}
       <div className="flex flex-wrap gap-3">
         {subclasses.map((subclass) => (
-          <div key={`${subclass.index}-${subclass.name}`}>
-            <div className="flex flex-row">
+          <article key={`${subclass.index}-${subclass.name}`}>
+            <header className="flex flex-row">
               <h3 className="font-serif text-2xl font-semibold mb-2">
                 {subclass.name}
               </h3>
               <h3 className="font-serif text-2xl  mb-2 italic ml-2">
                 {` (${subclass.subclass_flavor})`}
               </h3>
-            </div>
+            </header>
             <p>{subclass.desc}</p>
-          </div>
+          </article>
         ))}
       </div>
+
       <div className="flex flex-col gap-3">
-        {subclassLevels.map((sublevel) => (
-          <div key={`${sublevel.index}`}>
-            <h3 className="font-serif text-xl font-semibold">
-              Level {sublevel.level}: {sublevel.name}
-            </h3>
-            <p className="mb-6">{sublevel.desc}</p>
-          </div>
+        {subclassLevelFeatures.map((feature) => (
+          <article key={feature.index} className="space-y-2">
+            <h4 className="font-serif text-xl font-semibold">
+              Level {feature.level}: {feature.name}
+            </h4>
+
+            <div className="space-y-2 text-muted-foreground">
+              {feature.desc.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
         ))}
       </div>
-    </div>
+    </section>
   );
 };

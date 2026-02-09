@@ -7,18 +7,26 @@ import { Metadata } from "next";
 import { classDescription } from "@/data/classes/classDescriptionñ";
 
 interface Props {
+  /**
+   * Dynamic route parameters provided by Next.js App Router.
+   * `slug` represents the class index (e.g. "wizard", "fighter").
+   */
   params: Promise<{
     slug?: string;
   }>;
 }
 
+/**
+ * Generates dynamic metadata for each D&D class page.
+ * This runs on the server and is used for SEO and social sharing.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
 
   if (!slug) {
     return {
-      title: "Race not found | D&D Mini Beyond",
+      title: "Class not found | D&D Mini Beyond",
     };
   }
 
@@ -26,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!classItem) {
     return {
-      title: "Race not found | D&D Mini Beyond",
+      title: "Class not found | D&D Mini Beyond",
     };
   }
 
@@ -34,9 +42,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${classItem.name} | D&D Mini Beyond`,
     description:
       classDescription[classItem.index] ??
-      `Detailed information about the D&D 5e race ${classItem.name}.`,
+      `Detailed information about the D&D 5e class ${classItem.name}.`,
     openGraph: {
-      title: `${classItem.name} – D&D 5e Race`,
+      title: `${classItem.name} – D&D 5e Class`,
       description: classDescription[classItem.index],
       type: "article",
       images: [
@@ -51,6 +59,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * Class detail page.
+ * Displays the main header and summary sections for a given class.
+ */
 export default async function RacePage({ params }: Props) {
   const { slug } = await params;
 
@@ -58,12 +70,15 @@ export default async function RacePage({ params }: Props) {
     notFound();
   }
 
+  /**
+   * Fetch full class data from the API.
+   */
   const classItem = await getClassByIndex(slug);
 
   if (!classItem) {
     notFound();
   }
-  await new Promise((r) => setTimeout(r, 2000));
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl space-y-10">

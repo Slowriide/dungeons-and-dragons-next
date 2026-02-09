@@ -12,6 +12,18 @@ interface Props {
   magicItem: DNDMagicItem;
   setSelectedMagicItem: (magicItem: DNDMagicItem | null) => void;
 }
+
+/**
+ * SelectedMagicItemCard
+ *
+ * Shows detailed information about a single magic item.
+ * Features:
+ * - Back button to return to grid
+ * - Name with link
+ * - Equipment category
+ * - Rarity badge
+ * - Full description rendered with Markdown
+ */
 export const SelectedMagicItemCard = ({
   setSelectedMagicItem,
   magicItem,
@@ -39,13 +51,11 @@ export const SelectedMagicItemCard = ({
         </Link>
       </div>
 
-      {/* type*/}
+      {/* Type and Rarity */}
       <div className="flex flex-row gap-x-2 items-center ">
         <p className="text-lg line-clamp-1 mb-2 text-muted-foregroundflex text-muted-foreground italic">
           {magicItem.equipment_category.name}
         </p>
-
-        {/* Rarity*/}
 
         <Badge
           variant={"outline"}
@@ -66,8 +76,6 @@ export const SelectedMagicItemCard = ({
           <div className="leading-relaxed">
             <ReactMarkdown>{magicItem.desc.join("\n\n")}</ReactMarkdown>
           </div>
-
-          {/* Higher levels */}
         </div>
       )}
     </Card>

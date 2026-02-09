@@ -1,4 +1,3 @@
-// components/MobileMenu.tsx
 "use client";
 
 import { useState } from "react";
@@ -14,9 +13,22 @@ interface Props {
   session: Session | null;
 }
 
+/**
+ * Mobile navigation menu.
+ *
+ * Uses a Sheet (drawer) pattern for small screens.
+ * Handles:
+ * - Main navigation grouped by category
+ * - Authentication actions (login / logout)
+ * - Controlled open/close state for better UX
+ */
 export function MobileMenu({ session }: Props) {
   const [open, setOpen] = useState(false);
 
+  /**
+   * Navigation structure grouped by category.
+   * This mirrors the desktop TopMenu but optimized for mobile scanning.
+   */
   const menuItems = [
     {
       category: "Gameplay",
@@ -53,14 +65,16 @@ export function MobileMenu({ session }: Props) {
             <Menu className="h-6 w-6" />
           </Button>
         </SheetTrigger>
+
         <SheetContent side="right" className="w-[300px] sm:w-[400px] px-4">
-          <SheetTitle></SheetTitle>
+          <SheetTitle className="sr-only">Navigation menu</SheetTitle>
           <nav className="flex flex-col gap-6 mt-6">
             {menuItems.map((section) => (
               <div key={section.category}>
                 <h3 className="font-semibold text-sm text-muted-foreground mb-2 border-b">
                   {section.category}
                 </h3>
+
                 <div className="flex flex-col gap-2">
                   {section.items.map((item) => (
                     <Link

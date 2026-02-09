@@ -19,14 +19,29 @@ import { SearchCard } from "@/components/SearchCard";
 import { Button } from "@/components/ui/button";
 import { ResetFiltersButton } from "@/components/ResetFiltersButton";
 
+/**
+ * Sidebar filters for Monsters page
+ *
+ * Features:
+ * - Text search
+ * - Challenge Rating (multi-select)
+ * - Alignment (multi-select)
+ * - URL-based filters (via searchParams)
+ */
 export const SideMonstersFilters = () => {
   const { toggleFilters } = useToggleFilters();
 
   const searchParams = useSearchParams();
 
+  /**
+   * Active filters from URL
+   */
   const activeCR = searchParams.getAll("challenge_rating") ?? [];
   const activeAlignment = searchParams.getAll("alignment") ?? [];
 
+  /**
+   * Filter options
+   */
   const cr = CR_LIST;
   const alignment = Array.from(new Set(monsters.map((s) => s.alignment)));
 
@@ -69,7 +84,7 @@ export const SideMonstersFilters = () => {
         </div>
       </Card>
 
-      {/* Size filter */}
+      {/* Alignment  filter */}
       <Card className="p-4 glass-card gap-y-2">
         <span
           className={`${geisCinzel.className} antialiased font-semibold text-lg`}

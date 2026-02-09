@@ -4,6 +4,17 @@ import { DNDRace } from "@/interface/races/DNDRace";
 interface Props {
   race: DNDRace;
 }
+
+/**
+ * RaceSummary
+ *
+ * Displays the detailed descriptive sections of a D&D 5e race.
+ * Responsibilities:
+ * - Alignment description
+ * - Age and size lore
+ * - Known languages and language rules
+ * - List of racial traits
+ */
 export const RaceSummary = ({ race }: Props) => {
   return (
     <div className="space-y-8 mb-10">
@@ -55,6 +66,7 @@ export const RaceSummary = ({ race }: Props) => {
         </p>
       </section>
 
+      {/* Racial Traits */}
       {race.traits.length > 0 && (
         <section>
           <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">

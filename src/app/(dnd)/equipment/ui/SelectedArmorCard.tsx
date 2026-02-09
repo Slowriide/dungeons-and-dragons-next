@@ -10,6 +10,14 @@ interface Props {
   equipment: DNDArmor;
   setSelectedEquipment: (equipment: DNDArmor | null) => void;
 }
+
+/**
+ * Detailed view for a selected armor piece.
+ * Shows:
+ * - Name, category, armor class, strength requirement
+ * - Stealth disadvantage, cost, weight
+ * - Properties, special features, and description
+ */
 export const SelectedArmorCard = ({
   setSelectedEquipment,
   equipment,
@@ -21,6 +29,7 @@ export const SelectedArmorCard = ({
         onClick={() => setSelectedEquipment(null)}
         variant={"ghost"}
         className="justify-start cursor-pointer"
+        aria-label="Back to armor list"
       >
         <ChevronLeft />
         <span>Back to list</span>
@@ -37,7 +46,7 @@ export const SelectedArmorCard = ({
         </Link>
       </div>
 
-      {/* type*/}
+      {/* Armor Main Category */}
       <p className="text-lg line-clamp-2 mb-2 text-muted-foregroundflex gap-2 text-muted-foreground italic">
         {equipment.equipment_category.name}
       </p>
@@ -67,7 +76,7 @@ export const SelectedArmorCard = ({
         </div>
       </div>
 
-      {/* Strength min and Stealth disadventage*/}
+      {/* Strength Requirement & Stealth Disadvantage */}
       <div className="grid grid-cols-2 mt-2 gap-y-2">
         {/* Strength min*/}
         <div className="col-span-1">
@@ -89,6 +98,7 @@ export const SelectedArmorCard = ({
         </div>
       </div>
 
+      {/* Cost & Weight */}
       <div className="grid grid-cols-2 mt-2 gap-y-2">
         {/* Cost*/}
         <div className="col-span-1">
@@ -104,7 +114,7 @@ export const SelectedArmorCard = ({
         </div>
       </div>
 
-      {/* Properties */}
+      {/* Description Section */}
       {equipment.desc && equipment.desc.length > 0 && (
         <div className="mt-2">
           <h3
@@ -118,6 +128,7 @@ export const SelectedArmorCard = ({
         </div>
       )}
 
+      {/* Properties Section */}
       {equipment.properties && equipment.properties.length > 0 && (
         <div className="mt-2">
           <h3
@@ -137,6 +148,7 @@ export const SelectedArmorCard = ({
         </div>
       )}
 
+      {/* Special Features Section */}
       {equipment.special && equipment.special.length > 0 && (
         <div className="mt-2">
           <h3

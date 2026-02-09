@@ -5,6 +5,14 @@ interface Props {
   dndClasses: DNDClass[];
 }
 
+/**
+ * Responsive grid layout for class cards.
+ * - 1 column on mobile
+ * - 3 columns on large screens
+ *
+ * This component is intentionally dumb:
+ * it only maps data to UI without any business logic.
+ */
 export const ClassesGrid = ({ dndClasses }: Props) => {
   return (
     <main className="lg:col-span-3 space-y-4">

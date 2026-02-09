@@ -6,6 +6,15 @@ interface Props {
   query: string;
 }
 
+/**
+ * Server component wrapper for the races grid.
+ *
+ * Responsibilities:
+ * - Fetch base races list
+ * - Resolve full race details
+ * - Apply search filtering
+ * - Pass clean data to the grid UI component
+ */
 export const RacesGridWrapper = async ({ query }: Props) => {
   const { results } = await getRaces();
 

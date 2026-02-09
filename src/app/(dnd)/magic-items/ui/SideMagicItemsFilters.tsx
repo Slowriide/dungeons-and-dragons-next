@@ -23,7 +23,16 @@ interface Props {
     name: string;
   }[];
 }
-
+/**
+ * SideMagicItemsFilters
+ *
+ * Client-side component for filtering magic items.
+ * Features:
+ * - Search bar
+ * - Category filter dropdown
+ * - Rarity filter dropdown
+ * - Reset filters button
+ */
 export const SideMagicItemsFilters = ({
   categories,
   rarities,
@@ -35,6 +44,8 @@ export const SideMagicItemsFilters = ({
     <div className=" col-span-1 space-y-4">
       {/* Search */}
       <SearchCard placeholder={"Search magic items..."} />
+
+      {/* Category Filter */}
       <Card className="p-4 glass-card gap-y-2">
         <span
           className={`${geisCinzel.className} antialiased font-bold text-lg`}
@@ -68,6 +79,7 @@ export const SideMagicItemsFilters = ({
         </div>
       </Card>
 
+      {/* Rarity Filter */}
       <Card className="p-4 glass-card gap-y-2">
         <span
           className={`${geisCinzel.className} antialiased font-bold text-lg`}
@@ -101,6 +113,7 @@ export const SideMagicItemsFilters = ({
         </div>
       </Card>
 
+      {/* Reset filters button */}
       <ResetFiltersButton keys={["category", "rarity"]} />
     </div>
   );

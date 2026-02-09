@@ -6,36 +6,48 @@ import { CharacterSheet } from "./CharacterSheet";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { is } from "zod/v4/locales";
+import { toast } from "sonner";
 
-// This page exists to separate concerns.
+// Client-side summary page
+// Responsible for rendering the final character sheet and handling save logic
 
 export default function SummaryClient() {
   const router = useRouter();
+
+  // Local UI state to prevent multiple save attempts
   const [isSaving, setIsSaving] = useState(false);
+
+  // Character data and actions from global store
   const { character, saveCharacter, resetCharacter, isCharacterComplete } =
     useDNDCharacterStore();
 
+  // Handles final character save
   const handleSave = async () => {
     setIsSaving(true);
 
     try {
+      // Validate that all required steps are completed
       const isComplete = isCharacterComplete();
 
       console.log(isComplete);
 
       if (!isComplete) {
-        alert("Must complete the character before save");
+        toast.error("Must complete the character before save");
         return;
       }
 
+      // Persist character (API / local / backend abstraction)
       saveCharacter();
 
+      toast.success("Character completed");
+
+      // Clear store after successful save
       resetCharacter();
 
       router.push(`/characters`);
     } catch (error) {
-      alert("Error guardando el personaje");
+      // Basic error handling (can be replaced by toast later)
+      toast.error("Error on character save");
     } finally {
       setIsSaving(false);
     }
@@ -43,8 +55,10 @@ export default function SummaryClient() {
 
   return (
     <div>
+      {/* Full character sheet preview */}
       <CharacterSheet character={character} />
 
+      {/* Save action */}
       <div className="flex justify-end">
         <Button
           onClick={handleSave}

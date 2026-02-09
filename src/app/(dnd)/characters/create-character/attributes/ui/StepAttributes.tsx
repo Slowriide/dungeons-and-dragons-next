@@ -1,16 +1,20 @@
 "use client";
 
 import { z } from "zod";
-import { AttributeCard } from "../create-character/attributes/ui/AttributeCard";
-import { useState } from "react";
-import useDNDCharacterStore from "@/store/characte.store";
 
+import useDNDCharacterStore from "@/store/characte.store";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { AttributeCard } from "./AttributeCard";
 
+/**
+ * Ability score schema
+ * - Uses the Standard Array rules (8–15)
+ * - Each value must be unique (no duplicates)
+ */
 const attributesSchema = z
   .object({
     strength: z.number().min(8).max(15),
@@ -42,6 +46,9 @@ const stats = [
   "charisma",
 ] as const;
 
+/**
+ * Short labels used for UI and racial bonus display
+ */
 const ATTRIBUTE_KEYS = {
   strength: "STR",
   dexterity: "DEX",
@@ -63,6 +70,10 @@ export const StepAttributes = () => {
     setHitPoints,
   } = useDNDCharacterStore();
 
+  /**
+   * Initialize form with previously selected values
+   * Falls back to standard array defaults
+   */
   const form = useForm<FormData>({
     resolver: zodResolver(attributesSchema),
     defaultValues: {
@@ -76,12 +87,18 @@ export const StepAttributes = () => {
     mode: "onChange",
   });
 
-  // Obtener valores actuales del form
+  // Watch current values to disable already-used scores
   const currentValues = form.watch();
 
-  // Calcular scores usados (para deshabilitar opciones)
+  // Used scores are passed to AttributeCard to prevent duplicates
   const usedScores = Object.values(currentValues);
 
+  /**
+   * Submit handler
+   * - Applies racial bonuses
+   * - Calculates initiative and hit points
+   * - Moves to the Background step
+   */
   const onSubmit = (data: FormData) => {
     setAttributes({
       strength: data.strength,
@@ -93,7 +110,10 @@ export const StepAttributes = () => {
     });
 
     nextStep();
-    console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    }
     router.push("/characters/create-character/background");
   };
 
@@ -106,7 +126,7 @@ export const StepAttributes = () => {
             Assign the following scores to your abilities: 15, 14, 13, 12, 10, 8
           </p>
 
-          {/* Mostrar bonos raciales si existen */}
+          {/* Racial bonuses preview */}
           {character.abilityBonuses &&
             Object.keys(character.abilityBonuses).length > 0 && (
               <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
@@ -128,6 +148,7 @@ export const StepAttributes = () => {
               </div>
             )}
         </div>
+        {/* Attributes grid */}
         <div className="grid grid-cols-6">
           {(Object.keys(ATTRIBUTE_KEYS) as Array<keyof FormData>).map((key) => (
             <AttributeCard
@@ -141,6 +162,7 @@ export const StepAttributes = () => {
           ))}
         </div>
 
+        {/* Navigation buttons */}
         <div className="flex justify-between mb-20">
           <Button
             variant={"outline"}

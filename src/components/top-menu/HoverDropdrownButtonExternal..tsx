@@ -18,6 +18,11 @@ interface Props {
   };
 }
 
+/**
+ * Dropdown button that mixes internal and external links.
+ * Useful for grouping official pages with external resources.
+ */
+
 export const HoverDropdrownButtonExternal = ({
   title,
   internalButton,
@@ -39,7 +44,7 @@ export const HoverDropdrownButtonExternal = ({
           <DropdownMenuItem>
             <Link href={internalButton.path}>{internalButton.name}</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild className="cursor-pointer">
             <a
               href="https://www.dndbeyond.com/forums/dungeons-dragons-discussion/dungeon-masters-only/43718-list-of-free-dnd-campaigns"
               target="_blank"

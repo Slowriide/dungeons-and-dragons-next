@@ -24,6 +24,16 @@ interface Props {
     name: string;
   }[];
 }
+
+/**
+ * Client-side filter panel for the Equipment page.
+ *
+ * Handles:
+ * - Category selection
+ * - Price range filtering
+ * - Weight range filtering
+ * - URL synchronization
+ */
 export const SideEquipmentFilters = (props: Props) => {
   const { categories, categoriesAvailables } = props;
 
@@ -32,6 +42,10 @@ export const SideEquipmentFilters = (props: Props) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  /**
+   * Local state mirrors URL params.
+   * This allows smooth typing without immediate URL updates.
+   */
   const [minCost, setMinCost] = useState(searchParams.get("minCost") ?? "");
   const [maxCost, setMaxCost] = useState(searchParams.get("maxCost") ?? "");
 
@@ -49,7 +63,10 @@ export const SideEquipmentFilters = (props: Props) => {
     maxWeight,
   });
 
-  // Apply filters when debounced values change
+  /**
+   * Sync debounced filter values to URL.
+   * This is the single source of truth for filtering.
+   */
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
 

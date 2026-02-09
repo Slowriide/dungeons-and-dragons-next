@@ -15,21 +15,21 @@ export const metadata: Metadata = {
     "DnD equipment",
   ],
   openGraph: {
-    title: "D&D Mini Beyond",
+    title: "D&D Mini Beyond – D&D 5e Reference",
     description:
-      "Modern D&D 5e reference for spells, monsters, classes and equipment.",
+      "Browse D&D 5e spells, monsters, classes, races and equipment in a modern interface.",
     type: "website",
     siteName: "D&D Mini Beyond",
+    url: "https://your-domain.com",
   },
 };
 
 export default function Home() {
   return (
-    <div className="w-full">
-      <header>
-        <Header />
-      </header>
+    <main className="w-full">
+      <Header />
+
       <SectionCardsGrid />
-    </div>
+    </main>
   );
 }

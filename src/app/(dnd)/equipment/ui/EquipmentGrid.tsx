@@ -18,11 +18,26 @@ interface Props {
   paginated: DNDEquipment[];
 }
 
+/**
+ * Client-side equipment grid.
+ *
+ * Handles:
+ * - Displaying paginated equipment cards
+ * - Switching between list view and detail view
+ * - Delegating rendering based on equipment type
+ */
 export const EquipmentGrid = ({ paginated, totalPages }: Props) => {
+  /**
+   * Selected equipment acts as a view switch:
+   * - null → grid view
+   * - item → detail view
+   */
   const [selectedEquipment, setSelectedEquipment] = useState<
     DNDEquipment | DNDWeapon | DNDArmor | null
   >(null);
+
   const selected = selectedEquipment !== null;
+
   return (
     <main className="lg:col-span-3 space-y-4">
       {selectedEquipment ? (
@@ -65,6 +80,8 @@ export const EquipmentGrid = ({ paginated, totalPages }: Props) => {
           ),
         )
       )}
+
+      {/* Pagination only visible in grid view */}
       {!selected && <Pagination totalPages={totalPages} />}
     </main>
   );

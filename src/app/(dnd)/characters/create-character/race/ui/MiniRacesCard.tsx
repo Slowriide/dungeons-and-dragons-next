@@ -1,4 +1,4 @@
-import { Card } from "../ui/card";
+import { Card } from "../../../../../../components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { DNDRace } from "@/interface/races/DNDRace";
@@ -8,6 +8,15 @@ interface Props {
   race: DNDRace;
 }
 
+/**
+ * MiniRacesCard
+ *
+ * Displays a compact, clickable card representing a D&D race
+ * during the character creation flow.
+ *
+ * The card links directly to the race detail/selection step.
+ * Optimized for grid usage and fast visual scanning.
+ */
 export const MiniRacesCard = ({ race }: Props) => {
   const img = getRaceImages(race.index);
 
@@ -26,6 +35,8 @@ export const MiniRacesCard = ({ race }: Props) => {
           />
         </div>
       </Link>
+
+      {/* Race name */}
       <div className="text-center font-medium">{race.name}</div>
     </Card>
   );

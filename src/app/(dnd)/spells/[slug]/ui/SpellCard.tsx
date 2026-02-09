@@ -8,6 +8,16 @@ import Image from "next/image";
 interface Props {
   spell: DNDSpell;
 }
+
+/**
+ * SpellCard
+ *
+ * Main detailed view for a single D&D spell.
+ * This component is critical for:
+ * - SEO (content richness)
+ * - UX (readability)
+ * - Semantic structure
+ */
 export const SpellCard = ({ spell }: Props) => {
   return (
     <article className="flex flex-col mt-4 lg:mt-10 space-y-6">
@@ -142,6 +152,12 @@ export const SpellCard = ({ spell }: Props) => {
   );
 };
 
+/**
+ * SpellItem
+ *
+ * Semantic definition list item for spell stats.
+ * <dl>, <dt>, <dd> improve accessibility and SEO.
+ */
 const SpellItem = ({ title, text }: { title: string; text: string }) => {
   return (
     <dl className="col-span-1">

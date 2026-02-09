@@ -5,6 +5,12 @@ interface Props {
   races: DNDRace[];
 }
 
+/**
+ * Races grid layout component.
+ *
+ * Displays a responsive grid of race cards.
+ * Handles empty states gracefully.
+ */
 export const RacesGrid = ({ races }: Props) => {
   return (
     <main className="lg:col-span-3 space-y-4">

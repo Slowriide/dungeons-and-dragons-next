@@ -23,16 +23,35 @@ interface CharactersGridProps {
   characters: CharacterListItem[];
 }
 
+/**
+ * CharactersGrid
+ *
+ * Purpose:
+ * - Displays a grid of user-created characters
+ * - Handles empty state gracefully
+ * - Provides pagination when applicable
+ */
+
 export const CharactersGrid = ({ characters }: CharactersGridProps) => {
   return (
-    <main className="lg:col-span-4 space-y-4">
+    <section className="lg:col-span-4 space-y-4">
+      {/* Visually hidden heading for accessibility & SEO */}
+      <h2 id="characters-grid-title" className="sr-only">
+        Character List
+      </h2>
+
+      {/* Characters Grid */}
       <div className="grid lg:grid-cols-4 gap-2">
         {characters.map((character) => (
           <CharacterCardWrapper key={character.id} character={character} />
         ))}
       </div>
+
+      {/* Empty State */}
       {characters.length === 0 && <EmptyCharactersState />}
+
+      {/* Pagination */}
       {characters.length > 0 && <Pagination totalPages={1} />}
-    </main>
+    </section>
   );
 };

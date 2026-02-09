@@ -9,16 +9,26 @@ interface Props {
   monster: DNDMonster;
 }
 
+/**
+ * MonsterHeader
+ *
+ * SEO & UX goals:
+ * - Provide a strong <h1> with the monster name
+ * - Show key combat stats above the fold (CR, HP, AC, Speed)
+ * - Use optimized images with descriptive alt text
+ * - Improve scannability for both users and search engines
+ */
 export const MonsterHeader = ({ monster }: Props) => {
   const skills = getMonsterSkills(monster);
 
+  // Pre-format skills for readable text output
   const skillsText = skills
     .map((skill) => `${skill.name} +${skill.value}`)
     .join(", ");
 
   return (
-    <div className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10 ">
-      {/* Left: Image */}
+    <article className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10 ">
+      {/* Image */}
       <section className="relative w-full max-w-md mx-auto my-auto">
         <Image
           src={getDnDImages(monster.image)}
@@ -37,6 +47,7 @@ export const MonsterHeader = ({ monster }: Props) => {
         <h1 className="mb-6 font-serif text-5xl font-bold text-balance leading-tight">
           {monster.name}
         </h1>
+
         {/* Quick Stats Grid */}
         <dl className="grid gap-4 sm:grid-cols-2">
           {/* Armor Class */}
@@ -50,6 +61,7 @@ export const MonsterHeader = ({ monster }: Props) => {
               ))}
             </dd>
           </div>
+
           {/* Hit Points */}
           <div>
             <dt className="text-sm font-medium text-[#E63946]">Hit Points</dt>
@@ -59,8 +71,8 @@ export const MonsterHeader = ({ monster }: Props) => {
               </p>
             </dd>
           </div>
-          {/* Speed */}
 
+          {/* Speed */}
           <div>
             <dt className="text-sm font-medium text-[#E63946]">Speed</dt>
             <dd className="mt-1 text-xl font-semibold flex flex-row">
@@ -69,6 +81,7 @@ export const MonsterHeader = ({ monster }: Props) => {
               {monster.speed.fly && <p>, fly {monster.speed.fly}</p>}
             </dd>
           </div>
+
           {/* Challenge rating */}
           <div>
             <dt className="text-sm font-medium text-[#E63946]">
@@ -107,6 +120,7 @@ export const MonsterHeader = ({ monster }: Props) => {
           )}
         </dl>
 
+        {/* Skills */}
         {skills.length > 0 && (
           <div className="pt-4">
             <dt className="text-sm font-medium text-[#E63946]">Skills</dt>
@@ -116,6 +130,6 @@ export const MonsterHeader = ({ monster }: Props) => {
           </div>
         )}
       </div>
-    </div>
+    </article>
   );
 };

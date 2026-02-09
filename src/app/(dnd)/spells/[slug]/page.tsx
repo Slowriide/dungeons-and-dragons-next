@@ -9,6 +9,11 @@ interface Props {
   }>;
 }
 
+/**
+ * generateMetadata
+ *
+ * Generates dynamic SEO metadata for each spell detail page.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";
@@ -50,6 +55,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * SpellPage
+ *
+ * Server component that renders the full spell detail page.
+ * Handles validation and 404 logic.
+ */
 export default async function SpellPage({ params }: Props) {
   const spellIndex = await params;
   const slug = spellIndex.slug ?? "";

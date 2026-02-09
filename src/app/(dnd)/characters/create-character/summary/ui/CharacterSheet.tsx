@@ -23,26 +23,45 @@ interface CharacterSheetProps {
   character: Partial<DNDCharacter>;
 }
 
+// Main character sheet renderer
+// Combines all calculated and derived data into a printable D&D-style sheet
 export function CharacterSheet({ character }: CharacterSheetProps) {
+  // -----------------------------
+  // Tool proficiencies aggregation
+  // -----------------------------
   var toolsProfs: string[] = [];
 
-  const some = character.proficiencies?.filter((prof) => prof.includes("tool"));
+  // Base tool proficiencies
+  const baseTools = character.proficiencies?.filter((prof) =>
+    prof.includes("tool"),
+  );
+
+  // Selected tool proficiencies
   const selecteds = character.selectedProficiencies?.filter((prof) =>
     prof.includes("tool"),
   );
-  const hasOther = character.selectedTraits?.filter((tr) =>
+
+  // Tool proficiencies coming from traits
+  const traitTools = character.selectedTraits?.filter((tr) =>
     tr.name.includes("Tool"),
   );
+
+  // Instrument proficiencies from class
   const intrumentProfs = character.classProficiencies
     ?.filter((prof) => prof.type === "instrument")
     .map((prof) => prof.index);
 
+  // Merge all tool-related proficiencies
   toolsProfs = [
-    ...(some ?? []),
+    ...(baseTools ?? []),
     ...(selecteds ?? []),
-    ...(hasOther?.map((t) => t.id) ?? []),
+    ...(traitTools?.map((t) => t.id) ?? []),
     ...(intrumentProfs ?? []),
   ];
+
+  // -----------------------------
+  // Skills & Languages
+  // -----------------------------
 
   const skills = buildSkillsList(character);
 
@@ -51,6 +70,10 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     ...(character.raceLanguages ?? []),
     ...(character.backgroundLanguages ?? []),
   ];
+
+  // -----------------------------
+  // Saving throws
+  // -----------------------------
 
   const savThrowProfs = character.classProficiencies
     ?.filter((prof) => prof.type === "saving-throw")
@@ -68,6 +91,10 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     savingThrowProficiencies: savThrowProfs ?? [],
     proficiencyBonus: character.proficiencyBonus ?? 0,
   });
+
+  // -----------------------------
+  // Derived combat stats
+  // -----------------------------
 
   const finalAttributes = getFinalAttributes(
     character.attributes ?? {
@@ -94,6 +121,10 @@ export function CharacterSheet({ character }: CharacterSheetProps) {
     character.level || 1,
     finalAttributes.constitution,
   );
+
+  // -----------------------------
+  // Equipment & economy
+  // -----------------------------
 
   const totalGold = getTotalGold(character.gold ?? []);
 

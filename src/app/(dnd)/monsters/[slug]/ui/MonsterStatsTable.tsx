@@ -1,12 +1,3 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { DNDClassLevels } from "@/interface/classes/ClassLevels";
 import { DNDMonster } from "@/interface/monsters/DnDMonster";
 interface Props {
   monster: DNDMonster;
@@ -15,27 +6,27 @@ interface Props {
 export const MonsterStatsTable = ({ monster }: Props) => {
   const strProf =
     monster.proficiencies.find(
-      (p) => p.proficiency.index === "saving-throw-str"
+      (p) => p.proficiency.index === "saving-throw-str",
     )?.value ?? "0";
   const dexProf =
     monster.proficiencies.find(
-      (p) => p.proficiency.index === "saving-throw-dex"
+      (p) => p.proficiency.index === "saving-throw-dex",
     )?.value ?? "0";
   const conProf =
     monster.proficiencies.find(
-      (p) => p.proficiency.index === "saving-throw-con"
+      (p) => p.proficiency.index === "saving-throw-con",
     )?.value ?? "0";
   const intProf =
     monster.proficiencies.find(
-      (p) => p.proficiency.index === "saving-throw-int"
+      (p) => p.proficiency.index === "saving-throw-int",
     )?.value ?? "0";
   const wisProf =
     monster.proficiencies.find(
-      (p) => p.proficiency.index === "saving-throw-wis"
+      (p) => p.proficiency.index === "saving-throw-wis",
     )?.value ?? "0";
   const chaProf =
     monster.proficiencies.find(
-      (p) => p.proficiency.index === "saving-throw-cha"
+      (p) => p.proficiency.index === "saving-throw-cha",
     )?.value ?? "0";
 
   return (

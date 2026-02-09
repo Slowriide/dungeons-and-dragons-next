@@ -38,14 +38,14 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
               {/* Items grid */}
 
               {/* Equipment category */}
-              <SpellItem
+              <DefinitionItem
                 title={`Equipment category`}
                 text={equipment.equipment_category.name}
               />
 
               {/* Gear category */}
               {equipment.gear_category && (
-                <SpellItem
+                <DefinitionItem
                   title={`Gear category`}
                   text={equipment.gear_category.name}
                 />
@@ -53,17 +53,20 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
 
               {/* Tool category */}
               {equipment.tool_category && (
-                <SpellItem
+                <DefinitionItem
                   title={`Tool category`}
                   text={equipment.tool_category}
                 />
               )}
 
-              <SpellItem
+              <DefinitionItem
                 title={`Cost`}
                 text={`${equipment.cost.quantity} ${equipment.cost.unit}`}
               />
-              <SpellItem title={`Weight`} text={`${equipment.weight} lbs `} />
+              <DefinitionItem
+                title={`Weight`}
+                text={`${equipment.weight} lbs `}
+              />
 
               {/* Description */}
 
@@ -123,11 +126,17 @@ export const EquipmentDetailsCard = ({ equipment }: Props) => {
   );
 };
 
-const SpellItem = ({ title, text }: { title: string; text: string }) => {
+/**
+ * DefinitionItem
+ *
+ * Displays a title-value pair using <dl> semantics for accessibility.
+ */
+
+const DefinitionItem = ({ title, text }: { title: string; text: string }) => {
   return (
-    <div className="col-span-1">
-      <span className="font-bold">{title}</span>
-      <p className="">{text}</p>
-    </div>
+    <dl className="col-span-1">
+      <dt className="font-bold">{title}</dt>
+      <dd className="">{text}</dd>
+    </dl>
   );
 };

@@ -1,6 +1,15 @@
+import { Metadata } from "next";
 import { StepBackground } from "./ui/StepBackground";
 
-export default function CreateCharacterBackground() {
+export const metadata: Metadata = {
+  title: "Choose Backgronud | Create Character – D&D Mini Beyond",
+  description:
+    "Select your character’s background and personality traits for D&D 5e.",
+};
+
+// Page for creating a character's background
+// Wraps the StepBackground component in a full-page layout
+export default function CreateCharacterBackgroundPage() {
   return (
     <div className="min-h-screen bg-background">
       <StepBackground />

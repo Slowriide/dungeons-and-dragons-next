@@ -1,5 +1,3 @@
-// components/magic-items/SideMagicItemsFiltersWrapper.tsx
-
 import { getEquipmentDetails } from "@/services/equipment/getEquipmentDetails";
 import { SideEquipmentFilters } from "./SideEquipmentFilters";
 
@@ -9,11 +7,22 @@ interface Props {
   categories: string[];
 }
 
+/**
+ * wrapper for the equipment filters sidebar.
+ *
+ * Responsibilities:
+ * - Fetch available equipment categories from the API
+ * - Keep filter UI fully server-aware
+ * - Avoid duplicating category logic on the client
+ */
 export async function SideEquipmentFilterWrapper(props: Props) {
   const { page, query, categories } = props;
 
+  /**
+   * only use this request to retrieve available categories.
+   * Filters are intentionally kept broad to avoid limiting results.
+   */
   const data = await getEquipmentDetails({
-    // solo para obtener categorías
     page,
     maxWeight: 999999,
     minWeight: 0,

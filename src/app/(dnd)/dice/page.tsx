@@ -3,6 +3,11 @@ import { DicesIcon } from "lucide-react";
 import { Metadata } from "next";
 import { DiceRoller } from "./ui/DiceRoller";
 
+/**
+ * Page metadata used by Next.js for SEO and social previews.
+ * This defines how the Dice Roller page appears in search engines
+ * and when shared on social platforms.
+ */
 export const metadata: Metadata = {
   title: "Dices | D&D Mini Beyond",
   description: "Throw your dices!!!",
@@ -25,6 +30,12 @@ export const metadata: Metadata = {
   keywords: ["D&D dice", "5e dice", "dice"],
 };
 
+/**
+ * Dice Roller main page.
+ *
+ * This page acts as a layout wrapper for the DiceRoller UI,
+ * providing page-level structure, title and spacing.
+ */
 export default function DiceRollerPage() {
   return (
     <main className="min-h-screen bg-background">

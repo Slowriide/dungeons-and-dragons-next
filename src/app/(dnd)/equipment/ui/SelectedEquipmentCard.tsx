@@ -11,6 +11,15 @@ interface Props {
   equipment: DNDEquipment;
   setSelectedEquipment: (equipment: DNDEquipment | null) => void;
 }
+/**
+ * SelectedEquipmentCard
+ *
+ * Detailed view for a single equipment item.
+ * Displays:
+ * - Name, main category, subcategory
+ * - Cost, weight
+ * - Description and properties
+ */
 export const SelectedEquipmentCard = ({
   setSelectedEquipment,
   equipment,
@@ -22,6 +31,7 @@ export const SelectedEquipmentCard = ({
         onClick={() => setSelectedEquipment(null)}
         variant={"ghost"}
         className="justify-start cursor-pointer"
+        aria-label="Back to equipment list"
       >
         <ChevronLeft />
         <span>Back to list</span>
@@ -38,13 +48,12 @@ export const SelectedEquipmentCard = ({
         </Link>
       </div>
 
-      {/* type*/}
+      {/* Main Category */}
       <p className="text-lg line-clamp-2 mb-2 text-muted-foregroundflex gap-2 text-muted-foreground italic">
         {equipment.equipment_category.name}
       </p>
 
-      {/* Rarity*/}
-
+      {/* Subcategory Badge */}
       <Badge className={getEquipmentBadgeColor(equipment)}>
         {equipment.gear_category?.name ??
           equipment.tool_category ??
@@ -52,6 +61,7 @@ export const SelectedEquipmentCard = ({
           "Unknown"}
       </Badge>
 
+      {/* Cost and Weight */}
       <div className="grid grid-cols-2 mt-2 gap-y-2">
         {/* Price*/}
         <div className="col-span-1">
@@ -81,6 +91,7 @@ export const SelectedEquipmentCard = ({
         </div>
       )}
 
+      {/* Properties Section */}
       {equipment.properties && equipment.properties.length > 0 && (
         <div className="mt-2">
           <h3

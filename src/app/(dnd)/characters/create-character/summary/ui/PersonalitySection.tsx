@@ -10,9 +10,12 @@ interface PersonalitySectionProps {
   };
 }
 
+// Personality section
+// Displays roleplay-defining traits taken from the character background
 export function PersonalitySection({ personality }: PersonalitySectionProps) {
   return (
     <div className="border-2 border-red-500/50  rounded-lg p-4 bg-card">
+      {/* Section header */}
       <h3 className="border-b border-b-red-700 flex items-center gap-2 mb-3">
         <Scroll className="w-4 h-4 " />
         Personality

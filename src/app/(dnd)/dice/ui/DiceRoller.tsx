@@ -7,6 +7,12 @@ import { Card } from "@/components/ui/card";
 import { getDiceIcon } from "./DiceSvg";
 import { XIcon } from "lucide-react";
 
+/**
+ * Interactive Dice Roller component.
+ *
+ * Allows users to select multiple dice types, roll them together,
+ * and visualize individual results plus the total sum.
+ */
 export const DiceRoller = () => {
   const [selectedDice, setSelectedDice] = useState<DiceSelection>({});
   const [results, setResults] = useState<DiceResult[]>([]);
@@ -34,6 +40,10 @@ export const DiceRoller = () => {
     });
   };
 
+  /**
+   * Rolls all selected dice and calculates results and total.
+   * A short delay is used to simulate a rolling animation.
+   */
   const rollDice = (): void => {
     setIsRolling(true);
     const newResults: DiceResult[] = [];
@@ -57,9 +67,12 @@ export const DiceRoller = () => {
       setResults(newResults);
       setTotal(sum);
       setIsRolling(false);
-    }, 600); // Duración de la animación
+    }, 600); // Matches dice roll animation duration
   };
 
+  /**
+   * Clears the current dice selection and results.
+   */
   const clearAll = (): void => {
     setSelectedDice({});
     setResults([]);

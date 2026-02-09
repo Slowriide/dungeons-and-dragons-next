@@ -11,6 +11,13 @@ interface Props {
   equipment: DNDWeapon;
   setSelectedEquipment: (equipment: DNDWeapon | null) => void;
 }
+
+/**
+ * Detailed view for a selected weapon.
+ * Shows all relevant metadata:
+ * - Name, category, range, damage, cost, weight
+ * - Properties, special rules, description
+ */
 export const SelectedWeaponCard = ({
   setSelectedEquipment,
   equipment,
@@ -22,6 +29,7 @@ export const SelectedWeaponCard = ({
         onClick={() => setSelectedEquipment(null)}
         variant={"ghost"}
         className="justify-start cursor-pointer"
+        aria-label="Back to weapon list"
       >
         <ChevronLeft />
         <span>Back to list</span>
@@ -106,6 +114,7 @@ export const SelectedWeaponCard = ({
         )}
       </div>
 
+      {/* Cost and Weight */}
       <div className="grid grid-cols-2 mt-2 gap-y-2">
         {/* Cost*/}
         <div className="col-span-1">
@@ -121,7 +130,7 @@ export const SelectedWeaponCard = ({
         </div>
       </div>
 
-      {/* Properties */}
+      {/* Description */}
       {equipment.desc && equipment.desc.length > 0 && (
         <div className="mt-2">
           <h3
@@ -130,11 +139,10 @@ export const SelectedWeaponCard = ({
             Description
           </h3>
           <div className="flex flex-wrap gap-2 mt-2">{equipment.desc}</div>
-
-          {/* Higher levels */}
         </div>
       )}
 
+      {/* Properties */}
       {equipment.properties && equipment.properties.length > 0 && (
         <div className="mt-2">
           <h3
@@ -153,7 +161,7 @@ export const SelectedWeaponCard = ({
           </p>
         </div>
       )}
-
+      {/* Special rules */}
       {equipment.special && equipment.special.length > 0 && (
         <div className="mt-2">
           <h3

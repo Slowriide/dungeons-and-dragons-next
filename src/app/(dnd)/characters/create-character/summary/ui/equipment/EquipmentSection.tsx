@@ -22,6 +22,8 @@ interface EquipmentSectionProps {
   gold: number;
 }
 
+// Visual configuration per equipment type
+// Centralizes icon, color and label for consistency
 const typeConfig: Record<
   EquipmentType,
   { icon: any; color: string; label: string }
@@ -39,6 +41,8 @@ const typeConfig: Record<
   other: { icon: Package, color: "text-muted-foreground", label: "Other" },
 };
 
+// Equipment section
+// Groups items by type and renders them inside expandable categories
 export function EquipmentSection({ equipment, gold }: EquipmentSectionProps) {
   const groupedEquipment = equipment.reduce(
     (acc, item) => {
@@ -62,11 +66,13 @@ export function EquipmentSection({ equipment, gold }: EquipmentSectionProps) {
 
   return (
     <div className="border-2 border-red-500/50  rounded-lg p-4 bg-card">
+      {/* Section header */}
       <h3 className="border-b border-b-red-700 flex items-center gap-2 mb-3">
         <Backpack className="w-4 h-4" />
         Equipment
       </h3>
 
+      {/* Equipment list */}
       <Accordion type="multiple" className="space-y-2" defaultValue={typeOrder}>
         <div className="space-y-4">
           {typeOrder.map((type) => {
@@ -96,6 +102,7 @@ export function EquipmentSection({ equipment, gold }: EquipmentSectionProps) {
         </div>
       </Accordion>
 
+      {/* Gold summary */}
       <div className="mb-4 p-3 bg-secondary-foreground/10 dark:bg-amber-950/20 rounded-md border border-secondary-foreground/40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

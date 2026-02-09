@@ -9,14 +9,23 @@ interface Props {
   query: string;
 }
 
+/**
+ * SpellsGridWrapper
+ *
+ * Server component that fetches paginated magic items and passes
+ * them to the client-side spellsGrid component.
+ */
 export default async function SpellsGridWrapper({
   page,
   levels,
   schools,
   query,
 }: Props) {
-  // start fetch
-  const listPromise = getSpellsList({
+  /**
+   * Fetch paginated spell list (lightweight data)
+   * Used for filtering, pagination and ordering
+   */
+  const { results, totalPages, totalCount } = await getSpellsList({
     page,
     take: 12,
     levels,
@@ -24,23 +33,15 @@ export default async function SpellsGridWrapper({
     query,
   });
 
-  // waith list
-  const { results, totalPages, totalCount } = await listPromise;
-
+  /**
+   * Extract spell indexes to fetch full spell details
+   */
   const spellIndexes = results.map((s) => s.index);
 
-  // start details
-  const detailsPromise = getSpellsDetails({ spellIndexes });
+  /**
+   * Fetch full spell details only for visible spells
+   */
+  const { spells } = await getSpellsDetails({ spellIndexes });
 
-  // wait details
-  const { spells } = await detailsPromise;
-
-  return (
-    <SpellsGrid
-      spells={spells}
-      totalPages={totalPages}
-      currentPage={page}
-      totalCount={totalCount}
-    />
-  );
+  return <SpellsGrid spells={spells} totalPages={totalPages} />;
 }

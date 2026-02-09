@@ -9,6 +9,13 @@ interface Props {
   dndClass: DNDClass;
 }
 
+/**
+ * Retrieves static UI-related data for the class:
+ * - Short description used in the card preview
+ * - Logo icon displayed next to the class name
+ *
+ * This keeps presentation concerns decoupled from API data.
+ */
 export const ClassesCard = ({ dndClass }: Props) => {
   const { description, logo } = getClassInfo(dndClass.index);
   const img = geClassImages(dndClass.index);
@@ -23,7 +30,7 @@ export const ClassesCard = ({ dndClass }: Props) => {
             alt={"Class"}
             fill
             sizes="400"
-            className="absolute inset-0 object-fill rounded-md z-0"
+            className="absolute inset-0 object-cover rounded-md z-0"
             loading="eager"
           />
           <div className="absolute bottom-5 left-2  z-20 w-40 bg-white/50 p-3 rounded-sm h-40">

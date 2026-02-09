@@ -13,6 +13,10 @@ interface Props {
   }>;
 }
 
+/**
+ * SEO metadata for the Spells page
+ * Improves discoverability and social sharing
+ */
 export const metadata: Metadata = {
   title: "Spells | D&D Mini Beyond",
   description:
@@ -36,6 +40,16 @@ export const metadata: Metadata = {
   keywords: ["D&D spells", "5e spells", "magic spells", "spellbook"],
 };
 
+/**
+ * SpellsPage
+ *
+ * Displays a searchable and filterable list of spells.
+ *
+ *  Responsible for:
+ * - Parsing and normalizing URL search params
+ * - Rendering filters and spells grid
+ * - Keeping layout responsive and scalable
+ */
 export default async function SpellsPage({ searchParams }: Props) {
   const {
     page: pageString,
@@ -43,6 +57,10 @@ export default async function SpellsPage({ searchParams }: Props) {
     query: queryString,
     school,
   } = await searchParams;
+
+  /**
+   * Normalize URL params
+   */
 
   const page = pageString ? parseInt(pageString) : 1;
   const levels = Array.isArray(level) ? level : level ? [level] : [];

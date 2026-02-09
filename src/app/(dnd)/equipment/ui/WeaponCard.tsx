@@ -9,18 +9,24 @@ interface Props {
   setSelectedEquipment: (equipment: DNDWeapon) => void;
 }
 
+/**
+ * Displays a compact overview of a weapon.
+ * Acts as a clickable entry to show detailed weapon information.
+ */
 export const WeaponCard = ({ equipment, setSelectedEquipment }: Props) => {
   return (
     <Card
       className="glass-card cursor-pointer p-4 gap-y-0"
+      role="button"
       onClick={() => setSelectedEquipment(equipment)}
+      aria-label={`View details for ${equipment.name}`}
     >
       <div className="flex flex-row justify-between mb-1">
-        <p
+        <h3
           className={`${geisCinzel.className} antialiased font-semibold text-lg`}
         >
           {equipment.name}
-        </p>
+        </h3>
 
         <Badge
           variant={"outline"}
@@ -35,7 +41,7 @@ export const WeaponCard = ({ equipment, setSelectedEquipment }: Props) => {
         <p className="font-medium">{equipment.category_range}</p>
       </div>
 
-      {/* Damage */}
+      {/* Damage block is optional: not all weapons deal damage */}
       {equipment.damage && (
         <div className="flex gap-2 mb-3 text-sm text-muted-foreground">
           <p className="font-medium">{`Damage:`}</p>
@@ -45,14 +51,15 @@ export const WeaponCard = ({ equipment, setSelectedEquipment }: Props) => {
         </div>
       )}
 
-      <p className="text-muted-foreground leading-relaxed space-x-2">
+      <div className="text-muted-foreground leading-relaxed space-x-2">
         {equipment.properties?.map((prop) => (
-          <Badge key={`${prop.index}`} variant={"outline"}>
+          <Badge key={prop.index} variant="outline">
             {prop.name}
           </Badge>
         ))}
-      </p>
+      </div>
 
+      {/* Cost and weight information */}
       <div className="flex flex-row space-x-2 items-center">
         <p className="text-sm text-yellow-400 mt-2">
           {equipment.cost.quantity} {equipment.cost.unit}

@@ -64,9 +64,28 @@ const baseSchema = z.object({
 
 type FormData = z.infer<typeof baseSchema>;
 
+/**
+ * RaceManageDetails
+ *
+ * Handles the race configuration step during character creation.
+ * This includes:
+ * - Fetching race details
+ * - Dynamic form validation based on race rules
+ * - Managing race-dependent options (languages, traits, ability bonuses)
+ * - Syncing form state with the global character store
+ *
+ * This component is highly dynamic because D&D races
+ * have conditional rules and optional selections.
+ */
+
 export const RaceManageDetails = ({ raceIndex }: Props) => {
   const router = useRouter();
   const hydrated = useStoreHydrated();
+
+  /**
+   * Fetch race details only when a valid race index is present.
+   * Hydration guard is required because character state is stored client-side.
+   */
   const shouldFetch = Boolean(raceIndex);
 
   const { data, isLoading, isError } = useRacesDetails({
@@ -89,6 +108,10 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     nextStep,
   } = useDNDCharacterStore();
 
+  /**
+   * Memoized default values to avoid unnecessary form reinitialization.
+   * Values are sourced from the character store when available.
+   */
   const defaultValues = useMemo(
     () => ({
       race: raceIndex || "",
@@ -108,6 +131,10 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     mode: "onChange",
   });
 
+  /**
+   * Reset dependent form fields when race changes
+   * (but avoid resetting on initial load).
+   */
   useEffect(() => {
     if (!hydrated) return;
 
@@ -161,6 +188,15 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
 
   const raceTraits = race.traits.map((trait) => trait.index);
 
+  /**
+   * Validates race-specific rules that cannot be expressed
+   * statically in Zod schemas.
+   *
+   * Examples:
+   * - Half-Elf language and ability bonus selection
+   * - Dragonborn trait choice
+   * - Dwarf tool proficiency
+   */
   const validateDynamicRules = () => {
     if (!race) return true;
     form.clearErrors();
@@ -316,7 +352,9 @@ export const RaceManageDetails = ({ raceIndex }: Props) => {
     }
     setAbilityBonuses(abilityBonuses);
 
-    console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    if (process.env.NODE_ENV === "development") {
+      console.log("HYDRATED STATE", useDNDCharacterStore.getState().character);
+    }
     nextStep();
 
     router.push("/characters/create-character/attributes");

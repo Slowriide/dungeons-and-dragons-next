@@ -6,6 +6,16 @@ interface Props {
   race: DNDRace;
 }
 
+/**
+ * SubraceSummary
+ *
+ * Displays detailed information about all subraces of a given D&D 5e race.
+ * Responsibilities:
+ * - Fetch full subrace details by index
+ * - Render lore description
+ * - Show ability score bonuses
+ * - List racial traits specific to each subrace
+ */
 export const SubraceSummary = async ({ race }: Props) => {
   const subracesIndexes = race.subraces.map((subrace) => subrace.index);
 
@@ -13,6 +23,7 @@ export const SubraceSummary = async ({ race }: Props) => {
 
   return (
     <div>
+      {/* Subrace name & description */}
       {subraces.map((subrace) => (
         <div className="space-y-8 mb-10" key={subrace.index}>
           <section>
@@ -24,6 +35,7 @@ export const SubraceSummary = async ({ race }: Props) => {
             </p>
           </section>
 
+          {/* Ability Bonuses */}
           <section>
             <h2 className="mb-4 font-serif text-2xl font-semibold text-red-500">
               Ability Bonuses
@@ -41,6 +53,7 @@ export const SubraceSummary = async ({ race }: Props) => {
             </div>
           </section>
 
+          {/* Racial Traits */}
           <section>
             {subrace.racial_traits.length > 0 && (
               <section>

@@ -8,16 +8,17 @@ import { DNDSpell } from "@/interface/spells/DndSpell";
 interface Props {
   spells: DNDSpell[];
   totalPages: number;
-  currentPage: number;
-  totalCount: number;
 }
 
-export const SpellsGrid = ({
-  spells,
-  totalPages,
-  currentPage,
-  totalCount,
-}: Props) => {
+/**
+ * SpellsGrid
+ *
+ * Renders a list of spells with pagination.
+ * Allows switching between:
+ * - spell list view
+ * - single spell detail view
+ */
+export const SpellsGrid = ({ spells, totalPages }: Props) => {
   const [selectedSpell, setSelectedSpell] = useState<DNDSpell | null>(null);
   const selected = selectedSpell !== null;
 
@@ -41,6 +42,8 @@ export const SpellsGrid = ({
           />
         ))
       )}
+
+      {/* Pagination only if no item is selected */}
       {!selected && <Pagination totalPages={totalPages ?? 1} />}
     </main>
   );

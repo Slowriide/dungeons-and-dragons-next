@@ -10,6 +10,12 @@ interface Props {
   monster: DNDMonster;
 }
 
+/**
+ * MonsterCard
+ *
+ * Displays a short, SEO-friendly preview of a D&D 5e monster.
+ * Used inside grid layouts with internal links to monster detail pages.
+ */
 export const MonsterCard = ({ monster }: Props) => {
   return (
     <Card className="glass-card cursor-pointer p-0 gap-y-0">
@@ -26,15 +32,16 @@ export const MonsterCard = ({ monster }: Props) => {
           />
         </div>
 
-        {/* Name + CR */}
+        {/* Content */}
         <div className="p-4 mt-2 space-y-4">
           {/* Name */}
           <div className="flex flex-row justify-between mb-2 items-center capitalize">
-            <p
+            <h3
               className={`${geisCinzel.className} antialiased font-semibold text-lg line-clamp-1 `}
             >
               {monster.name}
-            </p>
+            </h3>
+
             {/* CR */}
             <Badge
               variant={"outline"}
@@ -46,10 +53,7 @@ export const MonsterCard = ({ monster }: Props) => {
 
           {/* Type + Alignment */}
           <div className="flex flex-row justify-between mb-2 items-center capitalize text-sm font-semibold line-clamp-1">
-            {/* Type */}
             <p>{monster.type}</p>
-
-            {/* Alignment */}
             <p>{monster.alignment}</p>
           </div>
 
@@ -66,6 +70,7 @@ export const MonsterCard = ({ monster }: Props) => {
             <p> HP: {monster.hit_points}</p>
           </div>
 
+          {/* Special abilities preview */}
           <div className="space-x-2 line-clamp-1">
             {monster.special_abilities &&
               monster.special_abilities.map((hab) => (
