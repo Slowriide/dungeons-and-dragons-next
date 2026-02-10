@@ -49,7 +49,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user.id) {
+      // SOLO en el primer login
+      if (user && user.id) {
         token.sub = user.id;
       }
       return token;
