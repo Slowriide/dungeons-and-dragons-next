@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,13 +10,13 @@ model User {
   id            String      @id @default(cuid())
   email         String      @unique
   name          String?
-  password      String? //Null for OAuth
-  emailVerified DateTime?
-  image         String?
-  characters    Character[]
-  accounts      Account[] //Google OAuth
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+  image         String?
+  password      String?
+  emailVerified DateTime?
+  accounts      Account[]
+  characters    Character[]
 }
 
 model Account {
@@ -44,66 +38,46 @@ model Account {
 }
 
 model Character {
-  id     String  @id @default(cuid())
-  userId String?
-
-  // Basic Info
-  name             String
-  characterClass   String
-  race             String
-  level            Int     @default(1)
-  background       String?
-  alignment        String?
-  experiencePoints Int     @default(0)
-
-  // Combat Stats
-  hitDie           Int?
-  hitPoints        Int?
-  armorClass       Int?
-  speed            Int?
-  proficiencyBonus Int?
-  size             String?
-  iniciative       Int?
-
-  // Attributes
-  baseAttributes         Json // { strength: 10, dexterity: 12, ... }
-  abilityBonuses         Json? // { strength: 2, dexterity: 1, ... }
-  selectedAbilityBonuses String[] // ["str", "dex"]
-
-  // Skills
-  skills             Json? // CharacterSkill[]
-  backgroundSkills   Json? // CharacterSkill[]
-  classProficiencies Json? // ClassProficiency[]
-
-  // Proficiencies
+  id                       String   @id @default(cuid())
+  name                     String
+  level                    Int      @default(1)
+  race                     String
+  createdAt                DateTime @default(now())
+  abilityBonuses           Json?
+  alignment                String?
+  armorClass               Int?
+  background               String?
+  backgroundLanguages      String[]
+  backgroundSelections     Json?
+  backgroundTrait          Json?
+  baseAttributes           Json
+  characterClass           String
+  classFeatures            Json?
+  classProficiencies       Json?
+  equipment                Json?
+  experiencePoints         Int      @default(0)
+  hitDie                   Int?
+  hitPoints                Int?
+  languages                String[]
   proficiencies            String[]
+  proficiencyBonus         Int?
+  raceLanguages            String[]
+  raceTraits               Json?
+  selectedEquipmentOption  String?
   selectedProficiencies    String[]
-  classWeaponProficiencies String[]
+  selectedTraits           Json?
+  skills                   Json?
+  speed                    Int?
+  updatedAt                DateTime @updatedAt
+  userId                   String?
+  gold                     Json?
+  backgroundSkills         Json?
   classArmorProficiencies  String[]
-
-  // Languages
-  languages           String[]
-  raceLanguages       String[]
-  backgroundLanguages String[]
-
-  // Equipment & Gold
-  equipment               Json? // Equipment[]
-  selectedEquipmentOption String?
-  gold                    Json? // GoldEntry[]
-
-  // Traits & Features
-  raceTraits      Json? // Trait[]
-  selectedTraits  Json? // Trait[]
-  backgroundTrait Json? // Trait (singular)
-  classFeatures   Json? // CharacterClassFeature[]
-
-  // Personality
-  backgroundSelections Json? // BackgroundSelections
-
-  // Metadata
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User?    @relation(fields: [userId], references: [id])
+  classWeaponProficiencies String[]
+  iniciative               Int?
+  selectedAbilityBonuses   String[]
+  size                     String?
+  user                     User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
