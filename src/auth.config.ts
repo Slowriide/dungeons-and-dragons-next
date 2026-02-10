@@ -1,9 +1,8 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "./lib/prisma";
+import prisma from "@/lib/prisma";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 import bcryptjs from "bcryptjs";
 import z from "zod";
 
@@ -49,14 +48,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
+      if (user.id) {
+        token.sub = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
       }
       return session;
     },
