@@ -1,5 +1,5 @@
 export const raceImages: Record<string, string> = {
-  dragonborn: "/races/dragonborne.png",
+  dragonborn: "/races/dragonborn.png",
   dwarf: "/races/dwarf.png",
   elf: "/races/elfe.png",
   gnome: "/races/gnome.png",
