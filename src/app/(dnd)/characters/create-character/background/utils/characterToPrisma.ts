@@ -1,5 +1,5 @@
 // mappers/characterToPrisma.ts
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { DNDCharacter } from "@/interface/character/DNDCharacter";
 
 const toJsonValue = (value: any): Prisma.InputJsonValue => {

@@ -1,11 +1,12 @@
 "use server";
 
 import { DNDCharacter } from "@/interface/character/DNDCharacter";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { mapCharacterToUpdateInput } from "@/app/(dnd)/characters/create-character/background/utils/characterToPrisma";
 import { auth } from "@/auth.config";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 
 // Helper
 const toJsonValue = (value: any): Prisma.InputJsonValue => {
@@ -126,7 +127,7 @@ export async function saveCharacter(
   } catch (error) {
     console.error("❌ Error saving character:", error);
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error instanceof PrismaClientKnownRequestError) {
       return { success: false, error: `Database error: ${error.message}` };
     }
 
