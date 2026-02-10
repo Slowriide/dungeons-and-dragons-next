@@ -7,6 +7,7 @@ import bcryptjs from "bcryptjs";
 import z from "zod";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: process.env.AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
