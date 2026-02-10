@@ -2,12 +2,11 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
+import { useState } from "react";
 
 interface Props {
   children: React.ReactNode;
 }
-
-const queryClient = new QueryClient();
 
 //Global application providers.
 //
@@ -16,6 +15,18 @@ const queryClient = new QueryClient();
 //mounted once at the root of the app.
 
 export const Providers = ({ children }: Props) => {
+  // Creamos el queryClient dentro del componente para que sea único por instancia
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // Con esto evitás que intente refetching innecesario durante el build
+            staleTime: 60 * 1000,
+          },
+        },
+      }),
+  );
   /**
    * Create a single QueryClient instance per browser session.
    * Using useState prevents the client from being recreated on re-renders,

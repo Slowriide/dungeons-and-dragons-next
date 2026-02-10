@@ -9,12 +9,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // 👇 Agrega esto para evitar el error
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "2mb",
-    },
-  },
 };
 
 export default nextConfig;

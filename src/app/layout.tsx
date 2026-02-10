@@ -4,6 +4,8 @@ import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
 import { Toaster } from "@/components/ui/sonner";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Primary sans-serif font used across the application UI.
  * Loaded via next/font to enable automatic optimization and CSS variables.

@@ -2,6 +2,8 @@ import { auth } from "@/auth.config";
 import { MobileMenu } from "@/components/top-menu/MobileMenu";
 import { TopMenu } from "@/components/top-menu/TopMenu";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Main application layout for the D&D section.
  *
