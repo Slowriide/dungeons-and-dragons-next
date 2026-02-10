@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
     remotePatterns: [
       {
@@ -9,6 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "www.dnd5eapi.co",
       },
     ],
+  },
+  // 👇 Agrega esto para evitar el error
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "2mb",
+    },
   },
 };
 
