@@ -8,9 +8,9 @@ import { ClassesGridWrapper } from "./ui/ClassesGridWrapper";
 import { Metadata } from "next";
 
 interface Props {
-  searchParams: {
-    query?: string;
-  };
+  searchParams: Promise<{
+    query: string;
+  }>;
 }
 
 /**
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ClassesPage({ searchParams }: Props) {
-  const { query: queryString } = searchParams;
+  const { query: queryString } = await searchParams;
   const query = queryString || "";
 
   /**
