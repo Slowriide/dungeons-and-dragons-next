@@ -1,5 +1,15 @@
-import { dndFetch } from "@/api/DndApi";
-import { DNDMonstersListResponse } from "@/interface/monsters/MonstersList";
+// services/monsters/getMonsters.ts
+import { DNDMonster } from "@/interface/monsters/DnDMonster";
+
+// Try cache first
+let monstersCache: DNDMonster[] | null = null;
+
+try {
+  monstersCache = require("@/data/monsters/monsters-cache.json");
+} catch {
+  // no cache then api
+  monstersCache = null;
+}
 
 interface Options {
   challenge_rating?: string[];
@@ -7,12 +17,17 @@ interface Options {
 
 export const getMonsters = async ({
   challenge_rating = [],
-}: Options): Promise<DNDMonstersListResponse> => {
-  const data = await dndFetch.get<DNDMonstersListResponse>("/monsters", {
-    params: {
-      challenge_rating: challenge_rating,
-    },
+}: Options): Promise<DNDMonster[]> => {
+  // use cache if exist
+  if (monstersCache) {
+    return monstersCache;
+  }
+
+  // Fallback a API if no cache
+  const { dndFetch } = await import("@/api/DndApi");
+  const data = await dndFetch.get<{ results: DNDMonster[] }>("/monsters", {
+    params: { challenge_rating },
   });
 
-  return data;
+  return data.results;
 };

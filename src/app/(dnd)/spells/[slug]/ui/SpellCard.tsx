@@ -3,7 +3,7 @@ import { geisCinzel } from "@/config/fonts";
 import { Badge } from "../../../../../components/ui/badge";
 import { DNDSpell } from "@/interface/spells/DndSpell";
 import Markdown from "react-markdown";
-import Image from "next/image";
+import { SpellAnimatedImage } from "./SpellAnimatedImage";
 
 interface Props {
   spell: DNDSpell;
@@ -33,16 +33,7 @@ export const SpellCard = ({ spell }: Props) => {
       <Card className="glass-card p-4 sm:p-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Image */}
-          <section className="lg:col-span-2 order-1 lg:order-2">
-            <Image
-              src="/spells/spells.jpg"
-              alt={`${spell.name} spell illustration`}
-              width={400}
-              height={400}
-              className="rounded-lg col-span-2 w-full h-auto object-contain"
-            />
-          </section>
-
+          <SpellAnimatedImage spell={spell} />
           {/* Info */}
           <section className="lg:col-span-3 order-2 lg:order-1">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">

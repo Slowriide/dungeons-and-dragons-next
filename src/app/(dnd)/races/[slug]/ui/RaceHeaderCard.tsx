@@ -1,8 +1,8 @@
+"use client";
 import { DNDRace } from "@/interface/races/DNDRace";
-import { getRaceImages } from "@/utils/race/getRaceImages";
-import Image from "next/image";
 import { Badge } from "../../../../../components/ui/badge";
 import { raceDescription } from "../../../../../data/races/raceDescription";
+import { RaceAnimatedImage } from "./RaceAnimatedImage";
 
 interface Props {
   race: DNDRace;
@@ -20,20 +20,10 @@ interface Props {
  * - List ability score bonuses
  */
 export const RaceHeaderCard = ({ race }: Props) => {
-  const img = getRaceImages(race.index);
   return (
     <div className="mb-8 lg:mb-16 grid gap-8 lg:grid-cols-2 lg:gap-12 mt-10">
       {/* Image */}
-      <section className="relative aspect-4/5 w-full overflow-hidden rounded-lg">
-        <Image
-          src={img}
-          alt={`${race.name} race illustration for Dungeons & Dragons 5e`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover fill h-mas w-max"
-          priority
-        />
-      </section>
+      <RaceAnimatedImage race={race} />
 
       {/* Info */}
       <section className="flex flex-col justify-center">

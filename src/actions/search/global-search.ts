@@ -1,6 +1,5 @@
 "use server";
 
-import { dndFetch } from "@/api/DndApi";
 import { getClasses } from "@/services/classes/getClasses";
 import { getEquipment } from "@/services/equipment/getEquipment";
 import { getMagicItems } from "@/services/magic-items/getMagicItems";
@@ -8,7 +7,6 @@ import { getMonsters } from "@/services/monsters/getMonsters";
 import { getRaces } from "@/services/races/getRaces";
 import { getRules } from "@/services/rules/getRules";
 import { getSpells } from "@/services/spells/getSpells";
-import { getSpellsList } from "@/services/spells/getSpellsList";
 
 interface SearchResult {
   type:
@@ -69,7 +67,7 @@ export async function globalSearch(query: string): Promise<SearchResult[]> {
         });
       });
 
-    monsters.results
+    monsters
       .filter((item) => item.name.toLowerCase().includes(queryLower))
       .forEach((item) => {
         results.push({

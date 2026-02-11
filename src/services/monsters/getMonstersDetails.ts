@@ -1,28 +1,23 @@
 "use server";
 
-import { dndFetch } from "@/api/DndApi";
-import { DNDMonster } from "@/interface/monsters/DnDMonster";
+import { getMonsters } from "./getMonsters";
 
 interface Options {
-  monstersIndexes: string[];
   take?: number;
   page: number;
   query: string;
   alignments: string[];
+  challenge_rating?: string[];
 }
 
 export const getMonstersDetails = async ({
-  monstersIndexes,
   take = 12,
   alignments,
   page,
   query,
+  challenge_rating = [],
 }: Options) => {
-  const detailPromises = monstersIndexes.map((monster) =>
-    dndFetch.get<DNDMonster>(`/monsters/${monster}`),
-  );
-
-  const monsters = await Promise.all(detailPromises);
+  const monsters = await getMonsters({ challenge_rating });
 
   // --------------   SEARCH FILTER     ------------------
   const filteredMonstersByQuery = monsters.filter((monster) => {
@@ -35,9 +30,16 @@ export const getMonstersDetails = async ({
 
   // -------------- ALIGNMENT FILTER ------------------
 
-  const filteredMonsters = filteredMonstersByQuery?.filter((mon) => {
+  const filteredAlignment = filteredMonstersByQuery?.filter((mon) => {
     if (alignments.length === 0) return true;
     return alignments.includes(mon.alignment.toLowerCase());
+  });
+
+  // -------------- CHALLENGE RATING ------------------
+
+  const filteredMonsters = filteredAlignment.filter((mon) => {
+    if (challenge_rating.length === 0) return true;
+    return challenge_rating.includes(mon.challenge_rating.toString());
   });
 
   // ---------------- PAGINATION --------------------

@@ -1,11 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { geisCinzel } from "@/config/fonts";
 import { DNDMagicItem } from "@/interface/magicItems/DnDMagicItems";
-import { getPhotoByCategory } from "@/utils/magicItems/getPhotoByCategory";
 import { Badge } from "@/components/ui/badge";
 import { getMagicItemRarityColor } from "@/utils/getMagicItemRarityColor";
 import Markdown from "react-markdown";
-import Image from "next/image";
+import { MagicItemAnimatedImage } from "./MagicItemAnimatedImage";
 
 interface Props {
   magicItem: DNDMagicItem;
@@ -24,15 +23,7 @@ export const MagicItemsDetailsCard = ({ magicItem }: Props) => {
 
       <Card className="glass-card p-4 sm:p-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          <section className="lg:col-span-2 order-1 lg:order-2">
-            <Image
-              src={getPhotoByCategory(magicItem.equipment_category.name) ?? ""}
-              alt={`${magicItem.name} magic-item illustration`}
-              width={400}
-              height={400}
-              className="rounded-lg col-span-2 w-full h-auto object-contain"
-            />
-          </section>
+          <MagicItemAnimatedImage magicItem={magicItem} />
 
           {/* Items + Descriptions */}
           <section className="lg:col-span-3 order-2 lg:order-1">

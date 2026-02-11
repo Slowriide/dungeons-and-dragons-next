@@ -60,6 +60,7 @@ export const MonsterCard = ({ monster }: Props) => {
           {/* AC + HP */}
           <div className="flex flex-row justify-between mb-2 items-center capitalize text-sm line-clamp-1">
             {/* Type */}
+
             {monster.armor_class.map((ac) => (
               <span key={ac.value}>
                 AC: {ac.type} {ac.value}

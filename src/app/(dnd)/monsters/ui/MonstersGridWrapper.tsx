@@ -21,15 +21,9 @@ export default async function MonstersGridWrapper({
   challenge_rating,
   alignment,
 }: Props) {
-  const { results } = await getMonsters({
-    challenge_rating: challenge_rating,
-  });
-
-  const monstersIndexes = results?.map((monster) => monster.index) || [];
-
   const { monsters, totalPages } = await getMonstersDetails({
-    monstersIndexes: monstersIndexes,
     alignments: alignment,
+    challenge_rating: challenge_rating,
     page: page,
     query: query,
   });

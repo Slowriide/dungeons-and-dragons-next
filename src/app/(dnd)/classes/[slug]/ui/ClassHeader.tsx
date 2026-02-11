@@ -1,11 +1,8 @@
 "use client";
 
 import { DNDClass } from "@/interface/classes/DnDClass";
-import { geClassImages } from "@/utils/class/getClassImage";
-import Image from "next/image";
 import { classDescription } from "@/data/classes/classDescriptionñ";
-import { motion } from "framer-motion";
-import { fadeUp } from "@/animations/animations";
+import { ClassesAnimatedImage } from "./ClassesAnimatedImage";
 
 interface Props {
   classItem: DNDClass;
@@ -18,26 +15,10 @@ export const ClassHeader = ({ classItem }: Props) => {
    */
   const primary =
     classItem.multi_classing?.prerequisites?.[0]?.ability_score?.name ?? "STR";
-  const img = geClassImages(classItem.index);
-
   return (
     <div className="mb-8 lg:mb-16 grid gap-8 lg:grid-cols-2 lg:gap-12 mt-10">
       {/* Image */}
-      <motion.section
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        className="relative w-full max-w-md mx-auto my-auto"
-      >
-        <Image
-          src={img}
-          alt={classItem.name}
-          width={500}
-          height={500}
-          className="w-full h-auto rounded-lg"
-          loading="eager"
-        />
-      </motion.section>
+      <ClassesAnimatedImage classItem={classItem} />
 
       {/* Title and Quick Stats */}
       <div className="flex flex-col justify-center">

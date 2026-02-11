@@ -1,9 +1,12 @@
+"use client";
+
 import { DNDMonster } from "@/interface/monsters/DnDMonster";
 import { getDnDImages } from "@/utils/getDnDImages";
-
 import Image from "next/image";
 import { MonsterStatsTable } from "./MonsterStatsTable";
 import { getMonsterSkills } from "@/utils/monster/getMonsterSkills";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/animations/animations";
 
 interface Props {
   monster: DNDMonster;
@@ -29,7 +32,12 @@ export const MonsterHeader = ({ monster }: Props) => {
   return (
     <article className="mb-16 grid gap-12 lg:grid-cols-2 lg:gap-16 mt-10 ">
       {/* Image */}
-      <section className="relative w-full max-w-md mx-auto my-auto">
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        className="relative w-full max-w-md mx-auto my-auto"
+      >
         <Image
           src={getDnDImages(monster.image)}
           alt={monster.name}
@@ -40,7 +48,7 @@ export const MonsterHeader = ({ monster }: Props) => {
           placeholder="blur"
           blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2UwZTBlMCIvPjwvc3ZnPg=="
         />
-      </section>
+      </motion.section>
 
       {/* Title and Quick Stats */}
       <div className="flex flex-col justify-center">
