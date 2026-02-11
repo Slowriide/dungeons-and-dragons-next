@@ -52,13 +52,19 @@ export const LoginForm = () => {
     const result = await signIn("credentials", {
       email: data.email,
       password: data.password,
-      redirect: false, // No redirigir automáticamente
+      redirect: false,
     });
 
-    if (!result.ok) {
+    if (!result) {
+      setErrorMessage("Something went wrong. Please try again.");
+      return;
+    }
+
+    if (result.error) {
       setErrorMessage("Invalid email or password");
       return;
     }
+
     router.push(next);
     router.refresh();
   };
