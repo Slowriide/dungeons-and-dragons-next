@@ -11,10 +11,17 @@ export default function ClassesGridSkeleton() {
           <div className="flex flex-row items-center space-x-5">
             <Skeleton className="h-10 w-56 " />
           </div>
-          <Card className=" glass-card animate-fade-in p-6 gap-y-2">
-            <div className="grid grid-cols-5">
-              <div className="col-span-3 space-y-6 mr-2">
-                <div className="grid grid-cols-4 gap-4">
+
+          <Card className="glass-card p-4 sm:p-6">
+            {/* Main Grid */}
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+              {/* Image */}
+              <Skeleton className="w-full h-68 lg:h-112 rounded-lg order-1 lg:order-2 lg:col-span-2" />
+
+              {/* Info */}
+              <div className="order-2 lg:order-1 lg:col-span-3 space-y-6 mr-2">
+                <div className="grid lg:grid-cols-3 grid-cols-2 gap-4">
                   {/* Category */}
                   <TitleAndTextSkeleton />
 
@@ -37,9 +44,6 @@ export default function ClassesGridSkeleton() {
                   <TitleAndTextSkeleton />
                 </div>
               </div>
-
-              {/* Image */}
-              <Skeleton className="h-123 w-123 " />
             </div>
           </Card>
         </div>

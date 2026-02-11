@@ -4,33 +4,35 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function ClassesGridSkeleton() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl space-y-10">
+      <div className="mx-auto max-w-7xl space-y-10 sm:px-6 lg:px-8">
         {/* Title */}
-        <div className="flex items-center gap-4 mt-14">
+        <div className="flex flex-row items-center gap-4 mt-14 ">
           <Skeleton className="h-14 w-14 rounded-full" />
           <Skeleton className="h-12 w-64" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <SearchBoxSkeleton />
 
             <div className="space-y-4 mt-10">
               <Skeleton className="h-6 w-36" />
-              <Skeleton className="h-40 w-60" />
+              <Skeleton className="h-40 lg:w-66 w-full" />
             </div>
 
             <div className="space-y-4 mt-10">
               <Skeleton className="h-6 w-36" />
-              <Skeleton className="h-80 w-70" />
+              <Skeleton className="h-80 lg:w-66 w-full" />
             </div>
+
+            <Skeleton className="h-10 w-full mt-6" />
           </div>
 
           {/* Grid */}
-          <div className="lg:col-span-3 grid grid-cols-3 gap-4">
+          <div className="space-y-4 lg:col-span-3">
             {Array.from({ length: 9 }).map((_, i) => (
-              <Skeleton key={i} className="h-80 rounded-xl" />
+              <Skeleton key={i} className="h-34 rounded-xl" />
             ))}
           </div>
         </div>

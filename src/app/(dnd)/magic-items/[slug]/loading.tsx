@@ -11,33 +11,41 @@ export default function ClassesGridSkeleton() {
           <div className="flex flex-row items-center space-x-5">
             <Skeleton className="h-10 w-56 " />
           </div>
+
           <Card className=" glass-card animate-fade-in p-6 gap-y-2">
-            <div className="grid grid-cols-5">
-              <div className="col-span-3 space-y-6 mr-2">
-                <div className="grid grid-cols-4 gap-4">
+            {/* Main Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+              {/* Image */}
+              <Skeleton className="w-full h-66 lg:h-112 rounded-lg order-1 lg:order-2 lg:col-span-2" />
+
+              {/* Info */}
+              <div className="order-2 lg:order-1 lg:col-span-3 pb-6 ">
+                <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
                   {/* Category */}
-                  <TitleAndTextSkeleton />
+                  <div className="space-y-2">
+                    <Skeleton className="h-6 w-full lg:w-26" />
+                    <Skeleton className="h-6 w-full lg:w-26" />
+                  </div>
 
                   {/* Gear Category */}
-                  <TitleAndTextSkeleton />
+                  <div className="space-y-2">
+                    <Skeleton className="h-6 w-full lg:w-26" />
+                    <Skeleton className="h-6 w-full lg:w-26" />
+                  </div>
 
-                  {/* Damage*/}
-
-                  <Skeleton className="h-6 w-26" />
+                  {/* Rarity*/}
+                  <Skeleton className="h-6 w-full lg:w-26" />
                 </div>
                 <div className="mt-4 space-y-2">
                   <Skeleton className="h-6 w-30" />
-                  <Skeleton className="h-4 w-140" />
-                  <Skeleton className="h-4 w-140" />
-                  <Skeleton className="h-4 w-140" />
-                  <Skeleton className="h-4 w-140" />
-                  <Skeleton className="h-4 w-140" />
-                  <Skeleton className="h-4 w-140" />
+                  <Skeleton className="h-4 w-full lg:w-140" />
+                  <Skeleton className="h-4 w-full lg:w-120" />
+                  <Skeleton className="h-4 w-full lg:w-110" />
+                  <Skeleton className="h-4 w-full lg:w-160" />
+                  <Skeleton className="h-4 w-full lg:w-140" />
+                  <Skeleton className="h-4 w-full lg:w-140" />
                 </div>
               </div>
-
-              {/* Image */}
-              <Skeleton className="h-123 w-123 " />
             </div>
           </Card>
         </div>

@@ -1,4 +1,3 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonHeader from "../ui/skeletons/MonsterHeaderSkeleton";
 import { MonsterSummarySkeleton } from "../ui/skeletons/MonsterSummarySkeleton";
 

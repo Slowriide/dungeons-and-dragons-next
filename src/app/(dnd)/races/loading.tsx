@@ -18,7 +18,7 @@ export default function ClassesGridSkeleton() {
           </div>
 
           {/* Grid */}
-          <div className="lg:col-span-3 grid grid-cols-3 gap-4">
+          <div className="lg:col-span-3 grid lg:grid-cols-3 gap-4">
             {Array.from({ length: 9 }).map((_, i) => (
               <Skeleton key={i} className="h-80 rounded-xl" />
             ))}

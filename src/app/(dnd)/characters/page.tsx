@@ -62,7 +62,7 @@ export default async function CharactersPage() {
   if (!result.ok) {
     notFound();
   }
-
+  await new Promise((r) => setTimeout(r, 2000));
   return (
     <main
       className="min-h-screen bg-background"
